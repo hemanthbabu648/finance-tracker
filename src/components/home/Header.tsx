@@ -51,7 +51,7 @@ const Header = () => {
 			<nav className="mx-auto flex w-full items-center justify-between px-4 sm:max-w-7xl">
 				{/* Brand Logo */}
 				<div className="flex items-center gap-4 md:gap-20">
-					<div className="flex items-center gap-2">
+					<Link href="https://www.radiantways.in/" className="flex items-center gap-2">
 						<Image
 							src="/logo.png"
 							width={50}
@@ -62,7 +62,7 @@ const Header = () => {
 						<span className="whitespace-nowrap text-xl lg:text-2xl">
 							Radiant Ways
 						</span>
-					</div>
+					</Link>
 				</div>
 				{/* Navigation Links: from sm device onwards */}
 				<div className="hidden sm:block">
@@ -85,10 +85,10 @@ const Header = () => {
 							</HoverCard>
 						</li>
 						<li className="cursor-pointer rounded-md px-4 py-2 hover:bg-gray-100">
-							<Link href="/about">About</Link>
+							<Link href="https://www.radiantways.in/about-us">About</Link>
 						</li>
 						<li className="cursor-pointer rounded-md px-4 py-2 hover:bg-gray-100">
-							<Link href="/contact">Contact</Link>
+							<Link href="https://www.radiantways.in/contact-us">Contact</Link>
 						</li>
 					</ul>
 				</div>
@@ -133,10 +133,10 @@ const Header = () => {
 								</HoverCard>
 							</li>
 							<li className="cursor-pointer rounded-md px-4 py-2 hover:bg-gray-100">
-								<Link href="/about">About</Link>
+								<Link href="https://www.radiantways.in/about-us">About</Link>
 							</li>
 							<li className="cursor-pointer rounded-md px-4 py-2 hover:bg-gray-100">
-								<Link href="/contact">Contact</Link>
+								<Link href="https://www.radiantways.in/contact-us">Contact</Link>
 							</li>
 						</ul>
 						<div className="mt-5">
