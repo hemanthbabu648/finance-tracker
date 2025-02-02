@@ -1,0 +1,79 @@
+'use client'
+
+import { useForm } from '@mantine/form'
+import Link from 'next/link'
+import React from 'react'
+import Button from '../commons/Button'
+import Checkbox from '../commons/Checkbox'
+import PasswordInput from '../commons/PasswordInput'
+import TextInput from '../commons/TextInput'
+
+
+
+const LoginForm: React.FC = () => {
+    const form = useForm({
+        mode: 'uncontrolled',
+        initialValues: {
+            email: '',
+            password: '',
+            remember: false,
+        },
+        validate: {
+            email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+            password: (value) => (value.length >= 8 ? null : 'Password must be at least 8 characters'),
+        },
+    })
+    return (
+        <form
+            className="flex flex-col gap-y-6 shadow-md bg-white border border-gray-200 rounded-md p-6 mt-6 text-black"
+            onSubmit={form.onSubmit((values) => console.log(values))}
+        >
+            <TextInput
+                label="Email"
+                placeholder="your@email.com"
+                variant="filled"
+                withAsterisk
+                size="md"
+                key={form.key('email')}
+                {...form.getInputProps('email')}
+                autoComplete="true"
+            />
+            <PasswordInput
+                label="Password"
+                placeholder="Your Password"
+                variant="filled"
+                withAsterisk
+                size="md"
+                key={form.key('password')}
+                {...form.getInputProps('password')}
+                autoComplete="true"
+            />
+            <div className="flex justify-between items-center">
+                <Checkbox
+                    label="Remember me"
+                    variant="filled"
+                    key={form.key('remember')}
+                    {...form.getInputProps('remember')}
+                />
+                <Link
+                    href="/auth/forgot-password"
+                    className="text-sm sm:text-base text-primary-light hover:underline"
+                >
+                    Forgot password?
+                </Link>
+            </div>
+            <Button
+                size="md"
+                fullWidth
+                variant="gradient"
+                gradient={{ from: "blue", to: "cyan", deg: 60 }}
+                type="submit"
+            >
+                Login
+            </Button>
+
+        </form>
+    )
+}
+
+export default LoginForm
