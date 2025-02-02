@@ -36,7 +36,7 @@ const ForgotPasswordForm: React.FC = () => {
 
             <div className="flex justify-between items-center">
                 <Link
-                    href="/auth/flogin"
+                    href="/auth/login"
                     className="text-sm sm:text-base text-primary-light hover:underline"
                 >
                     Back to login
