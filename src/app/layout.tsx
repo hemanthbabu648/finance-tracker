@@ -1,25 +1,19 @@
+import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import '@mantine/core/styles.css';
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import "./globals.css";
-import '@mantine/core/styles.css';
-
-import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: "Finomic",
   description: "Finance Made Simple",
+  icons: {
+    icon: '/favicon.ico',
+  }
 };
 
 export default function RootLayout({
@@ -30,12 +24,15 @@ export default function RootLayout({
   return (
     <html lang="en" {...mantineHtmlProps}>
       <head>
-      <ColorSchemeScript />
+        <ColorSchemeScript />
       </head>
       <body
         className={`${inter.className}  antialiased`}
       >
-       <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          <ToastContainer position="top-right" autoClose={5000} />
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );
