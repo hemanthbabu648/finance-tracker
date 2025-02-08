@@ -104,7 +104,7 @@ const Header = () => {
 				<div className="hidden sm:block">
 					<ButtonLink
 						label="Sign up"
-						href="/auth/signup"
+						href="/auth/register"
 						size="md"
 						variant="outline-primary"
 					/>
@@ -142,7 +142,7 @@ const Header = () => {
 						<div className="mt-5">
 							<ButtonLink
 								label="Sign up"
-								href="/auth/signup"
+								href="/auth/register"
 								size="md"
 								variant="secondary"
 							/>

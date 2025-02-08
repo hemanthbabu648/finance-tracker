@@ -7,10 +7,13 @@ import Button from '../commons/Button'
 import Checkbox from '../commons/Checkbox'
 import PasswordInput from '../commons/PasswordInput'
 import TextInput from '../commons/TextInput'
+import { login } from '@/serverActions/auth'
+import { showErrorToast } from '@/lib/reactToasts'
 
 
 
 const LoginForm: React.FC = () => {
+    const [loading, setLoading] = React.useState(false)
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
@@ -23,10 +26,26 @@ const LoginForm: React.FC = () => {
             password: (value) => (value.length >= 8 ? null : 'Password must be at least 8 characters'),
         },
     })
+
+    const handleSubmit = async (values: typeof form.values) => {
+        setLoading(true)
+        const res = await login({
+            email: values.email,
+            password: values.password,
+        })
+
+        if (res.status === 200) {
+            form.reset()
+        } else {
+            showErrorToast(res.message)
+        }
+        setLoading(false)
+    }
+
     return (
         <form
             className="flex flex-col gap-y-6 shadow-md bg-white border border-gray-200 rounded-md p-6 mt-6 text-black"
-            onSubmit={form.onSubmit((values) => console.log(values))}
+            onSubmit={form.onSubmit(handleSubmit)}
         >
             <TextInput
                 label="Email"
@@ -68,6 +87,7 @@ const LoginForm: React.FC = () => {
                 variant="gradient"
                 gradient={{ from: "blue", to: "cyan", deg: 60 }}
                 type="submit"
+                loading={loading}
             >
                 Login
             </Button>
@@ -76,4 +96,4 @@ const LoginForm: React.FC = () => {
     )
 }
 
-export default LoginForm
+export default LoginForm    

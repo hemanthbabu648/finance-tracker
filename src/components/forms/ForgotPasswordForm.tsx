@@ -1,12 +1,12 @@
 'use client'
 
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
+import { forgotPassword } from '@/serverActions/auth'
 import { useForm } from '@mantine/form'
 import Link from 'next/link'
 import React from 'react'
 import Button from '../commons/Button'
 import TextInput from '../commons/TextInput'
-
-
 
 const ForgotPasswordForm: React.FC = () => {
     const form = useForm({
@@ -18,10 +18,22 @@ const ForgotPasswordForm: React.FC = () => {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
         },
     })
+
+    const handleSubmit = async (values: typeof form.values) => {
+        const res = await forgotPassword(values.email)
+
+        if (res.status === 'success') {
+            form.reset()
+            showSuccessToast('Password reset link sent to your email')
+        } else {
+            showErrorToast(res.status)
+        }
+    }
+
     return (
         <form
             className="flex flex-col gap-y-6 shadow-md bg-white border border-gray-200 rounded-md p-6 mt-6 text-black"
-            onSubmit={form.onSubmit((values) => console.log(values))}
+            onSubmit={form.onSubmit(handleSubmit)}
         >
             <TextInput
                 label="Email"
@@ -42,7 +54,7 @@ const ForgotPasswordForm: React.FC = () => {
                     Back to login
                 </Link>
                 <Button type="submit">
-                    Reset Password
+                    Confirm
                 </Button>
             </div>
         </form>
