@@ -7,3 +7,12 @@ body{
   margin: 0;
   padding: 0;
 }
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Hide scrollbar on Chrome, Safari, and other WebKit browsers */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* Hide scrollbar on IE and Edge */
+  scrollbar-width: none; /* Hide scrollbar on Firefox */
+}
