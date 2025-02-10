@@ -14,3 +14,17 @@ export type recentTransactionResponse = {
     account: string,
     note: string,
 }
+
+export enum ACCOUNTTYPEENUM {
+    SAVINGS = 'Savings',
+    CASH = 'Cash',
+    SALARY = 'Salary',
+    CREDIT_CARD = 'Credit Card',
+    E_WALLET = 'Ewallet',
+    E_ACCOUNT = 'Eaccount',
+}
+
+export type accountType = {
+    label: string,
+    value: ACCOUNTTYPEENUM
+}
