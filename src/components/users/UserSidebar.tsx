@@ -7,9 +7,9 @@ import {
     IconCashBanknoteOff,
     IconContract,
     IconDashboard,
-    IconLocationDollar,
     IconReceiptDollar,
     IconReportMoney,
+    IconTransactionRupee,
 } from "@tabler/icons-react";
 import NavLink from "../commons/NavLink";
 
@@ -25,14 +25,9 @@ const userRoutes = [
         icon: IconBuildingBank,
     },
     {
-        link: "/dashboard/cash-inflow",
-        label: "Cash Inflow",
-        icon: IconLocationDollar,
-    },
-    {
-        link: "/dashboard/cash-outflow",
-        label: "Cash Outflow",
-        icon: IconReportMoney,
+        link: "/dashboard/transactions",
+        label: "Transactions",
+        icon: IconTransactionRupee,
     },
     {
         link: "/dashboard/budgets",

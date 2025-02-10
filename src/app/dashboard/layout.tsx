@@ -47,7 +47,7 @@ export default function DashboardLayout({
             <div className="fixed bottom-0 left-0 right-0 bg-primary-dark text-white md:hidden h-16 flex">
                 <MobileMenu />
             </div>
-            <main className="flex-grow bg-gray-100">
+            <main className="flex-grow bg-gray-100 overflow-y-scroll">
                 {children}
             </main>
         </div>
