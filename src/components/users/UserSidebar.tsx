@@ -8,7 +8,7 @@ import {
     IconContract,
     IconDashboard,
     IconReceiptDollar,
-    IconReportMoney,
+    IconReportAnalytics,
     IconTransactionRupee,
 } from "@tabler/icons-react";
 import NavLink from "../commons/NavLink";
@@ -30,19 +30,19 @@ const userRoutes = [
         icon: IconTransactionRupee,
     },
     {
+        link: "/dashboard/borrow-lend",
+        label: "Borrow / Lend",
+        icon: IconContract
+    },
+    {
         link: "/dashboard/budgets",
         label: "Budgets",
         icon: IconCashBanknoteOff
     },
     {
-        link: "/dashboard/reports",
-        label: "Reports",
-        icon: IconReportMoney
-    },
-    {
-        link: "/dashboard/borrow-lend",
-        label: "Borrow / Lend",
-        icon: IconContract
+        link: "/dashboard/analytics",
+        label: "Analytics",
+        icon: IconReportAnalytics
     },
     {
         link: "/dashboard/bills",
