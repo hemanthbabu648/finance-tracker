@@ -16,15 +16,30 @@ export type recentTransactionResponse = {
 }
 
 export enum ACCOUNTTYPEENUM {
-    SAVINGS = 'Savings',
-    CASH = 'Cash',
-    SALARY = 'Salary',
-    CREDIT_CARD = 'Credit Card',
-    E_WALLET = 'Ewallet',
-    E_ACCOUNT = 'Eaccount',
+    SAVINGS = 'SAVINGS',
+    CASH = 'CASH',
+    SALARY = 'SALARY',
+    CREDIT_CARD = 'CREDIT CARD',
+    E_WALLET = 'E-WALLET',
+    E_ACCOUNT = 'E-ACCOUNT',
 }
 
 export type accountType = {
     label: string,
     value: ACCOUNTTYPEENUM
+}
+
+export enum TRANSACTIONTYPEENUM {
+    INCOME = "INCOME",
+    EXPENSE = "EXPENSE",
+    TRANSFER = "TRANSFER",
+    BORROW = "BORROW",
+    LEND = "LEND"
+}
+
+export type transactionTypeValue = "INCOME" | "EXPENSE" | "TRANSFER" | "BORROW" | "LEND"
+
+export type transactionType = {
+    label: string,
+    value: transactionTypeValue
 }
