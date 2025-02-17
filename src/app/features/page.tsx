@@ -1,6 +1,6 @@
 import Footer from "@/components/home/Footer";
 import Header from "@/components/home/Header";
-import { features } from "@/constants/home";
+import { features } from "@/constants/data";
 import { SimpleGrid, ThemeIcon } from "@mantine/core";
 
 const renderFeatures = features.map((feature) => (

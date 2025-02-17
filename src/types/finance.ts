@@ -43,3 +43,8 @@ export type transactionType = {
     label: string,
     value: transactionTypeValue
 }
+
+export interface Category {
+    label: string;
+    value: string;
+}

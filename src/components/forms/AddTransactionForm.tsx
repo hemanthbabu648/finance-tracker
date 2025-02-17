@@ -7,8 +7,9 @@ import { Select } from '@mantine/core'
 import NumberInput from '../commons/NumberInput'
 import Button from '../commons/Button'
 import { DateTimePicker } from '@mantine/dates'
+import { categories } from '@/utils/allUtils'
 
-const transactionTypeData: transactionType[] = [
+const tabs: transactionType[] = [
     {
         label: 'Income',
         value: "INCOME"
@@ -33,6 +34,7 @@ const transactionTypeData: transactionType[] = [
 
 const AddTransactionForm = () => {
     const [transactionType, setTransactionType] = useState<transactionTypeValue>("EXPENSE")
+    const category = categories[transactionType]
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -62,38 +64,16 @@ const AddTransactionForm = () => {
 
     const getFieldByType = (type: transactionTypeValue) => {
         switch (type) {
-            case "INCOME":
-                return <Select
-                    label="Category"
-                    required
-                    // value={"Food"}
-                    data={[
-                        "Food", "Grocery", "Entertainment", "Cash"
-                    ]}
-                    key={form.key('category')}
-                    {...form.getInputProps('category')}
-                />
-            case "EXPENSE":
-                return <Select
-                    label="Category"
-                    required
-                    // value={"Food"}
-                    data={[
-                        "Food", "Grocery", "Entertainment", "Cash"
-                    ]}
-                    key={form.key('category')}
-                    {...form.getInputProps('category')}
-                />
             case "TRANSFER":
                 return <Select
                     label="To Account"
                     required
-                    // value={"SBI-4747"}
                     data={[
                         "SBI-4747", "SBI-571471"
                     ]}
                     key={form.key('otherAccount')}
                     {...form.getInputProps('otherAccount')}
+                    className='w-1/2'
                 />
             case "BORROW":
                 return <TextInput
@@ -111,6 +91,9 @@ const AddTransactionForm = () => {
                     key={form.key('toPerson')}
                     {...form.getInputProps('toPerson')}
                 />
+
+            default:
+                return null
         }
     }
 
@@ -120,7 +103,7 @@ const AddTransactionForm = () => {
                 fullWidth
                 value={transactionType}
                 onChange={(value) => setTransactionType(value as transactionTypeValue)}
-                data={transactionTypeData}
+                data={tabs}
             />
             <form
                 className='flex flex-col gap-4 mt-5'
@@ -130,15 +113,24 @@ const AddTransactionForm = () => {
                     <Select
                         label={transactionType === "TRANSFER" ? "From Account" : "Account"}
                         required
-                        // value={"SBI-4747"}
                         data={[
                             "SBI-4747", "SBI-571471"
                         ]}
                         key={form.key('account')}
                         {...form.getInputProps('account')}
+                        placeholder='Select Account'
                     />
-                    {getFieldByType(transactionType)}
+                    <Select
+                        label="Category"
+                        required
+                        data={category}
+                        key={form.key('category')}
+                        {...form.getInputProps('category')}
+                        placeholder='Select Category'
+                    />
+
                 </div>
+                {getFieldByType(transactionType)}
                 <NumberInput
                     label="Amount"
                     placeholder="Enter amount"
