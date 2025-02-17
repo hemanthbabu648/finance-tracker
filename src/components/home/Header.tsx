@@ -1,6 +1,6 @@
 'use client'
 
-import { features } from '@/constants/home'
+import { features } from '@/constants/data'
 import {
 	Burger,
 	Divider,

@@ -14,6 +14,7 @@ export default {
         "primary-light": "#577BC1",
         "dark-yellow": "#FFEB00",
         "primary-blue-light": "#228BE6",
+        "alabaster": "#EDEADE"
       },
     },
   },
