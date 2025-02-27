@@ -1,6 +1,6 @@
 'use client';
 
-import { recentTransactionResponse } from '@/types/finance'
+import { recentTransactionResponse } from '@/types/ui'
 import { Table } from '@mantine/core'
 import React from 'react'
 

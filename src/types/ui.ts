@@ -1,8 +1,9 @@
-export type statsType = {
+export type StatsResponse = {
     title: string,
     value: string,
-    change: string,
-    category: string,
+    change?: string,
+    category?: string,
+    description?: string,
     icon: React.ReactNode,
     bgColor: string,
 }
@@ -47,4 +48,13 @@ export type transactionType = {
 export interface Category {
     label: string;
     value: string;
+}
+
+export type LendTabValues = "GIVEN" | "RECEIVED"
+
+export type BorrowTabValues = "TAKEN" | "RETURNED"
+
+export type BorrowLendTabTypes = {
+    label: string,
+    value: BorrowTabValues | LendTabValues
 }

@@ -1,4 +1,4 @@
-import { Category } from "@/types/finance";
+import { Category } from "@/types/ui";
 
 export const categories = {
     EXPENSE: [

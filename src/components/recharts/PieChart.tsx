@@ -1,4 +1,4 @@
-import { transactionTypeValue } from '@/types/finance';
+import { transactionTypeValue } from '@/types/ui';
 import React from 'react';
 import { Cell, Pie, PieChart as RePieChart, ResponsiveContainer, Sector } from 'recharts';
 
