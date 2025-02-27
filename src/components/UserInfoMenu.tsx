@@ -1,5 +1,6 @@
 "use client";
 
+import { RootState } from "@/redux/store";
 import { logout } from "@/serverActions/auth";
 import { Menu } from "@mantine/core";
 import {
@@ -10,6 +11,7 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 import React, { useState } from "react";
+import { useSelector } from "react-redux";
 import Avatar from "./commons/Avatar";
 import SwitchInput from "./commons/SwitchInput";
 
@@ -19,6 +21,8 @@ type UserInfoMenuProps = {
 
 const UserInfoMenu: React.FC<UserInfoMenuProps> = ({ openSidebar }) => {
     const [opened, setOpened] = useState(false);
+
+    const { userDetails } = useSelector((state: RootState) => state.auth)
 
     return (
         <Menu
@@ -37,16 +41,16 @@ const UserInfoMenu: React.FC<UserInfoMenuProps> = ({ openSidebar }) => {
                     <div className="flex gap-2">
                         <Avatar
                             src=""
-                            name="HEMANTH BABU"
+                            name={userDetails?.fullName}
                             color="initials"
                             alt="user image"
                             size="md"
                         />
                         {openSidebar && (
                             <div>
-                                <p className="text-sm text-light-200">Hemanth babu</p>
-                                <p className="text-xs text-gray-200">
-                                    radiantways.in@gmail.com
+                                <p className="text-sm text-light-200">{userDetails?.fullName}</p>
+                                <p className="text-xs text-gray-200 line-clamp-1">
+                                    {userDetails?.email}
                                 </p>
                             </div>
                         )}
