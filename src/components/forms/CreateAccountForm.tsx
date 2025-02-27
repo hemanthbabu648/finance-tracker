@@ -1,47 +1,57 @@
 'use client';
 
-import React from 'react'
-import TextInput from '../commons/TextInput';
-import Select from '../commons/Select';
-import { accountType, ACCOUNTTYPEENUM } from '@/types/finance';
-import Button from '../commons/Button';
+import axiosInstance from '@/lib/axiosInstance';
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts';
+import { useAppDispatch } from '@/redux/hooks';
+import { fetchUserAccounts } from '@/redux/slices/AccountSlice';
+import { RootState } from '@/redux/store';
+import { AccountType, AccountTypeEnum } from '@/types/ui';
 import { useForm } from '@mantine/form';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import Button from '../commons/Button';
 import NumberInput from '../commons/NumberInput';
+import Select from '../commons/Select';
+import TextInput from '../commons/TextInput';
 
 
-const accountTypes: accountType[] = [
+const accountTypes: AccountType[] = [
     {
         label: 'Savings',
-        value: ACCOUNTTYPEENUM.SAVINGS
+        value: AccountTypeEnum.SAVINGS
     },
     {
         label: 'Cash',
-        value: ACCOUNTTYPEENUM.CASH
+        value: AccountTypeEnum.CASH
     },
     {
         label: 'Salary',
-        value: ACCOUNTTYPEENUM.SALARY
+        value: AccountTypeEnum.SALARY
     },
     {
         label: 'Credit Card',
-        value: ACCOUNTTYPEENUM.CREDIT_CARD
+        value: AccountTypeEnum.CREDIT_CARD
     },
     {
         label: 'E-Wallet',
-        value: ACCOUNTTYPEENUM.E_WALLET
+        value: AccountTypeEnum.E_WALLET
     },
     {
         label: 'E-Account',
-        value: ACCOUNTTYPEENUM.E_ACCOUNT
+        value: AccountTypeEnum.E_ACCOUNT
     }
 ]
 
 const CreateAccountForm = () => {
+    const dispatch = useAppDispatch();
+    const { userDetails } = useSelector((state: RootState) => state.auth)
+    const [loading, setLoading] = React.useState(false)
+
     const form = useForm({
         mode: 'uncontrolled',
         initialValues: {
             accountName: '',
-            accountType: ACCOUNTTYPEENUM.SAVINGS,
+            accountType: AccountTypeEnum.SAVINGS,
             initialAmount: ''
         },
         validate: {
@@ -52,7 +62,30 @@ const CreateAccountForm = () => {
     })
 
     const handleSubmit = async (values: typeof form.values) => {
-        console.log(values)
+        setLoading(true)
+        try {
+            const res = await axiosInstance.post('/accounts', {
+                userId: userDetails?.id,
+                accountName: values.accountName,
+                accountType: values.accountType,
+                initialAmount: values.initialAmount,
+            });
+
+            if (res?.data?.statusCode !== 200) {
+                showErrorToast(res?.data?.message)
+                return
+            }
+            showSuccessToast(res?.data?.message)
+            form.reset();
+            if (userDetails) {
+                await dispatch(fetchUserAccounts(userDetails.id))
+            }
+            setLoading(false)
+
+        } catch (err) {
+            showErrorToast(JSON.stringify(err))
+            setLoading(false)
+        }
     }
 
     return (
@@ -85,6 +118,7 @@ const CreateAccountForm = () => {
             <div className='flex justify-end mt-4'>
                 <Button
                     type='submit'
+                    loading={loading}
                 >
                     Create Account
                 </Button>

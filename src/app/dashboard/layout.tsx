@@ -3,9 +3,14 @@
 import MobileMenu from "@/components/MobileMenu";
 import UserInfoMenu from "@/components/UserInfoMenu";
 import UserSidebar from "@/components/users/UserSidebar";
+import { useAppSelector } from "@/redux/hooks";
+import { fetchUserAccounts } from "@/redux/slices/AccountSlice";
+import { fetchUserDetails } from "@/redux/slices/UserSlice";
+import { AppDispatch } from "@/redux/store";
 import { UnstyledButton } from "@mantine/core";
 import { IconBrandRevolut, IconLayoutSidebarFilled, IconLayoutSidebarRightFilled } from "@tabler/icons-react";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 
 export default function DashboardLayout({
@@ -13,8 +18,28 @@ export default function DashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
-
+    const dispatch = useDispatch<AppDispatch>();
+    const { userDetails } = useAppSelector(state => state.auth)
     const [isSidebarOpen, setIsSidebarOpen] = React.useState<boolean>(true);
+
+    const fetchUser = React.useCallback(async () => {
+        await dispatch(fetchUserDetails());
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    React.useEffect(() => {
+        fetchUser()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch])
+
+    React.useEffect(() => {
+        const fetchAccounts = async () => {
+            if (userDetails) {
+                await dispatch(fetchUserAccounts(userDetails.id))
+            }
+        }
+        fetchAccounts()
+    }, [dispatch, userDetails])
 
     return (
         <div className="h-screen flex flex-col-reverse justify-between sm:flex-row sm:justify-normal">

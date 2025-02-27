@@ -16,7 +16,7 @@ export type recentTransactionResponse = {
     note: string,
 }
 
-export enum ACCOUNTTYPEENUM {
+export enum AccountTypeEnum {
     SAVINGS = 'SAVINGS',
     CASH = 'CASH',
     SALARY = 'SALARY',
@@ -25,9 +25,9 @@ export enum ACCOUNTTYPEENUM {
     E_ACCOUNT = 'E-ACCOUNT',
 }
 
-export type accountType = {
+export type AccountType = {
     label: string,
-    value: ACCOUNTTYPEENUM
+    value: AccountTypeEnum
 }
 
 export enum TRANSACTIONTYPEENUM {

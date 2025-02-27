@@ -4,46 +4,52 @@ import Drawer from '@/components/commons/Drawer';
 import CreateAccountForm from '@/components/forms/CreateAccountForm';
 import BasicTable from '@/components/tables/BaseTable';
 import StatsCard from '@/components/users/StatsCard';
-import { Button } from '@mantine/core'
+import { useAppSelector } from '@/redux/hooks';
+import { AccountResponse } from '@/types';
+import { getFormattedDate } from '@/utils/DateUtils';
+import { Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconPlus } from '@tabler/icons-react'
+import { IconCreditCard, IconMoneybag, IconPigMoney, IconPlus, IconWallet } from '@tabler/icons-react';
 import { ColumnDef } from '@tanstack/react-table';
-import React from 'react'
-
-type AccountData = {
-    id: number
-    accountName: string
-    accountType: string
-    initialAmount: number
-    currency: string
-    currentBalance: number
-}
+import React from 'react';
 
 
 function AccountsPage() {
-
+    const { userAccounts, accountStats, loading } = useAppSelector(state => state.account)
     const [opened, { open, close }] = useDisclosure(false);
 
-    const apiData: AccountData[] = [
+    const statsData = [
         {
-            id: 1,
-            accountName: 'SBI-4747',
-            accountType: 'Salary',
-            initialAmount: 1000,
-            currency: 'INR',
-            currentBalance: 1000
+            title: 'Total Balance',
+            value: `₹${accountStats?.total}`,
+            description: 'All Accounts',
+            icon: <IconWallet className="w-6 h-6 text-blue-600" />,
+            bgColor: 'bg-blue-50',
         },
         {
-            id: 2,
-            accountName: 'SBI-571471',
-            accountType: 'Savings',
-            initialAmount: 0,
-            currency: 'INR',
-            currentBalance: 3000
-        }
-    ]
+            title: 'Current Balance',
+            value: `₹${accountStats?.current}`,
+            description: 'Exclude Savins & Credit Card',
+            icon: <IconMoneybag className="w-6 h-6 text-purple-600" />,
+            bgColor: 'bg-purple-50',
+        },
+        {
+            title: 'Credit Card',
+            value: `₹${accountStats?.creditCard}`,
+            description: 'Credit Card Limit Available',
+            icon: <IconCreditCard className="w-6 h-6 text-red-600" />,
+            bgColor: 'bg-red-100',
+        },
+        {
+            title: 'Savings',
+            value: `₹${accountStats?.savings}`,
+            description: 'All Savings',
+            icon: <IconPigMoney className="w-6 h-6 text-orange-600" />,
+            bgColor: 'bg-orange-50',
+        },
+    ];
 
-    const columns = React.useMemo<ColumnDef<AccountData>[]>(
+    const columns = React.useMemo<ColumnDef<AccountResponse>[]>(
         () => [
             {
                 header: 'Account Name',
@@ -56,22 +62,14 @@ function AccountsPage() {
                 accessorKey: 'accountType',
             },
             {
-                header: 'Initial Amount',
+                header: 'Amount',
                 cell: (row) => row.renderValue(),
-                accessorKey: 'initialAmount',
+                accessorKey: 'amount',
             },
             {
-                header: 'Currency',
-                cell: (row) => row.renderValue(),
-                accessorKey: 'currency',
-            },
-            {
-                header: 'Current Balance',
-                cell: (row) => {
-                    console.log(row)
-                    return <div>{JSON.stringify(row.row.original.currentBalance)}</div>
-                },
-                accessorKey: 'currentBalance',
+                header: 'Created At',
+                cell: ({ row }) => <div>{getFormattedDate(row.original.createdAt)}</div>,
+                accessorKey: 'createdAt',
             },
         ],
         []
@@ -80,9 +78,7 @@ function AccountsPage() {
     return (
         <div>
             <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <StatsCard />
-                </div>
+                <StatsCard stats={statsData} loading={loading} />
                 <div className='flex justify-end'>
                     <Button
                         radius="md"
@@ -92,7 +88,7 @@ function AccountsPage() {
                         Add Account
                     </Button>
                 </div>
-                <BasicTable data={apiData} columns={columns} />
+                <BasicTable data={userAccounts} columns={columns} isLoading={loading} />
             </div>
             <Drawer opened={opened} onClose={close} title="Create an Account">
                 <CreateAccountForm />

@@ -11,6 +11,13 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),{
+    ignores: [
+      "node_modules/",
+      "dist/",
+      ".next/",
+      "coverage/",
+      "**/*.config.js",
+    ],
     plugins: ["import"],
     rules: {
       "import/no-duplicates": 2,
@@ -30,6 +37,7 @@ const eslintConfig = [
         },
       ],
       "import/newline-after-import": 2,
+      "no-undef": "off"
     }
   }
 ];
