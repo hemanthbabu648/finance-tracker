@@ -1,27 +1,31 @@
-export class BaseResponse  {
-    statusCode: number;
+import { ApiStatus, ApiStatusCode } from "@/types";
+
+export class ApiBaseResponse {
+    statusCode: ApiStatusCode;
+    status: ApiStatus;
     message: string;
 
-    constructor(statusCode: number, message: string) {
+    constructor(statusCode: ApiStatusCode, status: ApiStatus, message: string) {
         this.statusCode = statusCode;
+        this.status = status;
         this.message = message;
     }
 }
 
-// export class SuccessResponse extends BaseResponse {
-//     data?: unknown;
+export class ApiSuccessResponse extends ApiBaseResponse {
+    data?: unknown;
 
-//     constructor( statusCode: string, message: string, data?: unknown) {
-//         super(statusCode);
-//         super('success', message);
-//         this.data = data;
-        
-//     }
-// }
+    constructor(statusCode: ApiStatusCode, status: ApiStatus, message: string, data?: unknown) {
+        super(statusCode, status, message);
+        this.data = data;
+    }
+}
 
-// export class ErrorResponse extends BaseResponse {
-//     constructor( status: string, message: string) {
-//         super( status);
-//         super('error', message);
-//     }
-// }
+export class ApiErrorResponse extends ApiBaseResponse {
+    error?: unknown;
+
+    constructor(statusCode: ApiStatusCode, status: ApiStatus, message: string, error?: unknown) {
+        super(statusCode, status, message);
+        this.error = error;
+    }
+}
