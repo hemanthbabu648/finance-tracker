@@ -21,28 +21,28 @@ function AccountsPage() {
     const statsData = [
         {
             title: 'Total Balance',
-            value: `₹${accountStats?.total}`,
+            value: `₹${accountStats?.total.toFixed(2)}`,
             description: 'All Accounts',
             icon: <IconWallet className="w-6 h-6 text-blue-600" />,
             bgColor: 'bg-blue-50',
         },
         {
             title: 'Current Balance',
-            value: `₹${accountStats?.current}`,
+            value: `₹${accountStats?.current.toFixed(2)}`,
             description: 'Exclude Savins & Credit Card',
             icon: <IconMoneybag className="w-6 h-6 text-purple-600" />,
             bgColor: 'bg-purple-50',
         },
         {
             title: 'Credit Card',
-            value: `₹${accountStats?.creditCard}`,
+            value: `₹${accountStats?.creditCard.toFixed(2)}`,
             description: 'Credit Card Limit Available',
             icon: <IconCreditCard className="w-6 h-6 text-red-600" />,
             bgColor: 'bg-red-100',
         },
         {
             title: 'Savings',
-            value: `₹${accountStats?.savings}`,
+            value: `₹${accountStats?.savings.toFixed(2)}`,
             description: 'All Savings',
             icon: <IconPigMoney className="w-6 h-6 text-orange-600" />,
             bgColor: 'bg-orange-50',

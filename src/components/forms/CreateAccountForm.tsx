@@ -71,12 +71,15 @@ const CreateAccountForm = () => {
                 initialAmount: values.initialAmount,
             });
 
-            if (res?.data?.statusCode !== 200) {
+            if (res?.data?.statusCode === 201) {
+                showSuccessToast(res?.data?.message)
+                form.reset();
+
+            } else {
                 showErrorToast(res?.data?.message)
+                setLoading(false)
                 return
             }
-            showSuccessToast(res?.data?.message)
-            form.reset();
             if (userDetails) {
                 await dispatch(fetchUserAccounts(userDetails.id))
             }
