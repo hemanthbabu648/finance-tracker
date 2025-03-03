@@ -6,12 +6,17 @@ import BaseCard from '@/components/users/BaseCard';
 import ReportsBillsCard from '@/components/users/ReportsBillsCard';
 import StatsCard from '@/components/users/StatsCard';
 import UpcomingTasksCard from '@/components/users/UpcomingTasksCard';
-import { useAppSelector } from '@/redux/hooks';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { fetchAllTransactions } from '@/redux/slices/TransactionSlice';
 import { IconCreditCard, IconMoneybag, IconPigMoney, IconWallet } from '@tabler/icons-react';
 import Link from 'next/link';
+import React from 'react';
 
 export default function DashboardOverview() {
+  const dispatch = useAppDispatch();
   const { accountStats, loading } = useAppSelector(state => state.account);
+  const { allTransactions, loading: transactionsLoading } = useAppSelector((state) => state.transaction);
+
 
   const statsData = [
     {
@@ -44,6 +49,10 @@ export default function DashboardOverview() {
     },
   ];
 
+  React.useEffect(() => {
+    dispatch(fetchAllTransactions());
+  }, [dispatch]);
+
   return (
     <div className="space-y-6">
       <StatsCard loading={loading} stats={statsData} />
@@ -59,7 +68,7 @@ export default function DashboardOverview() {
           }
           cardClassNames='lg:col-span-2'
         >
-          <RecentTransactions />
+          <RecentTransactions loading={transactionsLoading} data={allTransactions} />
         </BaseCard>
 
         <BaseCard

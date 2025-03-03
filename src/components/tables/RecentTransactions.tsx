@@ -1,11 +1,21 @@
 'use client';
 
-import { recentTransactionResponse } from '@/types/ui'
+
+import { TransactionResponse } from '@/types';
+import { getFormattedDate } from '@/utils/DateUtils';
 import { Table } from '@mantine/core'
 import React from 'react'
 
+type recentTransactionResponse = {
+    date: string,
+    type: string,
+    amount: number
+    account: string,
+    note: string,
+}
 type Props = {
-    data?: recentTransactionResponse[]
+    loading: boolean
+    data: TransactionResponse[]
 }
 
 const data: recentTransactionResponse[] = [
@@ -32,11 +42,38 @@ const data: recentTransactionResponse[] = [
     }
 ]
 
-const RecentTransactions: React.FC<Props> = () => {
+const RecentTransactions: React.FC<Props> = ({
+    loading,
+    data = []
+}) => {
 
-    const rows = data.map((row, index) => {
+    if (loading) {
+        return (
+            <div className='flex justify-center items-center'>
+                <p>Loading...</p>
+            </div>
+        )
+    }
 
+    if (data.length === 0) {
+        return (
+            <div className='flex justify-center items-center'>
+                <p>No data found</p>
+            </div>
+        )
+    }
 
+    const getModifiedData = data.map((row) => {
+        return {
+            date: getFormattedDate(row.createdAt),
+            type: row.transactionType,
+            amount: row.amount,
+            account: row.accountId,
+            note: row.note
+        }
+    })
+
+    const rows = getModifiedData.slice(0, 5).map((row, index) => {
         return (
             <Table.Tr key={index + row.date}>
                 <Table.Td>
@@ -65,7 +102,7 @@ const RecentTransactions: React.FC<Props> = () => {
                         <Table.Th>Date</Table.Th>
                         <Table.Th>Type</Table.Th>
                         <Table.Th>Amount</Table.Th>
-                        <Table.Th>Account</Table.Th>
+                        <Table.Th>Account Id</Table.Th>
                         <Table.Th>Note</Table.Th>
                     </Table.Tr>
                 </Table.Thead>
