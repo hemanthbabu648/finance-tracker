@@ -1,4 +1,4 @@
-import { transactionTypeValue } from '@/types/ui';
+import { TransactionTypeValue } from '@/types/ui';
 import React from 'react';
 import { Cell, Pie, PieChart as RePieChart, ResponsiveContainer, Sector } from 'recharts';
 
@@ -10,7 +10,7 @@ type DataType = {
 }
 
 type PieChartProps = {
-    type: transactionTypeValue | 'SAVINGS'
+    type: TransactionTypeValue | 'SAVINGS'
     data: DataType[]
 }
 
