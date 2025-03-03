@@ -1,81 +1,87 @@
 'use client'
 
+import Button from '@/components/commons/Button'
+import Drawer from '@/components/commons/Drawer'
 import SegmentedControl from '@/components/commons/SegmentedControl'
+import BorrowTransactionForm from '@/components/forms/BorrowTransactionForm'
+import LendTransactionForm from '@/components/forms/LendTransactionForm'
 import BasicTable from '@/components/tables/BaseTable'
 import StatsCard from '@/components/users/StatsCard'
-import { transactionTypeValue } from '@/types/finance'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { fetchAllMiscTransactions, fetchMiscTransactionStats } from '@/redux/slices/TransactionSlice'
+import { TransactionResponse } from '@/types'
+import { TransactionType, TransactionTypeValue } from '@/types/ui'
+import { getFormattedDate } from '@/utils/DateUtils'
+import { getAccountDetails } from '@/utils/Utils'
+import { useDisclosure } from '@mantine/hooks'
+import { IconCreditCard, IconMoneybag, IconPigMoney, IconPlus, IconWallet } from '@tabler/icons-react'
 import { ColumnDef } from '@tanstack/react-table'
 import React from 'react'
 
-type statusType = 'NOT SETTLED' | 'SETTLED' | 'PARTIALLY SETTLED' | 'SENT' | 'RECEIVED'
-
-type transactionResponse = {
-    id: string
-    account: string
-    tranactionType: transactionTypeValue
-    borrowedFrom?: string
-    lendedTo?: string
-    amount: number
-    date: string
-    returnDate: string
-    note: string
-    status: statusType
-}
-
-type tabType = {
-    label: string,
-    value: transactionTypeValue
-}
-
-const tabs: tabType[] = [
-    { label: 'Debts', value: "BORROW" },
+const tabs: TransactionType[] = [
+    { label: 'Borrow', value: "BORROW" },
     { label: 'Lend', value: "LEND" },
 ]
 
 
-function DebtsPage() {
-    const [tab, setTab] = React.useState<transactionTypeValue>("BORROW");
+function BorrowLendPage() {
+    const dispatch = useAppDispatch()
+    const { allTransactions: { miscTransactions, loading, statsLoading, miscTransactionStats: { currentMonth, lastMonth } }, allAccounts } = useAppSelector(state => {
+        return {
+            allTransactions: state.transaction,
+            allAccounts: state.account.userAccounts,
+        }
+    })
+    const [tab, setTab] = React.useState<TransactionTypeValue>("BORROW");
+    const [borrowOpened, { open: borrowOpen, close: borrowClose }] = useDisclosure(false);
+    const [lendOpened, { open: lendOpen, close: lendClose }] = useDisclosure(false);
 
-    const apiData: transactionResponse[] = [
+    const transactionType = tab === "BORROW" ? "Borrowed" : "Lended";
+
+    const statsData = [
         {
-            id: '1',
-            account: 'SBI-4747',
-            tranactionType: 'BORROW',
-            borrowedFrom: 'S.H.B',
-            amount: 1000,
-            date: '2020-01-01',
-            returnDate: '2020-01-01',
-            note: 'Salary',
-            status: 'NOT SETTLED'
+            title: transactionType,
+            value: tab === "BORROW" ? `₹${currentMonth?.received.toFixed(2)}` : `₹${currentMonth?.sent.toFixed(2)}`,
+            description: `Total ${transactionType}`,
+            icon: <IconMoneybag className="w-6 h-6 text-purple-600" />,
+            bgColor: 'bg-purple-50',
         },
         {
-            id: '2',
-            account: 'SBI-4747',
-            tranactionType: 'BORROW',
-            borrowedFrom: 'S.H.B',
-            returnDate: '2020-01-01',
-            amount: 1000,
-            date: '2020-01-01',
-            note: 'Salary',
-            status: 'SETTLED'
-        }
-    ]
+            title: tab === "BORROW" ? 'Returned' : 'Received',
+            value: tab === "BORROW" ? `₹${currentMonth?.sent.toFixed(2)}` : `₹${currentMonth?.received.toFixed(2)}`,
+            description: `${tab === "BORROW" ? "Total Returned" : "Total Received"}`,
+            icon: <IconCreditCard className="w-6 h-6 text-red-600" />,
+            bgColor: 'bg-red-100',
+        },
+        {
+            title: 'Remaining',
+            value: `₹${currentMonth?.remaining.toFixed(2)}`,
+            description: 'Remaining Balance',
+            icon: <IconPigMoney className="w-6 h-6 text-orange-600" />,
+            bgColor: 'bg-orange-50',
+        },
+    ];
 
-    const columns = React.useMemo<ColumnDef<transactionResponse>[]>(() => [
+    const columns = React.useMemo<ColumnDef<TransactionResponse>[]>(() => [
         {
             header: 'Account',
-            cell: (row) => row.renderValue(),
-            accessorKey: 'account',
+            cell: ({ row }) => <div>{getAccountDetails(row.original.accountId, allAccounts)?.accountName || ''}</div>,
+            accessorKey: "accountId",
         },
         {
             header: 'Transaction Type',
             cell: (row) => row.renderValue(),
-            accessorKey: 'tranactionType',
+            accessorKey: 'transactionType',
+        },
+        {
+            header: 'Transaction Sub Type',
+            cell: (row) => row.renderValue(),
+            accessorKey: 'transactionSubType',
         },
         {
             header: 'Received From',
             cell: (row) => row.renderValue(),
-            accessorKey: 'borrowedFrom',
+            accessorKey: 'personName',
         },
         {
             header: 'Amount',
@@ -84,12 +90,12 @@ function DebtsPage() {
         },
         {
             header: 'Date',
-            cell: (row) => row.renderValue(),
-            accessorKey: 'date',
+            cell: ({ row }) => <div>{getFormattedDate(row.original.createdAt)}</div>,
+            accessorKey: 'createdAt',
         },
         {
             header: 'Return Date',
-            cell: (row) => row.renderValue(),
+            cell: ({ row }) => <div>{getFormattedDate(row.original.returnAt!)}</div>,
             accessorKey: 'returnDate',
         },
         {
@@ -100,20 +106,38 @@ function DebtsPage() {
         {
             header: 'Status',
             cell: (row) => row.renderValue(),
-            accessorKey: 'status',
+            accessorKey: "status",
         }
-    ], [])
+    ], [allAccounts])
+
+    React.useEffect(() => {
+        let isMounted = true
+        const fetchMiscTransactionsByType = async () => {
+            if (!isMounted) return;
+            await dispatch(fetchAllMiscTransactions(tab))
+            if (!isMounted) return;
+            await dispatch(fetchMiscTransactionStats(tab));
+        }
+        fetchMiscTransactionsByType();
+        return () => {
+            isMounted = false;
+        };
+    }, [dispatch, tab])
+
+    console.log({
+        miscTransactions: miscTransactions,
+        loading: loading,
+        miscStatsLoading: statsLoading,
+    })
 
     return (
         <div>
             <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <StatsCard />
-                </div>
+                <StatsCard stats={statsData} loading={statsLoading} />
                 <div className='w-60 mb-6'>
                     <SegmentedControl
                         data={tabs}
-                        onChange={(value) => setTab(value as transactionTypeValue)}
+                        onChange={(value) => setTab(value as TransactionTypeValue)}
                         value={tab}
                         classNames={{
                             root: 'bg-alabaster'
@@ -122,11 +146,41 @@ function DebtsPage() {
                         color="blue"
                     />
                 </div>
-                {tab === 'BORROW' ? <BasicTable data={apiData} columns={columns} /> : <BasicTable data={apiData} columns={columns} />}
+                {tab === 'BORROW' ?
+                    <div className='space-y-6'>
+                        <div className='flex justify-end'>
+                            <Button
+                                radius="md"
+                                leftSection={<IconPlus className='inline' size={20} />}
+                                onClick={borrowOpen}
+                            >
+                                Add Transaction
+                            </Button>
+                        </div>
+                        <BasicTable data={miscTransactions} columns={columns} isLoading={loading} />
+                    </div>
+                    :
+                    <div className='space-y-6'>
+                        <div className='flex justify-end'>
+                            <Button
+                                radius="md"
+                                leftSection={<IconPlus className='inline' size={20} />}
+                                onClick={lendOpen}
+                            >
+                                Add Transaction
+                            </Button>
+                        </div>
+                        <BasicTable data={miscTransactions} columns={columns} isLoading={loading} />
+                    </div>}
             </div>
-
+            <Drawer title="Borrow Transaction" opened={borrowOpened} onClose={borrowClose}>
+                <BorrowTransactionForm />
+            </Drawer>
+            <Drawer title="Lend Transaction" opened={lendOpened} onClose={lendClose}>
+                <LendTransactionForm />
+            </Drawer>
         </div>
     )
 }
 
-export default DebtsPage
+export default BorrowLendPage

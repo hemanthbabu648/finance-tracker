@@ -1,0 +1,215 @@
+import React, { useState } from 'react'
+import TextInput from '../commons/TextInput'
+import { useForm } from '@mantine/form'
+import SegmentedControl from '../commons/SegmentedControl'
+import { Select } from '@mantine/core'
+import NumberInput from '../commons/NumberInput'
+import Button from '../commons/Button'
+import { DateTimePicker } from '@mantine/dates'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
+import axiosInstance from '@/lib/axiosInstance'
+import { BorrowLendTabTypes, BorrowTabValues } from '@/types/ui'
+import { fetchAllMiscTransactions } from '@/redux/slices/TransactionSlice'
+
+
+const tabs: BorrowLendTabTypes[] = [
+    {
+        label: 'Taken',
+        value: "TAKEN"
+    },
+    {
+        label: 'Returned',
+        value: "RETURNED"
+    },
+
+]
+
+const BorrowTransactionForm = () => {
+    const dispatch = useAppDispatch()
+    const { userAccounts } = useAppSelector((state) => state.account)
+    const [tab, setTab] = useState<BorrowTabValues>("TAKEN")
+    const [loading, setLoading] = useState(false)
+
+    const getMappedAccounts = () => {
+        return userAccounts?.map((account) => {
+            return {
+                label: account.accountName,
+                value: account.id
+            }
+        })
+    }
+
+    const form = useForm({
+        mode: 'uncontrolled',
+        initialValues: {
+            fromPerson: '',
+            account: '',
+            category: '',
+            amount: '',
+            note: '',
+            dateAndTime: new Date(),
+            toPerson: '',
+            returnDate: new Date()
+        },
+        validate: {
+            account: (value) => value ? null : 'Account is required',
+            category: (value) => value ? null : 'Category is required',
+            amount: (value) => value ? null : 'Amount is required',
+            note: (value) => value ? null : 'Note is required',
+            dateAndTime: (value) => value ? null : 'Date and Time is required',
+            fromPerson: (value) => (tab === 'TAKEN' && !value) ? 'Taken From is required' : null,
+            toPerson: (value) => (tab === 'RETURNED' && !value) ? 'Given To is required' : null,
+            returnDate: (value) => ((tab === 'TAKEN') && !value) ? 'Return Date is required' : null,
+        }
+    })
+
+    const handleSubmit = async (values: typeof form.values) => {
+        setLoading(true);
+        try {
+            const payload: any = {
+                transactionType: "BORROW",
+                transactionSubType: tab,
+                accountId: values.account,
+                category: values.category,
+                amount: values.amount,
+                note: values.note,
+                createdAt: values.dateAndTime,
+            };
+
+            if (tab === "TAKEN") {
+                payload.takenFrom = values.fromPerson;
+                payload.returnAt = values.returnDate;
+            } else {
+                payload.returnedTo = values.toPerson;
+            }
+
+            const res = await axiosInstance.post('/misc-transactions', payload);
+
+            if (res?.data?.statusCode === 201) {
+                form.reset();
+                showSuccessToast(res?.data?.message);
+                dispatch(fetchAllMiscTransactions("BORROW"));
+            } else {
+                showErrorToast(res?.data?.message);
+            }
+        } catch (error) {
+            showErrorToast(JSON.stringify(error));
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    return (
+        <div>
+            <SegmentedControl
+                fullWidth
+                value={tab}
+                onChange={(value) => setTab(value as BorrowTabValues)}
+                data={tabs}
+            />
+            <form
+                className='flex flex-col gap-4 mt-5'
+                onSubmit={form.onSubmit(handleSubmit)}
+            >
+                {tab === 'TAKEN' ? (
+                    <TextInput
+                        label="Taken From"
+                        placeholder="Person Name"
+                        required
+                        key={form.key('fromPerson')}
+                        {...form.getInputProps('fromPerson')}
+                    />
+                ) : (
+                    <TextInput
+                        label="Returned To"
+                        placeholder="Person Name"
+                        required
+                        key={form.key('toPerson')}
+                        {...form.getInputProps('toPerson')}
+                    />
+                )}
+                <div className='flex gap-x-4'>
+                    <Select
+                        label={tab === 'TAKEN' ? "Credit to Account" : "Debit from Account"}
+                        required
+                        data={getMappedAccounts()}
+                        key={form.key('account')}
+                        {...form.getInputProps('account')}
+                        placeholder='Select Account'
+                    />
+                    <Select
+                        label="Category"
+                        required
+                        data={[
+                            {
+                                label: 'In Exchange',
+                                value: 'IN_EXCHANGE'
+                            },
+                            {
+                                label: 'Credit Card',
+                                value: 'CREDIT_CARD'
+                            },
+                            {
+                                label: 'Personal Loan',
+                                value: 'PERSONAL_LOAN'
+                            }
+                        ]}
+                        key={form.key('category')}
+                        {...form.getInputProps('category')}
+                        placeholder='Select Category'
+                    />
+
+                </div>
+                <NumberInput
+                    label="Amount"
+                    placeholder="Enter amount"
+                    required
+                    min={0}
+                    key={form.key('amount')}
+                    {...form.getInputProps('amount')}
+                />
+                <TextInput
+                    label="Note"
+                    placeholder="Short note"
+                    required
+                    key={form.key('note')}
+                    {...form.getInputProps('note')}
+                />
+                <DateTimePicker
+                    clearable
+                    valueFormat="DD MMM YYYY hh:mm A"
+                    label="Pick Date and Time"
+                    placeholder="Pick date and time"
+                    required
+                    key={form.key('dateAndTime')}
+                    {...form.getInputProps('dateAndTime')}
+                />
+
+                {tab === 'TAKEN' && (
+                    <DateTimePicker
+                        clearable
+                        valueFormat="DD MMM YYYY hh:mm A"
+                        label="Pick Return Date and Time"
+                        placeholder="Pick date and time"
+                        required
+                        key={form.key('returnDate')}
+                        {...form.getInputProps('returnDate')}
+
+                    />
+                )}
+                <div className='flex justify-end mt-4'>
+                    <Button
+                        type='submit'
+                        loading={loading}
+                    >
+                        Submit
+                    </Button>
+                </div>
+            </form>
+        </div>
+    )
+}
+
+export default BorrowTransactionForm

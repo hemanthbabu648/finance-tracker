@@ -109,8 +109,15 @@ export interface TransactionState {
         }
     }
     miscTransactionStats: {
-        income: number
-        expenses: number
-        savings: number
+        currentMonth: {
+            sent: number
+            received: number
+            remaining: number
+        }
+        lastMonth: {
+            sent: number
+            received: number
+            remaining: number
+        }
     }
 }

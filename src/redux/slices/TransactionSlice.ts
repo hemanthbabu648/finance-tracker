@@ -24,9 +24,16 @@ const initialState: TransactionState = {
         }
     },
     miscTransactionStats: {
-        income: 0,
-        expenses: 0,
-        savings: 0
+        currentMonth: {
+            sent: 0,
+            received: 0,
+            remaining: 0
+        },
+        lastMonth: {
+            sent: 0,
+            received: 0,
+            remaining: 0
+        }
     }
 }
 
@@ -51,7 +58,8 @@ const TransactionSlice = createSlice({
             state.transactionStats.lastMonthOverView = action.payload.lastMonthOverview;
         },
         saveMiscTransactionStats: (state, action) => {
-            state.miscTransactionStats = action.payload
+            state.miscTransactionStats.currentMonth = action.payload.currentMonth;
+            state.miscTransactionStats.lastMonth = action.payload.lastMonth;
         }
     }
 })
@@ -80,13 +88,11 @@ export const fetchTransactionStats = (): AppThunk<Promise<void>> => async (dispa
         dispatch(changeStatsLoading(false))
     }
 }
-
-export const fetchAllMiscTransactions = (userId: string, transactionType: TransactionTypeValue): AppThunk<Promise<void>> => async (dispatch) => {
+export const fetchAllMiscTransactions = (transactionType: TransactionTypeValue): AppThunk<Promise<void>> => async (dispatch) => {
     dispatch(changeLoading(true))
     try {
         const { data } = await axiosInstance.get('/misc-transactions', {
             params: {
-                id: userId,
                 transactionType
             }
         });
@@ -95,6 +101,21 @@ export const fetchAllMiscTransactions = (userId: string, transactionType: Transa
         showErrorToast(JSON.stringify(err))
     } finally {
         dispatch(changeLoading(false))
+    }
+}
+export const fetchMiscTransactionStats = (transactionType: TransactionTypeValue): AppThunk<Promise<void>> => async (dispatch) => {
+    dispatch(changeStatsLoading(true))
+    try {
+        const { data } = await axiosInstance.get('/stats/misc-transactions', {
+            params: {
+                transactionType
+            }
+        })
+        dispatch(saveMiscTransactionStats(data?.data))
+    } catch (err) {
+        showErrorToast(JSON.stringify(err))
+    } finally {
+        dispatch(changeStatsLoading(false))
     }
 }
 
