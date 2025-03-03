@@ -114,9 +114,9 @@ function BorrowLendPage() {
         let isMounted = true
         const fetchMiscTransactionsByType = async () => {
             if (!isMounted) return;
-            await dispatch(fetchAllMiscTransactions(tab))
-            if (!isMounted) return;
             await dispatch(fetchMiscTransactionStats(tab));
+            if (!isMounted) return;
+            await dispatch(fetchAllMiscTransactions(tab))
         }
         fetchMiscTransactionsByType();
         return () => {
@@ -124,11 +124,6 @@ function BorrowLendPage() {
         };
     }, [dispatch, tab])
 
-    console.log({
-        miscTransactions: miscTransactions,
-        loading: loading,
-        miscStatsLoading: statsLoading,
-    })
 
     return (
         <div>

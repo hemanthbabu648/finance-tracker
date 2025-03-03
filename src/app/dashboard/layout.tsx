@@ -19,27 +19,20 @@ export default function DashboardLayout({
     children: React.ReactNode;
 }) {
     const dispatch = useDispatch<AppDispatch>();
-    const { userDetails } = useAppSelector(state => state.auth)
-    const [isSidebarOpen, setIsSidebarOpen] = React.useState<boolean>(true);
-
-    const fetchUser = React.useCallback(async () => {
-        await dispatch(fetchUserDetails());
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    const { userDetails } = useAppSelector((state) => state.auth);
+    const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
     React.useEffect(() => {
-        fetchUser()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch])
+        dispatch(fetchUserDetails());
+    }, [dispatch]);
+
+    const userId = React.useMemo(() => userDetails?.id, [userDetails]);
 
     React.useEffect(() => {
-        const fetchAccounts = async () => {
-            if (userDetails) {
-                await dispatch(fetchUserAccounts(userDetails.id))
-            }
+        if (userId) {
+            dispatch(fetchUserAccounts(userId));
         }
-        fetchAccounts()
-    }, [dispatch, userDetails])
+    }, [dispatch, userId]);
 
     return (
         <div className="h-screen flex flex-col-reverse justify-between sm:flex-row sm:justify-normal">

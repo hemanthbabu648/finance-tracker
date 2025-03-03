@@ -98,9 +98,9 @@ function TransactionsPage() {
 
         const fetchTransactions = async () => {
             if (!isMounted) return;
-            await dispatch(fetchAllTransactions());
-            if (!isMounted) return;
             await dispatch(fetchTransactionStats());
+            if (!isMounted) return;
+            await dispatch(fetchAllTransactions());
         };
 
         fetchTransactions();
