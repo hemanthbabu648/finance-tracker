@@ -1,14 +1,33 @@
 import axiosInstance from "@/lib/axiosInstance";
 import { showErrorToast } from "@/lib/reactToasts";
-import { TransactionState } from "@/types";
-import { TRANSACTIONTYPEENUM } from "@/types/ui";
+import { TransactionState, TransactionTypeValue } from "@/types";
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "../store";
 
 const initialState: TransactionState = {
     loading: false,
+    statsLoading: false,
     allTransactions: [],
-    miscTransactions: []
+    miscTransactions: [],
+    transactionStats: {
+        currentMonthOverView: {
+            income: 0,
+            expenses: 0,
+            savings: 0,
+            remaining: 0
+        },
+        lastMonthOverView: {
+            income: 0,
+            expenses: 0,
+            savings: 0,
+            remaining: 0
+        }
+    },
+    miscTransactionStats: {
+        income: 0,
+        expenses: 0,
+        savings: 0
+    }
 }
 
 const TransactionSlice = createSlice({
@@ -18,18 +37,51 @@ const TransactionSlice = createSlice({
         changeLoading: (state, action) => {
             state.loading = action.payload
         },
+        changeStatsLoading: (state, action) => {
+            state.statsLoading = action.payload
+        },
         saveAllTransactions: (state, action) => {
             state.allTransactions = action.payload
         },
         saveMiscTransactions: (state, action) => {
             state.miscTransactions = action.payload
+        },
+        saveTransactionStats: (state, action) => {
+            state.transactionStats.currentMonthOverView = action.payload.currentMonthOverview;
+            state.transactionStats.lastMonthOverView = action.payload.lastMonthOverview;
+        },
+        saveMiscTransactionStats: (state, action) => {
+            state.miscTransactionStats = action.payload
         }
     }
 })
 
-export const { changeLoading, saveAllTransactions, saveMiscTransactions } = TransactionSlice.actions
+export const { changeLoading, changeStatsLoading, saveAllTransactions, saveMiscTransactions, saveTransactionStats, saveMiscTransactionStats } = TransactionSlice.actions
 
-export const fetchAllMiscTransactions = (userId: string, transactionType: TRANSACTIONTYPEENUM): AppThunk<Promise<void>> => async (dispatch) => {
+export const fetchAllTransactions = (): AppThunk<Promise<void>> => async (dispatch) => {
+    dispatch(changeLoading(true))
+    try {
+        const { data } = await axiosInstance.get('/transactions');
+        dispatch(saveAllTransactions(data?.data))
+    } catch (err) {
+        showErrorToast(JSON.stringify(err))
+    } finally {
+        dispatch(changeLoading(false))
+    }
+}
+export const fetchTransactionStats = (): AppThunk<Promise<void>> => async (dispatch) => {
+    dispatch(changeStatsLoading(true))
+    try {
+        const { data } = await axiosInstance.get('/stats/transactions')
+        dispatch(saveTransactionStats(data?.data))
+    } catch (err) {
+        showErrorToast(JSON.stringify(err))
+    } finally {
+        dispatch(changeStatsLoading(false))
+    }
+}
+
+export const fetchAllMiscTransactions = (userId: string, transactionType: TransactionTypeValue): AppThunk<Promise<void>> => async (dispatch) => {
     dispatch(changeLoading(true))
     try {
         const { data } = await axiosInstance.get('/misc-transactions', {
@@ -39,23 +91,6 @@ export const fetchAllMiscTransactions = (userId: string, transactionType: TRANSA
             }
         });
         dispatch(saveMiscTransactions(data?.data))
-    } catch (err) {
-        showErrorToast(JSON.stringify(err))
-    } finally {
-        dispatch(changeLoading(false))
-    }
-}
-
-export const fetchAllTransactions = (userId: string, transactionType: TRANSACTIONTYPEENUM): AppThunk<Promise<void>> => async (dispatch) => {
-    dispatch(changeLoading(true))
-    try {
-        const { data } = await axiosInstance.get('/misc-transactions', {
-            params: {
-                id: userId,
-                transactionType
-            }
-        });
-        dispatch(saveAllTransactions(data?.data))
     } catch (err) {
         showErrorToast(JSON.stringify(err))
     } finally {

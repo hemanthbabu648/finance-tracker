@@ -64,28 +64,53 @@ export interface AccountState {
     }
 }
 
+export type TransactionTypeValue = "INCOME" | "EXPENSE" | "TRANSFER" | "BORROW" | "LEND"
+
+export type LendTabValues = "GIVEN" | "RECEIVED"
+
+export type BorrowTabValues = "TAKEN" | "RETURNED"
+
+export type StatusResponse = "PENDING" | "COMPLETED" | "CANCELLED" | "SETTLED" | "SENT" | "RECEIVED" | "WAITING FOR CONFIRMATION" | "CONFIRMED"
+
 export interface TransactionResponse {
     id: string
     userId: string
     accountId: string
-    transactionType: string
-    transactionSubType?: string
+    transactionType: TransactionTypeValue
+    transactionSubType?: LendTabValues | BorrowTabValues
     category: string
-    personName?: string
     amount: number
+    personName?: string
     note: string
     createdAt: string
     returnAt?: string
-    status: string
+    status?: StatusResponse
     settledAt?: string
     toAccount?: string
-    accounts?: {
-        accountName: string
-    }
 }
 
 export interface TransactionState {
     loading: boolean
+    statsLoading: boolean
     allTransactions: TransactionResponse[] | []
     miscTransactions: TransactionResponse[] | []
+    transactionStats: {
+        currentMonthOverView: {
+            income: number
+            expenses: number
+            savings: number
+            remaining: number
+        },
+        lastMonthOverView: {
+            income: number
+            expenses: number
+            savings: number
+            remaining: number
+        }
+    }
+    miscTransactionStats: {
+        income: number
+        expenses: number
+        savings: number
+    }
 }

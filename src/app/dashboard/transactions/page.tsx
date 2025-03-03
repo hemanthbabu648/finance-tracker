@@ -5,56 +5,71 @@ import Drawer from '@/components/commons/Drawer';
 import AddTransactionForm from '@/components/forms/AddTransactionForm';
 import BasicTable from '@/components/tables/BaseTable';
 import StatsCard from '@/components/users/StatsCard';
-import { transactionTypeValue } from '@/types/finance';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { fetchAllTransactions, fetchTransactionStats } from '@/redux/slices/TransactionSlice';
+import { TransactionResponse } from '@/types';
+import { getFormattedDate } from '@/utils/DateUtils';
+import { getAccountDetails } from '@/utils/Utils';
 import { useDisclosure } from '@mantine/hooks';
-import { IconPlus } from '@tabler/icons-react';
+import { IconCreditCard, IconMoneybag, IconPigMoney, IconPlus, IconWallet } from '@tabler/icons-react';
 import { ColumnDef } from '@tanstack/react-table';
 import React from 'react'
 
-type transactionResponse = {
-    id: string
-    account: string
-    tranactionType: transactionTypeValue
-    category: string
-    amount: number
-    date: string
-    note: string
-}
-
 function TransactionsPage() {
+    const dispatch = useAppDispatch()
+    const { allTransactions, loading, allAccounts, statsLoading, transactionStats: { currentMonthOverView, lastMonthOverView } } = useAppSelector(state => {
+        return {
+            allTransactions: state.transaction.allTransactions,
+            loading: state.transaction.loading,
+            allAccounts: state.account.userAccounts,
+            statsLoading: state.transaction.statsLoading,
+            transactionStats: state.transaction.transactionStats,
+        }
+    })
     const [opened, { open, close }] = useDisclosure(false);
 
-    const apiData: transactionResponse[] = [
+
+    const statsData = [
         {
-            id: '1',
-            account: 'SBI-4747',
-            tranactionType: 'INCOME',
-            category: 'Salary',
-            amount: 1000,
-            date: '2020-01-01',
-            note: 'Salary'
+            title: 'Balance',
+            value: `₹${currentMonthOverView?.remaining.toFixed(2)}`,
+            description: 'Current Month Remaining',
+            icon: <IconWallet className="w-6 h-6 text-blue-600" />,
+            bgColor: 'bg-blue-50',
         },
         {
-            id: '2',
-            account: 'SBI-4747',
-            tranactionType: 'EXPENSE',
-            category: 'Food',
-            amount: 1000,
-            date: '2020-01-01',
-            note: 'Salary'
-        }
-    ]
+            title: 'Income',
+            value: `₹${currentMonthOverView?.income.toFixed(2)}`,
+            description: 'All Earnings',
+            icon: <IconMoneybag className="w-6 h-6 text-purple-600" />,
+            bgColor: 'bg-purple-50',
+        },
+        {
+            title: 'Expenses',
+            value: `₹${currentMonthOverView?.expenses.toFixed(2)}`,
+            description: 'All Expenses',
+            icon: <IconCreditCard className="w-6 h-6 text-red-600" />,
+            bgColor: 'bg-red-100',
+        },
+        {
+            title: 'Savings',
+            value: `₹${currentMonthOverView?.savings.toFixed(2)}`,
+            description: 'All Savings',
+            icon: <IconPigMoney className="w-6 h-6 text-orange-600" />,
+            bgColor: 'bg-orange-50',
+        },
+    ];
 
-    const columns = React.useMemo<ColumnDef<transactionResponse>[]>(() => [
+    const columns = React.useMemo<ColumnDef<TransactionResponse>[]>(() => [
         {
             header: 'Account',
-            cell: (row) => row.renderValue(),
+            cell: ({ row }) => <div>{getAccountDetails(row.original.accountId, allAccounts)?.accountName || ''}</div>,
             accessorKey: 'account',
         },
         {
             header: 'Transaction Type',
             cell: (row) => row.renderValue(),
-            accessorKey: 'tranactionType',
+            accessorKey: 'transactionType',
         },
         {
             header: 'Category',
@@ -68,22 +83,38 @@ function TransactionsPage() {
         },
         {
             header: 'Date',
-            cell: (row) => row.renderValue(),
-            accessorKey: 'date',
+            cell: ({ row }) => <div>{getFormattedDate(row.original.createdAt)}</div>,
+            accessorKey: 'createdAt',
         },
         {
             header: 'Note',
             cell: (row) => row.renderValue(),
             accessorKey: 'note',
         }
-    ], [])
+    ], [allAccounts])
+
+    React.useEffect(() => {
+        let isMounted = true; // Flag to prevent duplicate calls
+
+        const fetchTransactions = async () => {
+            if (!isMounted) return;
+            await dispatch(fetchAllTransactions());
+            if (!isMounted) return;
+            await dispatch(fetchTransactionStats());
+        };
+
+        fetchTransactions();
+
+        return () => {
+            isMounted = false; // Cleanup function
+        };
+    }, [dispatch]);
 
     return (
         <div>
             <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <StatsCard />
-                </div>
+                <StatsCard stats={statsData} loading={statsLoading} />
+
                 <div className='flex justify-end'>
                     <Button
                         radius="md"
@@ -93,9 +124,9 @@ function TransactionsPage() {
                         Add Transaction
                     </Button>
                 </div>
-                <BasicTable data={apiData} columns={columns} />
+                <BasicTable data={allTransactions} columns={columns} isLoading={loading} />
             </div>
-            <Drawer opened={opened} onClose={close} title="Create an Account">
+            <Drawer opened={opened} onClose={close} title="Create Transaction">
                 <AddTransactionForm />
             </Drawer>
         </div>

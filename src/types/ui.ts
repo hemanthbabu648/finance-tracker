@@ -8,14 +8,6 @@ export type StatsResponse = {
     bgColor: string,
 }
 
-export type recentTransactionResponse = {
-    date: string,
-    type: string,
-    amount: number
-    account: string,
-    note: string,
-}
-
 export enum AccountTypeEnum {
     SAVINGS = 'SAVINGS',
     CASH = 'CASH',
@@ -30,24 +22,16 @@ export type AccountType = {
     value: AccountTypeEnum
 }
 
-export enum TRANSACTIONTYPEENUM {
-    INCOME = "INCOME",
-    EXPENSE = "EXPENSE",
-    TRANSFER = "TRANSFER",
-    BORROW = "BORROW",
-    LEND = "LEND"
-}
-
-export type transactionTypeValue = "INCOME" | "EXPENSE" | "TRANSFER" | "BORROW" | "LEND"
-
-export type transactionType = {
-    label: string,
-    value: transactionTypeValue
-}
-
 export interface Category {
     label: string;
     value: string;
+}
+
+export type TransactionTypeValue = "INCOME" | "EXPENSE" | "TRANSFER" | "BORROW" | "LEND"
+
+export type TransactionType = {
+    label: string,
+    value: TransactionTypeValue
 }
 
 export type LendTabValues = "GIVEN" | "RECEIVED"
