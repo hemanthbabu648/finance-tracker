@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
-import TextInput from '../commons/TextInput'
-import { useForm } from '@mantine/form'
-import SegmentedControl from '../commons/SegmentedControl'
 import { Select } from '@mantine/core'
-import NumberInput from '../commons/NumberInput'
-import Button from '../commons/Button'
 import { DateTimePicker } from '@mantine/dates'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
+import { useForm } from '@mantine/form'
+import React, { useState } from 'react'
+
 import axiosInstance from '@/lib/axiosInstance'
-import { BorrowLendTabTypes, BorrowTabValues } from '@/types/ui'
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { fetchAllMiscTransactions } from '@/redux/slices/TransactionSlice'
+import { BorrowLendTabTypes, BorrowTabValues } from '@/types/ui'
+
+import Button from '../commons/Button'
+import NumberInput from '../commons/NumberInput'
+import SegmentedControl from '../commons/SegmentedControl'
+import TextInput from '../commons/TextInput'
 
 
 const tabs: BorrowLendTabTypes[] = [
@@ -67,6 +69,7 @@ const BorrowTransactionForm = () => {
     const handleSubmit = async (values: typeof form.values) => {
         setLoading(true);
         try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const payload: any = {
                 transactionType: "BORROW",
                 transactionSubType: tab,

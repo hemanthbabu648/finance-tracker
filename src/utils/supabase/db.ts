@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+
 import { supabaseAdmin } from "./supabaseAdmin";
 
 export const getAuthToken = async () => {

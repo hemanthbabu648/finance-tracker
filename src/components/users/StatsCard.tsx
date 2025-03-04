@@ -1,6 +1,7 @@
-import { StatsResponse } from '@/types/ui';
 import { IconArrowUpRight } from '@tabler/icons-react';
 import React from 'react';
+
+import { StatsResponse } from '@/types/ui';
 
 type StatsCardProps = {
     stats: StatsResponse[];

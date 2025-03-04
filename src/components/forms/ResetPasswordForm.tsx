@@ -2,11 +2,13 @@
 
 import { useForm } from '@mantine/form'
 import Link from 'next/link'
-import React from 'react'
-import Button from '../commons/Button'
-import { resetPassword } from '@/serverActions/auth'
 import { useRouter, useSearchParams } from 'next/navigation'
+import React from 'react'
+
 import { showErrorToast } from '@/lib/reactToasts'
+import { resetPassword } from '@/serverActions/auth'
+
+import Button from '../commons/Button'
 import PasswordInput from '../commons/PasswordInput'
 
 const ResetPasswordForm: React.FC = () => {

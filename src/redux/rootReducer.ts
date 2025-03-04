@@ -1,7 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit"
-import UserSlice from "./slices/UserSlice";
+
 import AccountSlice from "./slices/AccountSlice";
 import TransactionSlice from "./slices/TransactionSlice";
+import UserSlice from "./slices/UserSlice";
 
 const rootReducer = combineReducers({
     auth: UserSlice,

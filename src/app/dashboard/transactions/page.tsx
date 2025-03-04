@@ -1,5 +1,10 @@
 'use client';
 
+import { useDisclosure } from '@mantine/hooks';
+import { IconCreditCard, IconMoneybag, IconPigMoney, IconPlus, IconWallet } from '@tabler/icons-react';
+import { ColumnDef } from '@tanstack/react-table';
+import React from 'react'
+
 import Button from '@/components/commons/Button';
 import Drawer from '@/components/commons/Drawer';
 import AddTransactionForm from '@/components/forms/AddTransactionForm';
@@ -10,14 +15,10 @@ import { fetchAllTransactions, fetchTransactionStats } from '@/redux/slices/Tran
 import { TransactionResponse } from '@/types';
 import { getFormattedDate } from '@/utils/DateUtils';
 import { getAccountDetails } from '@/utils/Utils';
-import { useDisclosure } from '@mantine/hooks';
-import { IconCreditCard, IconMoneybag, IconPigMoney, IconPlus, IconWallet } from '@tabler/icons-react';
-import { ColumnDef } from '@tanstack/react-table';
-import React from 'react'
 
 function TransactionsPage() {
     const dispatch = useAppDispatch()
-    const { allTransactions, loading, allAccounts, statsLoading, transactionStats: { currentMonthOverView, lastMonthOverView } } = useAppSelector(state => {
+    const { allTransactions, loading, allAccounts, statsLoading, transactionStats: { currentMonthOverView } } = useAppSelector(state => {
         return {
             allTransactions: state.transaction.allTransactions,
             loading: state.transaction.loading,

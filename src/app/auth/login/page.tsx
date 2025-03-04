@@ -1,7 +1,8 @@
-import LoginForm from "@/components/forms/LoginForm";
 import { IconLogout } from "@tabler/icons-react";
 import Link from "next/link";
 import React from "react";
+
+import LoginForm from "@/components/forms/LoginForm";
 
 function LoginPage() {
   return (

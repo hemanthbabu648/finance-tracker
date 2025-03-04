@@ -1,8 +1,10 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import axiosInstance from "@/lib/axiosInstance";
 import { showErrorToast } from "@/lib/reactToasts";
 import { AuthState, UserResponse } from "@/types";
 import { createClient } from "@/utils/supabase/client";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+
 import { AppThunk } from "../store";
 
 const initialState: AuthState = {

@@ -1,6 +1,7 @@
+import { IconDownload } from '@tabler/icons-react'
+
 import ButtonLink from '@/components/commons/ButtonLink'
 import RegisterForm from '@/components/forms/RegisterForm'
-import { IconDownload } from '@tabler/icons-react'
 
 function RegisterPage() {
     return (

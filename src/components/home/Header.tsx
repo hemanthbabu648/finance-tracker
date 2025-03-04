@@ -1,6 +1,5 @@
 'use client'
 
-import { features } from '@/constants/data'
 import {
 	Burger,
 	Divider,
@@ -12,6 +11,9 @@ import { useDisclosure } from '@mantine/hooks'
 import { IconChevronDown } from '@tabler/icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import { features } from '@/constants/data'
+
 import ButtonLink from '../commons/ButtonLink'
 import HoverCard from '../commons/HoverCard'
 

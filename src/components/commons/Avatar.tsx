@@ -1,5 +1,5 @@
-import React from "react";
 import { Avatar as MAvatar, AvatarProps as MAvatarProps } from "@mantine/core";
+import React from "react";
 
 type AvatarProps = MAvatarProps;
 

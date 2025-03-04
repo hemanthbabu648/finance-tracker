@@ -1,17 +1,20 @@
 'use client'
 
-import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
-import { signup } from '@/serverActions/auth'
 import { useForm } from '@mantine/form'
 import { useDisclosure } from '@mantine/hooks'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React from 'react'
+
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
+import { signup } from '@/serverActions/auth'
+
 import Button from '../commons/Button'
 import Checkbox from '../commons/Checkbox'
 import Modal from '../commons/Modal'
 import PasswordInput from '../commons/PasswordInput'
 import TextInput from '../commons/TextInput'
-import { useRouter } from 'next/navigation'
+
 
 
 const RegisterForm: React.FC = () => {

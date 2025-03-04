@@ -1,7 +1,5 @@
 "use client";
 
-import { RootState } from "@/redux/store";
-import { logout } from "@/serverActions/auth";
 import { Menu } from "@mantine/core";
 import {
     IconChevronRight,
@@ -12,6 +10,10 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+
+import { RootState } from "@/redux/store";
+import { logout } from "@/serverActions/auth";
+
 import Avatar from "./commons/Avatar";
 import SwitchInput from "./commons/SwitchInput";
 

@@ -1,8 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppThunk } from "../store";
-import { showErrorToast } from "@/lib/reactToasts";
+
 import axiosInstance from "@/lib/axiosInstance";
+import { showErrorToast } from "@/lib/reactToasts";
 import { AccountResponse, AccountState } from "@/types";
+
+import { AppThunk } from "../store";
 
 const initialState: AccountState = {
     loading: false,

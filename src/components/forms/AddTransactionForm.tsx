@@ -1,17 +1,19 @@
-import React, { useState } from 'react'
-import TextInput from '../commons/TextInput'
-import { useForm } from '@mantine/form'
-import SegmentedControl from '../commons/SegmentedControl'
-import { TransactionType, TransactionTypeValue } from '@/types/ui'
 import { Select } from '@mantine/core'
-import NumberInput from '../commons/NumberInput'
-import Button from '../commons/Button'
 import { DateTimePicker } from '@mantine/dates'
-import { getCategories } from '@/utils/Utils'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
+import { useForm } from '@mantine/form'
+import React, { useState } from 'react'
+
 import axiosInstance from '@/lib/axiosInstance'
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import { fetchAllTransactions } from '@/redux/slices/TransactionSlice'
+import { TransactionType, TransactionTypeValue } from '@/types/ui'
+import { getCategories } from '@/utils/Utils'
+
+import Button from '../commons/Button'
+import NumberInput from '../commons/NumberInput'
+import SegmentedControl from '../commons/SegmentedControl'
+import TextInput from '../commons/TextInput'
 
 const tabs: TransactionType[] = [
     {
@@ -76,6 +78,7 @@ const AddTransactionForm = () => {
     const handleSubmit = async (values: typeof form.values) => {
         setLoading(true);
         try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const payload: any = {
                 accountId: values.account,
                 transactionType,

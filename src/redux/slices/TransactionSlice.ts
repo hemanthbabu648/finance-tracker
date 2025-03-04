@@ -1,7 +1,9 @@
+import { createSlice } from "@reduxjs/toolkit";
+
 import axiosInstance from "@/lib/axiosInstance";
 import { showErrorToast } from "@/lib/reactToasts";
 import { TransactionState, TransactionTypeValue } from "@/types";
-import { createSlice } from "@reduxjs/toolkit";
+
 import { AppThunk } from "../store";
 
 const initialState: TransactionState = {

@@ -1,5 +1,10 @@
 'use client'
 
+import { useDisclosure } from '@mantine/hooks'
+import { IconCreditCard, IconMoneybag, IconPigMoney, IconPlus } from '@tabler/icons-react'
+import { ColumnDef } from '@tanstack/react-table'
+import React from 'react'
+
 import Button from '@/components/commons/Button'
 import Drawer from '@/components/commons/Drawer'
 import SegmentedControl from '@/components/commons/SegmentedControl'
@@ -13,10 +18,6 @@ import { TransactionResponse } from '@/types'
 import { TransactionType, TransactionTypeValue } from '@/types/ui'
 import { getFormattedDate } from '@/utils/DateUtils'
 import { getAccountDetails } from '@/utils/Utils'
-import { useDisclosure } from '@mantine/hooks'
-import { IconCreditCard, IconMoneybag, IconPigMoney, IconPlus, IconWallet } from '@tabler/icons-react'
-import { ColumnDef } from '@tanstack/react-table'
-import React from 'react'
 
 const tabs: TransactionType[] = [
     { label: 'Borrow', value: "BORROW" },
@@ -26,7 +27,7 @@ const tabs: TransactionType[] = [
 
 function BorrowLendPage() {
     const dispatch = useAppDispatch()
-    const { allTransactions: { miscTransactions, loading, statsLoading, miscTransactionStats: { currentMonth, lastMonth } }, allAccounts } = useAppSelector(state => {
+    const { allTransactions: { miscTransactions, loading, statsLoading, miscTransactionStats: { currentMonth } }, allAccounts } = useAppSelector(state => {
         return {
             allTransactions: state.transaction,
             allAccounts: state.account.userAccounts,

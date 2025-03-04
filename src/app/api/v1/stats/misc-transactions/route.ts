@@ -1,8 +1,9 @@
+import { NextRequest, NextResponse } from "next/server";
+
 import { ApiStatus, ApiStatusCode } from "@/types";
 import { ApiErrorResponse, ApiSuccessResponse } from "@/utils/responses";
 import { getAuthUserDetails } from "@/utils/supabase/db";
 import { createClient } from "@/utils/supabase/server";
-import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
     try {

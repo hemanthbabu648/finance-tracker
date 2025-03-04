@@ -1,9 +1,10 @@
+import { NextRequest, NextResponse } from "next/server";
+
 import { ApiStatus, ApiStatusCode } from "@/types";
 import { ApiErrorResponse, ApiSuccessResponse } from "@/utils/responses";
 import { getAuthUserDetails } from "@/utils/supabase/db";
 import { createClient } from "@/utils/supabase/server";
 import { supabaseAdmin } from "@/utils/supabase/supabaseAdmin";
-import { NextRequest, NextResponse } from "next/server";
 
 async function updateAccountAmount(accountId: string, amountChange: number) {
     const { data: account, error: accountError } = await supabaseAdmin

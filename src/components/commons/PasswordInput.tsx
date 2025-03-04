@@ -1,8 +1,8 @@
-import React, { forwardRef } from "react";
 import {
   PasswordInput as MPasswordInput,
   PasswordInputProps as MPasswordInputProps,
 } from "@mantine/core";
+import React, { forwardRef } from "react";
 
 type PasswordInputProps = MPasswordInputProps;
 

@@ -1,6 +1,7 @@
 import { FlatCompat } from "@eslint/eslintrc";
 import { dirname } from "path";
 import { fileURLToPath } from "url";
+import importPlugin from "eslint-plugin-import"; // ✅ Use ES Module import
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -10,7 +11,8 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript"),{
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  {
     ignores: [
       "node_modules/",
       "dist/",
@@ -18,17 +20,21 @@ const eslintConfig = [
       "coverage/",
       "**/*.config.js",
     ],
-    plugins: ["import"],
+  },
+  {
+    plugins: {
+      import: importPlugin, // ✅ Correct Flat Config format
+    },
     rules: {
-      "import/no-duplicates": 2,
+      "import/no-duplicates": "error",
       "import/order": [
-        error,
+        "error",
         {
           groups: [
-            "builtin",   // Node.js built-in modules
-            "external",  // External modules from npm
-            "internal",  // Internal modules (e.g., alias imports)
-            ["parent", "sibling", "index"], // Relative imports
+            "builtin",
+            "external",
+            "internal",
+            ["parent", "sibling", "index"],
             "object",
             "type",
           ],
@@ -36,10 +42,10 @@ const eslintConfig = [
           alphabetize: { order: "asc", caseInsensitive: true },
         },
       ],
-      "import/newline-after-import": 2,
-      "no-undef": "off"
-    }
-  }
+      "import/newline-after-import": "error",
+      "no-undef": "off",
+    },
+  },
 ];
 
 export default eslintConfig;

@@ -1,10 +1,11 @@
 'use client'
 
+import { Accordion } from '@mantine/core'
+import React, { useState } from 'react'
+
 import NumberInput from '@/components/commons/NumberInput'
 import SwitchInput from '@/components/commons/SwitchInput'
 import { getCategories } from '@/utils/Utils'
-import { Accordion } from '@mantine/core'
-import React, { useState } from 'react'
 
 const expenseCategories = getCategories.EXPENSE
 

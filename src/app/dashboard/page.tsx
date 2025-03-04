@@ -1,5 +1,9 @@
 'use client'
 
+import { IconCreditCard, IconMoneybag, IconPigMoney, IconWallet } from '@tabler/icons-react';
+import Link from 'next/link';
+import React from 'react';
+
 import RecentTransactions from '@/components/tables/RecentTransactions';
 import AlertsCard from '@/components/users/AlertsCard';
 import BaseCard from '@/components/users/BaseCard';
@@ -8,9 +12,6 @@ import StatsCard from '@/components/users/StatsCard';
 import UpcomingTasksCard from '@/components/users/UpcomingTasksCard';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchAllTransactions } from '@/redux/slices/TransactionSlice';
-import { IconCreditCard, IconMoneybag, IconPigMoney, IconWallet } from '@tabler/icons-react';
-import Link from 'next/link';
-import React from 'react';
 
 export default function DashboardOverview() {
   const dispatch = useAppDispatch();

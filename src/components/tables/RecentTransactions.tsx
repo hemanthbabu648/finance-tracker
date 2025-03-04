@@ -1,46 +1,15 @@
 'use client';
 
-
-import { TransactionResponse } from '@/types';
-import { getFormattedDate } from '@/utils/DateUtils';
 import { Table } from '@mantine/core'
 import React from 'react'
 
-type recentTransactionResponse = {
-    date: string,
-    type: string,
-    amount: number
-    account: string,
-    note: string,
-}
+import { TransactionResponse } from '@/types';
+import { getFormattedDate } from '@/utils/DateUtils';
+
 type Props = {
     loading: boolean
     data: TransactionResponse[]
 }
-
-const data: recentTransactionResponse[] = [
-    {
-        date: '2020-01-01',
-        type: 'expense',
-        amount: 100,
-        account: 'bank',
-        note: 'some note'
-    },
-    {
-        date: '2020-01-01',
-        type: 'expense',
-        amount: 100,
-        account: 'bank',
-        note: 'some note'
-    },
-    {
-        date: '2020-01-01',
-        type: 'income',
-        amount: 100,
-        account: 'bank',
-        note: 'some note'
-    }
-]
 
 const RecentTransactions: React.FC<Props> = ({
     loading,

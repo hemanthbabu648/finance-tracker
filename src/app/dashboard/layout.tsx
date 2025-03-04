@@ -1,5 +1,10 @@
 'use client'
 
+import { UnstyledButton } from "@mantine/core";
+import { IconBrandRevolut, IconLayoutSidebarFilled, IconLayoutSidebarRightFilled } from "@tabler/icons-react";
+import React from "react";
+import { useDispatch } from "react-redux";
+
 import MobileMenu from "@/components/MobileMenu";
 import UserInfoMenu from "@/components/UserInfoMenu";
 import UserSidebar from "@/components/users/UserSidebar";
@@ -7,10 +12,6 @@ import { useAppSelector } from "@/redux/hooks";
 import { fetchUserAccounts } from "@/redux/slices/AccountSlice";
 import { fetchUserDetails } from "@/redux/slices/UserSlice";
 import { AppDispatch } from "@/redux/store";
-import { UnstyledButton } from "@mantine/core";
-import { IconBrandRevolut, IconLayoutSidebarFilled, IconLayoutSidebarRightFilled } from "@tabler/icons-react";
-import React from "react";
-import { useDispatch } from "react-redux";
 
 
 export default function DashboardLayout({

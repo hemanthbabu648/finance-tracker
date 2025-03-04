@@ -1,10 +1,12 @@
+import { NextRequest, NextResponse } from "next/server";
+
 import { ApiStatus, ApiStatusCode } from "@/types";
 import { ApiErrorResponse, ApiSuccessResponse } from "@/utils/responses";
 import { getAuthUserDetails } from "@/utils/supabase/db";
 import { createClient } from "@/utils/supabase/server";
 import { supabaseAdmin } from "@/utils/supabase/supabaseAdmin";
-import { NextRequest, NextResponse } from "next/server";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function GET(req: NextRequest) {
     try {
         // TODO: Implement pagination
@@ -172,6 +174,6 @@ export async function POST(req: NextRequest) {
             return NextResponse.json(new ApiSuccessResponse(ApiStatusCode.CREATED, ApiStatus.CREATED, 'Transaction created', data));
         }
     } catch (error) {
-        return NextResponse.json(new ApiErrorResponse(ApiStatusCode.INTERNAL_SERVER_ERROR, ApiStatus.INTERNAL_SERVER_ERROR, 'Failed to fetch accounts.'));
+        return NextResponse.json(new ApiErrorResponse(ApiStatusCode.INTERNAL_SERVER_ERROR, ApiStatus.INTERNAL_SERVER_ERROR, 'Failed to fetch accounts.', error));
     }
 }

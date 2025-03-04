@@ -1,5 +1,6 @@
 import { IconChevronRight } from '@tabler/icons-react'
 import Image from 'next/image'
+
 import ButtonLink from '../commons/ButtonLink'
 
 function Hero() {

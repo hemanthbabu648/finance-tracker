@@ -4,11 +4,13 @@ import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/c
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import { Inter } from "next/font/google";
+import { Provider } from 'react-redux';
 import { ToastContainer } from "react-toastify";
+
 import 'react-toastify/dist/ReactToastify.css';
 import "./globals.css";
 import { store } from '@/redux/store';
-import { Provider } from 'react-redux';
+
 
 const inter = Inter({ subsets: ['latin'] });
 

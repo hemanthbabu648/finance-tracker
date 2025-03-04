@@ -1,11 +1,12 @@
 "use client";
 
-import React from "react";
 import {
     flexRender,
     getCoreRowModel,
     useReactTable,
 } from "@tanstack/react-table";
+import React from "react";
+
 import type { ColumnDef } from "@tanstack/react-table";
 
 interface BasicReactTableProps<T extends object> {
