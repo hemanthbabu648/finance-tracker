@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
 import {
   NavLink as MNavLink,
   NavLinkProps as MNavLinkProps,
 } from "@mantine/core";
 import Link from "next/link";
+import React from "react";
 
 // Update the NavLinkProps to include a ref type.
 interface NavLinkProps extends Omit<MNavLinkProps, "component"> {

@@ -1,12 +1,13 @@
 'use client'
 
-import NumberInput from '@/components/commons/NumberInput'
-import SwitchInput from '@/components/commons/SwitchInput'
-import { categories } from '@/utils/allUtils'
 import { Accordion } from '@mantine/core'
 import React, { useState } from 'react'
 
-const expenseCategories = categories.EXPENSE
+import NumberInput from '@/components/commons/NumberInput'
+import SwitchInput from '@/components/commons/SwitchInput'
+import { getCategories } from '@/utils/Utils'
+
+const expenseCategories = getCategories.EXPENSE
 
 interface Budget {
     label: string
@@ -27,7 +28,6 @@ function BudgetsPage() {
     const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>, budget: Budget) => {
         setBudgets((prev) => prev.map(b => b.label === budget.label ? { ...b, checked: event.target.checked } : b))
     }
-    console.log(budgets)
 
     const handleBudgetChange = (value: number, budget: Budget) => {
         setBudgets((prev) => prev.map(b => b.label === budget.label ? { ...b, value: value } : b))

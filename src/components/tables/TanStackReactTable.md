@@ -97,7 +97,6 @@ const columns = React.useMemo<ColumnDef<Student>[]>(
     {
       header: 'Academic Year',
       cell: (row) => {
-        console.log(row)
         return <div>{JSON.stringify(row.row.original.name)}</div>
       },
       accessorKey: 'academicYears',

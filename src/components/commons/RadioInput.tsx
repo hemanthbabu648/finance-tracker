@@ -1,5 +1,5 @@
-import React from "react";
 import { Radio, RadioProps } from "@mantine/core";
+import React from "react";
 
 type RadioInputProps = RadioProps;
 

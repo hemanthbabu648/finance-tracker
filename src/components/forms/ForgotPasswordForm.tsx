@@ -1,10 +1,12 @@
 'use client'
 
-import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
-import { forgotPassword } from '@/serverActions/auth'
 import { useForm } from '@mantine/form'
 import Link from 'next/link'
 import React from 'react'
+
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
+import { forgotPassword } from '@/serverActions/auth'
+
 import Button from '../commons/Button'
 import TextInput from '../commons/TextInput'
 

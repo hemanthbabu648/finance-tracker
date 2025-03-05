@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api', // Set your base URL here
+    baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://finance-tracker-silk-phi.vercel.app/api/v1', // Set your base URL here
     headers: {
         'Content-Type': 'application/json',
     },

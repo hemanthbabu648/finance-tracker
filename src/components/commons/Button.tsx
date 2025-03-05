@@ -1,5 +1,5 @@
-import React from 'react'
 import { Button as MButton, ButtonProps as MButtonProps } from '@mantine/core'
+import React from 'react'
 
 interface ButtonProps extends MButtonProps { 
   type?: 'button' | 'submit' | 'reset';

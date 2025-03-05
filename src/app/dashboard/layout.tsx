@@ -1,11 +1,17 @@
 'use client'
 
-import MobileMenu from "@/components/MobileMenu";
-import UserInfoMenu from "@/components/UserInfoMenu";
-import UserSidebar from "@/components/users/UserSidebar";
 import { UnstyledButton } from "@mantine/core";
 import { IconBrandRevolut, IconLayoutSidebarFilled, IconLayoutSidebarRightFilled } from "@tabler/icons-react";
 import React from "react";
+import { useDispatch } from "react-redux";
+
+import MobileMenu from "@/components/MobileMenu";
+import UserInfoMenu from "@/components/UserInfoMenu";
+import UserSidebar from "@/components/users/UserSidebar";
+import { useAppSelector } from "@/redux/hooks";
+import { fetchUserAccounts } from "@/redux/slices/AccountSlice";
+import { fetchUserDetails } from "@/redux/slices/UserSlice";
+import { AppDispatch } from "@/redux/store";
 
 
 export default function DashboardLayout({
@@ -13,8 +19,21 @@ export default function DashboardLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const dispatch = useDispatch<AppDispatch>();
+    const { userDetails } = useAppSelector((state) => state.auth);
+    const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
-    const [isSidebarOpen, setIsSidebarOpen] = React.useState<boolean>(true);
+    React.useEffect(() => {
+        dispatch(fetchUserDetails());
+    }, [dispatch]);
+
+    const userId = React.useMemo(() => userDetails?.id, [userDetails]);
+
+    React.useEffect(() => {
+        if (userId) {
+            dispatch(fetchUserAccounts(userId));
+        }
+    }, [dispatch, userId]);
 
     return (
         <div className="h-screen flex flex-col-reverse justify-between sm:flex-row sm:justify-normal">

@@ -1,5 +1,4 @@
 
-import React from "react";
 
 import { Tooltip } from "@mantine/core";
 import {
@@ -11,6 +10,8 @@ import {
     IconReportAnalytics,
     IconTransactionRupee,
 } from "@tabler/icons-react";
+import React from "react";
+
 import NavLink from "../commons/NavLink";
 
 const userRoutes = [

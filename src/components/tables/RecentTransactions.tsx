@@ -1,42 +1,48 @@
 'use client';
 
-import { recentTransactionResponse } from '@/types/finance'
 import { Table } from '@mantine/core'
 import React from 'react'
 
+import { TransactionResponse } from '@/types';
+import { getFormattedDate } from '@/utils/DateUtils';
+
 type Props = {
-    data?: recentTransactionResponse[]
+    loading: boolean
+    data: TransactionResponse[]
 }
 
-const data: recentTransactionResponse[] = [
-    {
-        date: '2020-01-01',
-        type: 'expense',
-        amount: 100,
-        account: 'bank',
-        note: 'some note'
-    },
-    {
-        date: '2020-01-01',
-        type: 'expense',
-        amount: 100,
-        account: 'bank',
-        note: 'some note'
-    },
-    {
-        date: '2020-01-01',
-        type: 'income',
-        amount: 100,
-        account: 'bank',
-        note: 'some note'
+const RecentTransactions: React.FC<Props> = ({
+    loading,
+    data = []
+}) => {
+
+    if (loading) {
+        return (
+            <div className='flex justify-center items-center'>
+                <p>Loading...</p>
+            </div>
+        )
     }
-]
 
-const RecentTransactions: React.FC<Props> = () => {
+    if (data.length === 0) {
+        return (
+            <div className='flex justify-center items-center'>
+                <p>No data found</p>
+            </div>
+        )
+    }
 
-    const rows = data.map((row, index) => {
+    const getModifiedData = data.map((row) => {
+        return {
+            date: getFormattedDate(row.createdAt),
+            type: row.transactionType,
+            amount: row.amount,
+            account: row.accountId,
+            note: row.note
+        }
+    })
 
-
+    const rows = getModifiedData.slice(0, 5).map((row, index) => {
         return (
             <Table.Tr key={index + row.date}>
                 <Table.Td>
@@ -65,7 +71,7 @@ const RecentTransactions: React.FC<Props> = () => {
                         <Table.Th>Date</Table.Th>
                         <Table.Th>Type</Table.Th>
                         <Table.Th>Amount</Table.Th>
-                        <Table.Th>Account</Table.Th>
+                        <Table.Th>Account Id</Table.Th>
                         <Table.Th>Note</Table.Th>
                     </Table.Tr>
                 </Table.Thead>

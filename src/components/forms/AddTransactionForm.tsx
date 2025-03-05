@@ -1,15 +1,21 @@
-import React, { useState } from 'react'
-import TextInput from '../commons/TextInput'
-import { useForm } from '@mantine/form'
-import SegmentedControl from '../commons/SegmentedControl'
-import { transactionType, transactionTypeValue } from '@/types/finance'
 import { Select } from '@mantine/core'
-import NumberInput from '../commons/NumberInput'
-import Button from '../commons/Button'
 import { DateTimePicker } from '@mantine/dates'
-import { categories } from '@/utils/allUtils'
+import { useForm } from '@mantine/form'
+import React, { useState } from 'react'
 
-const tabs: transactionType[] = [
+import axiosInstance from '@/lib/axiosInstance'
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
+import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import { fetchAllTransactions } from '@/redux/slices/TransactionSlice'
+import { TransactionType, TransactionTypeValue } from '@/types/ui'
+import { getCategories } from '@/utils/Utils'
+
+import Button from '../commons/Button'
+import NumberInput from '../commons/NumberInput'
+import SegmentedControl from '../commons/SegmentedControl'
+import TextInput from '../commons/TextInput'
+
+const tabs: TransactionType[] = [
     {
         label: 'Income',
         value: "INCOME"
@@ -22,19 +28,28 @@ const tabs: transactionType[] = [
         label: 'Transfer',
         value: "TRANSFER"
     },
-    {
-        label: 'Borrow',
-        value: "BORROW"
-    },
-    {
-        label: 'Lend',
-        value: "LEND"
-    }
 ]
 
 const AddTransactionForm = () => {
-    const [transactionType, setTransactionType] = useState<transactionTypeValue>("EXPENSE")
-    const category = categories[transactionType]
+    const dispatch = useAppDispatch()
+    const { userAccounts } = useAppSelector((state) => state.account)
+    const [transactionType, setTransactionType] = useState<TransactionTypeValue>("EXPENSE")
+    const [loading, setLoading] = useState(false)
+    const [selectedAccount, setSelectedAccount] = useState('')
+    const category = getCategories[transactionType]
+
+    const getMappedAccounts = () => {
+        return userAccounts?.map((account) => {
+            return {
+                label: account.accountName,
+                value: account.id
+            }
+        })
+    }
+
+    const unSelectedAccounts = () => {
+        return getMappedAccounts().filter((account) => account.value !== selectedAccount)
+    }
 
     const form = useForm({
         mode: 'uncontrolled',
@@ -45,9 +60,6 @@ const AddTransactionForm = () => {
             note: '',
             dateAndTime: new Date(),
             otherAccount: '',
-            fromPerson: '',
-            toPerson: '',
-            returnDate: new Date()
         },
         validate: {
             account: (value) => value ? null : 'Account is required',
@@ -56,66 +68,63 @@ const AddTransactionForm = () => {
             note: (value) => value ? null : 'Note is required',
             dateAndTime: (value) => value ? null : 'Date and Time is required',
             otherAccount: (value) => (transactionType === 'TRANSFER' && !value) ? 'To Account is required' : null,
-            fromPerson: (value) => (transactionType === 'BORROW' && !value) ? 'Taken From is required' : null,
-            toPerson: (value) => (transactionType === 'LEND' && !value) ? 'Given To is required' : null,
-            returnDate: (value) => ((transactionType === 'BORROW' || transactionType === 'LEND') && !value) ? 'Return Date is required' : null,
         }
     })
 
-    const getFieldByType = (type: transactionTypeValue) => {
-        switch (type) {
-            case "TRANSFER":
-                return <Select
-                    label="To Account"
-                    required
-                    data={[
-                        "SBI-4747", "SBI-571471"
-                    ]}
-                    key={form.key('otherAccount')}
-                    {...form.getInputProps('otherAccount')}
-                    className='w-1/2'
-                />
-            case "BORROW":
-                return <TextInput
-                    label="Taken From"
-                    placeholder="Person Name"
-                    required
-                    key={form.key('fromPerson')}
-                    {...form.getInputProps('fromPerson')}
-                />
-            case "LEND":
-                return <TextInput
-                    label="Given To"
-                    placeholder="Person Name"
-                    required
-                    key={form.key('toPerson')}
-                    {...form.getInputProps('toPerson')}
-                />
+    form.watch('account', (value) => {
+        setSelectedAccount(value.value)
+    })
 
-            default:
-                return null
+    const handleSubmit = async (values: typeof form.values) => {
+        setLoading(true);
+        try {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const payload: any = {
+                accountId: values.account,
+                transactionType,
+                category: values.category,
+                amount: values.amount,
+                note: values.note,
+                createdAt: values.dateAndTime,
+            };
+
+            if (transactionType === "TRANSFER") {
+                payload.toAccountId = values.otherAccount;
+            }
+
+            const res = await axiosInstance.post('/transactions', payload);
+
+            if (res?.data?.statusCode === 201) {
+                form.reset();
+                showSuccessToast(res?.data?.message);
+                dispatch(fetchAllTransactions());
+            } else {
+                showErrorToast(res?.data?.message);
+            }
+        } catch (error) {
+            showErrorToast(JSON.stringify(error));
+        } finally {
+            setLoading(false);
         }
-    }
+    };
 
     return (
         <div>
             <SegmentedControl
                 fullWidth
                 value={transactionType}
-                onChange={(value) => setTransactionType(value as transactionTypeValue)}
+                onChange={(value) => setTransactionType(value as TransactionTypeValue)}
                 data={tabs}
             />
             <form
                 className='flex flex-col gap-4 mt-5'
-                onSubmit={form.onSubmit((values) => console.log(values))}
+                onSubmit={form.onSubmit(handleSubmit)}
             >
                 <div className='flex gap-x-4'>
                     <Select
                         label={transactionType === "TRANSFER" ? "From Account" : "Account"}
                         required
-                        data={[
-                            "SBI-4747", "SBI-571471"
-                        ]}
+                        data={getMappedAccounts()}
                         key={form.key('account')}
                         {...form.getInputProps('account')}
                         placeholder='Select Account'
@@ -130,12 +139,21 @@ const AddTransactionForm = () => {
                     />
 
                 </div>
-                {getFieldByType(transactionType)}
+                {transactionType === "TRANSFER" && (
+                    <Select
+                        label="To Account"
+                        required
+                        data={unSelectedAccounts()}
+                        key={form.key('otherAccount')}
+                        {...form.getInputProps('otherAccount')}
+                        className='w-1/2'
+                        placeholder='Select Account to Transfer'
+                    />
+                )}
                 <NumberInput
                     label="Amount"
                     placeholder="Enter amount"
                     required
-                    value={0}
                     min={0}
                     key={form.key('amount')}
                     {...form.getInputProps('amount')}
@@ -156,21 +174,10 @@ const AddTransactionForm = () => {
                     key={form.key('dateAndTime')}
                     {...form.getInputProps('dateAndTime')}
                 />
-                {transactionType === "BORROW" || transactionType === "LEND" ? (
-                    <DateTimePicker
-                        clearable
-                        valueFormat="DD MMM YYYY hh:mm A"
-                        label="Return date and time"
-                        placeholder="Pick date and time"
-                        required
-                        key={form.key('returnDate')}
-                        {...form.getInputProps('returnDate')}
-
-                    />
-                ) : null}
                 <div className='flex justify-end mt-4'>
                     <Button
                         type='submit'
+                        loading={loading}
                     >
                         Submit
                     </Button>

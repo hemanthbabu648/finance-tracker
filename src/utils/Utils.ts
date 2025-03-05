@@ -1,6 +1,7 @@
-import { Category } from "@/types/finance";
+import { AccountResponse } from "@/types";
+import { Category } from "@/types/ui";
 
-export const categories = {
+export const getCategories = {
     EXPENSE: [
         {
             label: 'Food',
@@ -105,13 +106,9 @@ export const categories = {
             value: 'BANK_TRANSFER'
         },
         {
-            label: 'Peer-to-Peer',
-            value: 'P2P_TRANSFER'
+            label: 'UPI Transfer',
+            value: 'UPI_TRANSFER'
         },
-        {
-            label: 'Mobile Payment',
-            value: 'MOBILE_PAYMENT'
-        }
     ] as Category[],
 
     BORROW: [
@@ -136,3 +133,8 @@ export const categories = {
         }
     ] as Category[]
 };
+
+export const getAccountDetails = (accountId: string, allAccounts: AccountResponse[]) => {
+    if (!allAccounts) return null;
+    return allAccounts.find((account) => account.id === accountId);
+}

@@ -1,8 +1,8 @@
-import React from "react";
 import {
   Checkbox as MCheckbox,
   CheckboxProps as MCheckboxProps,
 } from "@mantine/core";
+import React from "react";
 
 type CheckboxProps = MCheckboxProps;
 

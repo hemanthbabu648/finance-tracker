@@ -1,9 +1,10 @@
 'use client'
 
+import React from 'react';
+
 import Select from '@/components/commons/Select';
 import PieChart from '@/components/recharts/PieChart';
 import SimpleBarChart from '@/components/recharts/SimpleBarChart';
-import React from 'react';
 
 type ViewBy = 'month' | 'year';
 

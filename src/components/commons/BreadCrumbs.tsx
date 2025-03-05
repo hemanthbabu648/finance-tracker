@@ -1,6 +1,6 @@
-import React from "react";
 import { Breadcrumbs } from "@mantine/core";
 import Link from "next/link";
+import React from "react";
 
 type ItemsType = {
   title: string;
