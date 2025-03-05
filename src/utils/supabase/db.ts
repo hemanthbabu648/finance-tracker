@@ -4,7 +4,7 @@ import { supabaseAdmin } from "./supabaseAdmin";
 
 export const getAuthToken = async () => {
     const cookieStore = await cookies();
-    const authTokenKey = "sb-veqsuhtqmqqtehmazdyb-auth-token";
+    const authTokenKey = process.env.AUTH_TOKEN_KEY || "sb-veqsuhtqmqqtehmazdyb-auth-token";
     const encodedSupabaseToken = cookieStore.get(authTokenKey)?.value;
 
     if (!encodedSupabaseToken) {
