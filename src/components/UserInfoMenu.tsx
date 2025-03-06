@@ -42,16 +42,16 @@ const UserInfoMenu: React.FC<UserInfoMenuProps> = ({ openSidebar }) => {
                 >
                     <div className="flex gap-2">
                         <Avatar
-                            src=""
+                            src={userDetails?.profileImage}
                             name={userDetails?.fullName}
                             color="initials"
                             alt="user image"
                             size="md"
                         />
                         {openSidebar && (
-                            <div>
-                                <p className="text-sm text-light-200">{userDetails?.fullName}</p>
-                                <p className="text-xs text-gray-200 line-clamp-1">
+                            <div className="w-36">
+                                <p className="text-sm text-light-200 text-ellipsis overflow-hidden">{userDetails?.fullName}</p>
+                                <p className="text-xs text-gray-200 w-full text-ellipsis overflow-hidden">
                                     {userDetails?.email}
                                 </p>
                             </div>
