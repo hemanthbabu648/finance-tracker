@@ -52,7 +52,7 @@ function getStrengthColor(strength: number) {
     }
 }
 
-const validatePassword = (value: string) => {
+export const validatePassword = (value: string) => {
     if (!value || value.length < 1) {
         return 'Password is required.';
     }

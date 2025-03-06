@@ -7,12 +7,11 @@ import React from 'react'
 import { showErrorToast } from '@/lib/reactToasts'
 import { login } from '@/serverActions/auth'
 
+import { validatePassword } from './RegisterForm'
 import Button from '../commons/Button'
 import Checkbox from '../commons/Checkbox'
 import PasswordInput from '../commons/PasswordInput'
 import TextInput from '../commons/TextInput'
-
-
 
 const LoginForm: React.FC = () => {
     const [loading, setLoading] = React.useState(false)
@@ -25,7 +24,7 @@ const LoginForm: React.FC = () => {
         },
         validate: {
             email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
-            password: (value) => (value.length >= 8 ? null : 'Password must be at least 8 characters'),
+            password: (value) => validatePassword(value),
         },
     })
 
