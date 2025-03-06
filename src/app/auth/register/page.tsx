@@ -23,9 +23,7 @@ function RegisterPage() {
             >
                 <div className="flex flex-col justify-center items-center gap-5 px-10 py-5">
                     <p className="text-2xl font-normal text-center">
-                        It&apos;s a unified platform that combines all Radiant Ways
-                        features, offering a seamless experience across various domains like
-                        IT, finance, education, and lifestyle.
+                        Finomic is a key feature of the [Radiant Ways] platform, designed to simplify financial management. It provides users with smart tools for tracking expenses, managing budgets, and making informed financial decisions. With an intuitive interface and insightful analytics, Finomic helps individuals and businesses optimize their finances effortlessly. 🚀
                     </p>
                     <ButtonLink
                         label='Explore know'
