@@ -102,7 +102,7 @@ const columns = React.useMemo<ColumnDef<Student>[]>(
       accessorKey: 'academicYears',
     },
   ],
-  []
+  [],
 )
 
 ;<div className="mt-4">

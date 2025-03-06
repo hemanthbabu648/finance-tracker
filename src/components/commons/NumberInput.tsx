@@ -1,12 +1,10 @@
 import { NumberInput as MNumberInput, NumberInputProps } from '@mantine/core'
 import React from 'react'
 
-type Props = NumberInputProps;
+type Props = NumberInputProps
 
 const NumberInput = (props: Props) => {
-    return (
-        <MNumberInput {...props} />
-    )
+  return <MNumberInput {...props} />
 }
 
 export default NumberInput

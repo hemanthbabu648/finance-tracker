@@ -1,10 +1,10 @@
-import { Textarea, TextareaProps } from "@mantine/core";
-import React from "react";
+import { Textarea, TextareaProps } from '@mantine/core'
+import React from 'react'
 
-type TextAreaInputProps = TextareaProps;
+type TextAreaInputProps = TextareaProps
 
 const TextAreaInput: React.FC<TextAreaInputProps> = (props) => {
-  return <Textarea {...props} />;
-};
+  return <Textarea {...props} />
+}
 
-export default TextAreaInput;
+export default TextAreaInput

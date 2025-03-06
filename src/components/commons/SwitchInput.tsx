@@ -1,10 +1,10 @@
-import { Switch, SwitchProps } from "@mantine/core";
-import React from "react";
+import { Switch, SwitchProps } from '@mantine/core'
+import React from 'react'
 
-type SwitchInputProps = SwitchProps;
+type SwitchInputProps = SwitchProps
 
 const SwitchInput: React.FC<SwitchInputProps> = (props) => {
-  return <Switch {...props} />;
-};
+  return <Switch {...props} />
+}
 
-export default SwitchInput;
+export default SwitchInput

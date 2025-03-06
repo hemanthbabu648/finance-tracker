@@ -1,10 +1,10 @@
-import { NativeSelect, NativeSelectProps } from "@mantine/core";
-import React from "react";
+import { NativeSelect, NativeSelectProps } from '@mantine/core'
+import React from 'react'
 
-type SelectProps = NativeSelectProps;
+type SelectProps = NativeSelectProps
 
 const Select: React.FC<SelectProps> = (props) => {
-  return <NativeSelect {...props} />;
-};
+  return <NativeSelect {...props} />
+}
 
-export default Select;
+export default Select

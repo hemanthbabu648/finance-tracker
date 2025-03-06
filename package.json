@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "types": "tsc --noEmit",
-    "check-format": "prettier --check ."
+    "typescript": "tsc --noEmit",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write ."
   },
   "dependencies": {
     "@mantine/core": "^7.16.2",

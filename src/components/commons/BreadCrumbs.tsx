@@ -1,23 +1,23 @@
-import { Breadcrumbs } from "@mantine/core";
-import Link from "next/link";
-import React from "react";
+import { Breadcrumbs } from '@mantine/core'
+import Link from 'next/link'
+import React from 'react'
 
 type ItemsType = {
-  title: string;
-  href: string;
-};
+  title: string
+  href: string
+}
 
 type BreadCrumbsProps = {
-  items: ItemsType[];
-};
+  items: ItemsType[]
+}
 
 const BreadCrumbs: React.FC<BreadCrumbsProps> = ({ items }) => {
   return (
     <Breadcrumbs>
       {items.map((item, index) => {
-        const isLastItem = index === items.length - 1;
+        const isLastItem = index === items.length - 1
         return isLastItem ? (
-          <span key={item.title} className="text-lg font-light text-grey">
+          <span key={item.title} className="text-grey text-lg font-light">
             {item.title}
           </span>
         ) : (
@@ -28,10 +28,10 @@ const BreadCrumbs: React.FC<BreadCrumbsProps> = ({ items }) => {
           >
             {item.title}
           </Link>
-        );
+        )
       })}
     </Breadcrumbs>
-  );
-};
+  )
+}
 
-export default BreadCrumbs;
+export default BreadCrumbs
