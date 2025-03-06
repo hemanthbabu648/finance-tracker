@@ -16,7 +16,7 @@ interface BasicReactTableProps<T extends object> {
 }
 
 const BasicTable = <T extends object>({
-    data,
+    data = [],
     columns,
     isLoading = false,
 }: BasicReactTableProps<T>) => {
