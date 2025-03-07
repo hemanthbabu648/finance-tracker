@@ -1,8 +1,8 @@
-import { HoverCard as MHoverCard, HoverCardProps } from '@mantine/core'
-import React from 'react'
+import { HoverCard as MHoverCard, HoverCardProps } from '@mantine/core';
+import React from 'react';
 
 interface Props extends HoverCardProps {
-  dropdownComponent?: React.ReactElement
+  dropdownComponent?: React.ReactElement;
 }
 
 const HoverCard: React.FC<Props> = ({
@@ -17,7 +17,7 @@ const HoverCard: React.FC<Props> = ({
         {dropdownComponent}
       </MHoverCard.Dropdown>
     </MHoverCard>
-  )
-}
+  );
+};
 
-export default HoverCard
+export default HoverCard;

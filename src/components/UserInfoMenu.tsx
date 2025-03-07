@@ -1,30 +1,30 @@
-'use client'
+'use client';
 
-import { Menu } from '@mantine/core'
+import { Menu } from '@mantine/core';
 import {
   IconChevronRight,
   IconLogout,
   IconSettings,
   IconUser,
-} from '@tabler/icons-react'
-import Link from 'next/link'
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+} from '@tabler/icons-react';
+import Link from 'next/link';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-import { RootState } from '@/redux/store'
-import { logout } from '@/serverActions/auth'
+import { RootState } from '@/redux/store';
+import { logout } from '@/serverActions/auth';
 
-import Avatar from './commons/Avatar'
-import SwitchInput from './commons/SwitchInput'
+import Avatar from './commons/Avatar';
+import SwitchInput from './commons/SwitchInput';
 
 type UserInfoMenuProps = {
-  openSidebar: boolean
-}
+  openSidebar: boolean;
+};
 
 const UserInfoMenu: React.FC<UserInfoMenuProps> = ({ openSidebar }) => {
-  const [opened, setOpened] = useState(false)
+  const [opened, setOpened] = useState(false);
 
-  const { userDetails } = useSelector((state: RootState) => state.auth)
+  const { userDetails } = useSelector((state: RootState) => state.auth);
 
   return (
     <Menu
@@ -97,7 +97,7 @@ const UserInfoMenu: React.FC<UserInfoMenuProps> = ({ openSidebar }) => {
         </Menu.Item>
       </Menu.Dropdown>
     </Menu>
-  )
-}
+  );
+};
 
-export default UserInfoMenu
+export default UserInfoMenu;

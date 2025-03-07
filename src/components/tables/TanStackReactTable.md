@@ -3,9 +3,9 @@
 ## Follow this approach to avoid infinite re-rendering of the table.
 
 ```tsx
-import BasicReactTable from '@/components/Tables/BasicReactTable'
-import { studentDataByAcademicYear } from '@/constants/student'
-import { ColumnDef } from '@tanstack/react-table'
+import BasicReactTable from '@/components/Tables/BasicReactTable';
+import { studentDataByAcademicYear } from '@/constants/student';
+import { ColumnDef } from '@tanstack/react-table';
 
 const studentDataByAcademicYear: Student[] = [
   {
@@ -80,7 +80,7 @@ const studentDataByAcademicYear: Student[] = [
       },
     ],
   },
-]
+];
 
 const columns = React.useMemo<ColumnDef<Student>[]>(
   () => [
@@ -97,15 +97,15 @@ const columns = React.useMemo<ColumnDef<Student>[]>(
     {
       header: 'Academic Year',
       cell: (row) => {
-        return <div>{JSON.stringify(row.row.original.name)}</div>
+        return <div>{JSON.stringify(row.row.original.name)}</div>;
       },
       accessorKey: 'academicYears',
     },
   ],
   [],
-)
+);
 
-;<div className="mt-4">
+<div className="mt-4">
   <BasicReactTable data={studentDataByAcademicYear} columns={columns} />
-</div>
+</div>;
 ```

@@ -1,19 +1,19 @@
-'use client'
+'use client';
 
-import { useForm } from '@mantine/form'
-import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
-import React from 'react'
+import { useForm } from '@mantine/form';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React from 'react';
 
-import { showErrorToast } from '@/lib/reactToasts'
-import { resetPassword } from '@/serverActions/auth'
+import { showErrorToast } from '@/lib/reactToasts';
+import { resetPassword } from '@/serverActions/auth';
 
-import Button from '../commons/Button'
-import PasswordInput from '../commons/PasswordInput'
+import Button from '../commons/Button';
+import PasswordInput from '../commons/PasswordInput';
 
 const ResetPasswordForm: React.FC = () => {
-  const searchParams = useSearchParams()
-  const router = useRouter()
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -31,19 +31,19 @@ const ResetPasswordForm: React.FC = () => {
       confirmPassword: (value, values) =>
         value === values.password ? null : 'Passwords do not match',
     },
-  })
+  });
 
   const handleSubmit = async (values: typeof form.values) => {
-    const code = searchParams.get('code')
-    const res = await resetPassword(values.password, code as string)
+    const code = searchParams.get('code');
+    const res = await resetPassword(values.password, code as string);
 
     if (res.status === 'success') {
-      form.reset()
-      router.push('/dashboard')
+      form.reset();
+      router.push('/dashboard');
     } else {
-      showErrorToast(res.status)
+      showErrorToast(res.status);
     }
-  }
+  };
 
   return (
     <form
@@ -80,7 +80,7 @@ const ResetPasswordForm: React.FC = () => {
         <Button type="submit">Reset Password</Button>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default ResetPasswordForm
+export default ResetPasswordForm;

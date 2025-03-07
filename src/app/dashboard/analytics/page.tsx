@@ -1,19 +1,19 @@
-'use client'
+'use client';
 
-import React from 'react'
+import React from 'react';
 
-import Select from '@/components/commons/Select'
-import PieChart from '@/components/recharts/PieChart'
-import SimpleBarChart from '@/components/recharts/SimpleBarChart'
+import Select from '@/components/commons/Select';
+import PieChart from '@/components/recharts/PieChart';
+import SimpleBarChart from '@/components/recharts/SimpleBarChart';
 
-type ViewBy = 'month' | 'year'
+type ViewBy = 'month' | 'year';
 
 const data = [
   { name: 'Group A', value: 400 },
   { name: 'Group B', value: 300 },
   { name: 'Group C', value: 300 },
   { name: 'Group D', value: 200 },
-]
+];
 
 const data1 = [
   {
@@ -76,10 +76,10 @@ const data1 = [
     prevMonth: 3490,
     currentMonth: 4300,
   },
-]
+];
 
 function AnalyticsPage() {
-  const [viewBy, setViewBy] = React.useState<ViewBy>('month')
+  const [viewBy, setViewBy] = React.useState<ViewBy>('month');
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
@@ -160,7 +160,7 @@ function AnalyticsPage() {
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default AnalyticsPage
+export default AnalyticsPage;

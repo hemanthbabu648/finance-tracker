@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { useForm } from '@mantine/form'
-import Link from 'next/link'
-import React from 'react'
+import { useForm } from '@mantine/form';
+import Link from 'next/link';
+import React from 'react';
 
-import { showErrorToast } from '@/lib/reactToasts'
-import { login } from '@/serverActions/auth'
+import { showErrorToast } from '@/lib/reactToasts';
+import { login } from '@/serverActions/auth';
 
-import { validatePassword } from './RegisterForm'
-import Button from '../commons/Button'
-import Checkbox from '../commons/Checkbox'
-import PasswordInput from '../commons/PasswordInput'
-import TextInput from '../commons/TextInput'
+import { validatePassword } from './RegisterForm';
+import Button from '../commons/Button';
+import Checkbox from '../commons/Checkbox';
+import PasswordInput from '../commons/PasswordInput';
+import TextInput from '../commons/TextInput';
 
 const LoginForm: React.FC = () => {
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(false);
   const form = useForm({
     mode: 'uncontrolled',
     initialValues: {
@@ -26,22 +26,22 @@ const LoginForm: React.FC = () => {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
       password: (value) => validatePassword(value),
     },
-  })
+  });
 
   const handleSubmit = async (values: typeof form.values) => {
-    setLoading(true)
+    setLoading(true);
     const res = await login({
       email: values.email,
       password: values.password,
-    })
+    });
 
     if (res.status === 200) {
-      form.reset()
+      form.reset();
     } else {
-      showErrorToast(res.message)
+      showErrorToast(res.message);
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   return (
     <form
@@ -93,7 +93,7 @@ const LoginForm: React.FC = () => {
         Login
       </Button>
     </form>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;

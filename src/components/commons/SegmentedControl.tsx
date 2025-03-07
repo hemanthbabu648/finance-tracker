@@ -1,13 +1,13 @@
 import {
   SegmentedControl as MSegmentedControl,
   SegmentedControlProps as MSegmentedControlProps,
-} from '@mantine/core'
-import React from 'react'
+} from '@mantine/core';
+import React from 'react';
 
-type SegmentedControlProps = MSegmentedControlProps
+type SegmentedControlProps = MSegmentedControlProps;
 
 const SegmentedControl: React.FC<SegmentedControlProps> = (props) => {
-  return <MSegmentedControl {...props} />
-}
+  return <MSegmentedControl {...props} />;
+};
 
-export default SegmentedControl
+export default SegmentedControl;

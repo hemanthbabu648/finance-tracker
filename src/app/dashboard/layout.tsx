@@ -1,42 +1,42 @@
-'use client'
+'use client';
 
-import { UnstyledButton } from '@mantine/core'
+import { UnstyledButton } from '@mantine/core';
 import {
   IconBrandRevolut,
   IconLayoutSidebarFilled,
   IconLayoutSidebarRightFilled,
-} from '@tabler/icons-react'
-import React from 'react'
-import { useDispatch } from 'react-redux'
+} from '@tabler/icons-react';
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
-import MobileMenu from '@/components/MobileMenu'
-import UserInfoMenu from '@/components/UserInfoMenu'
-import UserSidebar from '@/components/users/UserSidebar'
-import { useAppSelector } from '@/redux/hooks'
-import { fetchUserAccounts } from '@/redux/slices/AccountSlice'
-import { fetchUserDetails } from '@/redux/slices/UserSlice'
-import { AppDispatch } from '@/redux/store'
+import MobileMenu from '@/components/MobileMenu';
+import UserInfoMenu from '@/components/UserInfoMenu';
+import UserSidebar from '@/components/users/UserSidebar';
+import { useAppSelector } from '@/redux/hooks';
+import { fetchUserAccounts } from '@/redux/slices/AccountSlice';
+import { fetchUserDetails } from '@/redux/slices/UserSlice';
+import { AppDispatch } from '@/redux/store';
 
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const dispatch = useDispatch<AppDispatch>()
-  const { userDetails } = useAppSelector((state) => state.auth)
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
+  const dispatch = useDispatch<AppDispatch>();
+  const { userDetails } = useAppSelector((state) => state.auth);
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true);
 
   React.useEffect(() => {
-    dispatch(fetchUserDetails())
-  }, [dispatch])
+    dispatch(fetchUserDetails());
+  }, [dispatch]);
 
-  const userId = React.useMemo(() => userDetails?.id, [userDetails])
+  const userId = React.useMemo(() => userDetails?.id, [userDetails]);
 
   React.useEffect(() => {
     if (userId) {
-      dispatch(fetchUserAccounts(userId))
+      dispatch(fetchUserAccounts(userId));
     }
-  }, [dispatch, userId])
+  }, [dispatch, userId]);
 
   return (
     <div className="flex h-screen flex-col-reverse justify-between sm:flex-row sm:justify-normal">
@@ -85,5 +85,5 @@ export default function DashboardLayout({
         {children}
       </main>
     </div>
-  )
+  );
 }

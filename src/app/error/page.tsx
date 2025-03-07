@@ -1,8 +1,8 @@
-'use client'
+'use client';
 
-import React from 'react'
+import React from 'react';
 
-import ButtonLink from '@/components/commons/ButtonLink'
+import ButtonLink from '@/components/commons/ButtonLink';
 
 function ErrorPage() {
   return (
@@ -21,7 +21,7 @@ function ErrorPage() {
         customClasses="mt-5"
       />
     </div>
-  )
+  );
 }
 
-export default ErrorPage
+export default ErrorPage;

@@ -1,10 +1,10 @@
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
-  })
+  });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -12,22 +12,22 @@ export async function updateSession(request: NextRequest) {
     {
       cookies: {
         getAll() {
-          return request.cookies.getAll()
+          return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value),
-          )
+          );
           supabaseResponse = NextResponse.next({
             request,
-          })
+          });
           cookiesToSet.forEach(({ name, value, options }) =>
             supabaseResponse.cookies.set(name, value, options),
-          )
+          );
         },
       },
     },
-  )
+  );
   // Do not run code between createServerClient and
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug
   // issues with users being randomly logged out.
@@ -36,24 +36,24 @@ export async function updateSession(request: NextRequest) {
 
   const {
     data: { user },
-  } = await supabase.auth.getUser()
+  } = await supabase.auth.getUser();
 
-  const isAuthPath = request.nextUrl.pathname.startsWith('/auth')
-  const routes = ['/', '/features']
+  const isAuthPath = request.nextUrl.pathname.startsWith('/auth');
+  const routes = ['/', '/features'];
 
   if (user) {
     // If the user is logged in, they should not be able to access /auth or / and /features routes.
     if (isAuthPath || routes.includes(request.nextUrl.pathname)) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/dashboard' // Redirect them to the dashboard
-      return NextResponse.redirect(url)
+      const url = request.nextUrl.clone();
+      url.pathname = '/dashboard'; // Redirect them to the dashboard
+      return NextResponse.redirect(url);
     }
   } else {
     // If the user is not logged in, they should not be able to access any page other than /auth routes
     if (!isAuthPath && !routes.includes(request.nextUrl.pathname)) {
-      const url = request.nextUrl.clone()
-      url.pathname = '/auth/login' // Redirect them to the login page
-      return NextResponse.redirect(url)
+      const url = request.nextUrl.clone();
+      url.pathname = '/auth/login'; // Redirect them to the login page
+      return NextResponse.redirect(url);
     }
   }
 
@@ -79,5 +79,5 @@ export async function updateSession(request: NextRequest) {
   // If this is not done, you may be causing the browser and server to go out
   // of sync and terminate the user's session prematurely!
 
-  return supabaseResponse
+  return supabaseResponse;
 }

@@ -27,39 +27,39 @@ export enum ApiStatusCode {
 }
 
 export interface UserResponse {
-  id: string
-  username: string
-  email: string
-  fullName: string
-  created_at: string
-  phoneNumber?: string
-  profileImage?: string
+  id: string;
+  username: string;
+  email: string;
+  fullName: string;
+  created_at: string;
+  phoneNumber?: string;
+  profileImage?: string;
 }
 
 export interface AuthState {
-  loading: boolean
-  userDetails: UserResponse | null
+  loading: boolean;
+  userDetails: UserResponse | null;
 }
 
 export interface AccountResponse {
-  id: string
-  userId: string
-  accountName: string
-  accountType: string
-  amount: number
-  createdAt: string
-  user_profiles?: UserResponse
+  id: string;
+  userId: string;
+  accountName: string;
+  accountType: string;
+  amount: number;
+  createdAt: string;
+  user_profiles?: UserResponse;
 }
 
 export interface AccountState {
-  loading: boolean
-  userAccounts: AccountResponse[] | []
+  loading: boolean;
+  userAccounts: AccountResponse[] | [];
   accountStats: {
-    savings: number
-    current: number
-    creditCard: number
-    total: number
-  }
+    savings: number;
+    current: number;
+    creditCard: number;
+    total: number;
+  };
 }
 
 export type TransactionTypeValue =
@@ -67,11 +67,11 @@ export type TransactionTypeValue =
   | 'EXPENSE'
   | 'TRANSFER'
   | 'BORROW'
-  | 'LEND'
+  | 'LEND';
 
-export type LendTabValues = 'GIVEN' | 'RECEIVED'
+export type LendTabValues = 'GIVEN' | 'RECEIVED';
 
-export type BorrowTabValues = 'TAKEN' | 'RETURNED'
+export type BorrowTabValues = 'TAKEN' | 'RETURNED';
 
 export type StatusResponse =
   | 'PENDING'
@@ -81,54 +81,54 @@ export type StatusResponse =
   | 'SENT'
   | 'RECEIVED'
   | 'WAITING FOR CONFIRMATION'
-  | 'CONFIRMED'
+  | 'CONFIRMED';
 
 export interface TransactionResponse {
-  id: string
-  userId: string
-  accountId: string
-  transactionType: TransactionTypeValue
-  transactionSubType?: LendTabValues | BorrowTabValues
-  category: string
-  amount: number
-  personName?: string
-  note: string
-  createdAt: string
-  returnAt?: string
-  status?: StatusResponse
-  settledAt?: string
-  toAccount?: string
+  id: string;
+  userId: string;
+  accountId: string;
+  transactionType: TransactionTypeValue;
+  transactionSubType?: LendTabValues | BorrowTabValues;
+  category: string;
+  amount: number;
+  personName?: string;
+  note: string;
+  createdAt: string;
+  returnAt?: string;
+  status?: StatusResponse;
+  settledAt?: string;
+  toAccount?: string;
 }
 
 export interface TransactionState {
-  loading: boolean
-  statsLoading: boolean
-  allTransactions: TransactionResponse[] | []
-  miscTransactions: TransactionResponse[] | []
+  loading: boolean;
+  statsLoading: boolean;
+  allTransactions: TransactionResponse[] | [];
+  miscTransactions: TransactionResponse[] | [];
   transactionStats: {
     currentMonthOverView: {
-      income: number
-      expenses: number
-      savings: number
-      remaining: number
-    }
+      income: number;
+      expenses: number;
+      savings: number;
+      remaining: number;
+    };
     lastMonthOverView: {
-      income: number
-      expenses: number
-      savings: number
-      remaining: number
-    }
-  }
+      income: number;
+      expenses: number;
+      savings: number;
+      remaining: number;
+    };
+  };
   miscTransactionStats: {
     currentMonth: {
-      sent: number
-      received: number
-      remaining: number
-    }
+      sent: number;
+      received: number;
+      remaining: number;
+    };
     lastMonth: {
-      sent: number
-      received: number
-      remaining: number
-    }
-  }
+      sent: number;
+      received: number;
+      remaining: number;
+    };
+  };
 }

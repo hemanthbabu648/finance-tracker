@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { useForm } from '@mantine/form'
-import React from 'react'
-import { useSelector } from 'react-redux'
+import { useForm } from '@mantine/form';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
-import axiosInstance from '@/lib/axiosInstance'
-import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
-import { useAppDispatch } from '@/redux/hooks'
-import { fetchUserAccounts } from '@/redux/slices/AccountSlice'
-import { RootState } from '@/redux/store'
-import { AccountType, AccountTypeEnum } from '@/types/ui'
+import axiosInstance from '@/lib/axiosInstance';
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts';
+import { useAppDispatch } from '@/redux/hooks';
+import { fetchUserAccounts } from '@/redux/slices/AccountSlice';
+import { RootState } from '@/redux/store';
+import { AccountType, AccountTypeEnum } from '@/types/ui';
 
-import Button from '../commons/Button'
-import NumberInput from '../commons/NumberInput'
-import Select from '../commons/Select'
-import TextInput from '../commons/TextInput'
+import Button from '../commons/Button';
+import NumberInput from '../commons/NumberInput';
+import Select from '../commons/Select';
+import TextInput from '../commons/TextInput';
 
 const accountTypes: AccountType[] = [
   {
@@ -41,12 +41,12 @@ const accountTypes: AccountType[] = [
     label: 'E-Account',
     value: AccountTypeEnum.E_ACCOUNT,
   },
-]
+];
 
 const CreateAccountForm = () => {
-  const dispatch = useAppDispatch()
-  const { userDetails } = useSelector((state: RootState) => state.auth)
-  const [loading, setLoading] = React.useState(false)
+  const dispatch = useAppDispatch();
+  const { userDetails } = useSelector((state: RootState) => state.auth);
+  const [loading, setLoading] = React.useState(false);
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -62,35 +62,35 @@ const CreateAccountForm = () => {
       initialAmount: (value) =>
         Number(value) >= 0 ? null : 'Initial amount must be entered',
     },
-  })
+  });
 
   const handleSubmit = async (values: typeof form.values) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const res = await axiosInstance.post('/accounts', {
         userId: userDetails?.id,
         accountName: values.accountName,
         accountType: values.accountType,
         initialAmount: values.initialAmount,
-      })
+      });
 
       if (res?.data?.statusCode === 201) {
-        showSuccessToast(res?.data?.message)
-        form.reset()
+        showSuccessToast(res?.data?.message);
+        form.reset();
       } else {
-        showErrorToast(res?.data?.message)
-        setLoading(false)
-        return
+        showErrorToast(res?.data?.message);
+        setLoading(false);
+        return;
       }
       if (userDetails) {
-        await dispatch(fetchUserAccounts(userDetails.id))
+        await dispatch(fetchUserAccounts(userDetails.id));
       }
-      setLoading(false)
+      setLoading(false);
     } catch (err) {
-      showErrorToast(JSON.stringify(err))
-      setLoading(false)
+      showErrorToast(JSON.stringify(err));
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <form
@@ -125,7 +125,7 @@ const CreateAccountForm = () => {
         </Button>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default CreateAccountForm
+export default CreateAccountForm;

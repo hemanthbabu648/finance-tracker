@@ -1,4 +1,4 @@
-import ForgotPasswordForm from '@/components/forms/ForgotPasswordForm'
+import ForgotPasswordForm from '@/components/forms/ForgotPasswordForm';
 
 function ForgotPasswordPage() {
   return (
@@ -13,7 +13,7 @@ function ForgotPasswordPage() {
         <ForgotPasswordForm />
       </div>
     </main>
-  )
+  );
 }
 
-export default ForgotPasswordPage
+export default ForgotPasswordPage;

@@ -1,38 +1,38 @@
-import React from 'react'
+import React from 'react';
 import {
   Cell,
   Pie,
   PieChart as RePieChart,
   ResponsiveContainer,
   Sector,
-} from 'recharts'
+} from 'recharts';
 
-import { TransactionTypeValue } from '@/types/ui'
+import { TransactionTypeValue } from '@/types/ui';
 
 type DataType = {
-  name: string
-  value: number
-}
+  name: string;
+  value: number;
+};
 
 type PieChartProps = {
-  type: TransactionTypeValue | 'SAVINGS'
-  data: DataType[]
-}
+  type: TransactionTypeValue | 'SAVINGS';
+  data: DataType[];
+};
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 const PieChart: React.FC<PieChartProps> = ({ type, data }) => {
-  const [activeIndex, setActiveIndex] = React.useState<number>(0)
+  const [activeIndex, setActiveIndex] = React.useState<number>(0);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const onPieEnter = (_: any, index: number) => {
-    setActiveIndex(index)
-  }
+    setActiveIndex(index);
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const renderActiveShape = (props: any) => {
     const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill } =
-      props
+      props;
 
     return (
       <g>
@@ -58,8 +58,8 @@ const PieChart: React.FC<PieChartProps> = ({ type, data }) => {
           fill={fill}
         />
       </g>
-    )
-  }
+    );
+  };
 
   return (
     <div className="h-[450px]">
@@ -87,7 +87,7 @@ const PieChart: React.FC<PieChartProps> = ({ type, data }) => {
         </RePieChart>
       </ResponsiveContainer>
     </div>
-  )
-}
+  );
+};
 
-export default PieChart
+export default PieChart;

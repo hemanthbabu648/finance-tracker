@@ -1,18 +1,18 @@
-import { Select } from '@mantine/core'
-import { DateTimePicker } from '@mantine/dates'
-import { useForm } from '@mantine/form'
-import React, { useState } from 'react'
+import { Select } from '@mantine/core';
+import { DateTimePicker } from '@mantine/dates';
+import { useForm } from '@mantine/form';
+import React, { useState } from 'react';
 
-import axiosInstance from '@/lib/axiosInstance'
-import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { fetchAllMiscTransactions } from '@/redux/slices/TransactionSlice'
-import { BorrowLendTabTypes, BorrowTabValues } from '@/types/ui'
+import axiosInstance from '@/lib/axiosInstance';
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { fetchAllMiscTransactions } from '@/redux/slices/TransactionSlice';
+import { BorrowLendTabTypes, BorrowTabValues } from '@/types/ui';
 
-import Button from '../commons/Button'
-import NumberInput from '../commons/NumberInput'
-import SegmentedControl from '../commons/SegmentedControl'
-import TextInput from '../commons/TextInput'
+import Button from '../commons/Button';
+import NumberInput from '../commons/NumberInput';
+import SegmentedControl from '../commons/SegmentedControl';
+import TextInput from '../commons/TextInput';
 
 const tabs: BorrowLendTabTypes[] = [
   {
@@ -23,22 +23,22 @@ const tabs: BorrowLendTabTypes[] = [
     label: 'Returned',
     value: 'RETURNED',
   },
-]
+];
 
 const BorrowTransactionForm = () => {
-  const dispatch = useAppDispatch()
-  const { userAccounts } = useAppSelector((state) => state.account)
-  const [tab, setTab] = useState<BorrowTabValues>('TAKEN')
-  const [loading, setLoading] = useState(false)
+  const dispatch = useAppDispatch();
+  const { userAccounts } = useAppSelector((state) => state.account);
+  const [tab, setTab] = useState<BorrowTabValues>('TAKEN');
+  const [loading, setLoading] = useState(false);
 
   const getMappedAccounts = () => {
     return userAccounts?.map((account) => {
       return {
         label: account.accountName,
         value: account.id,
-      }
-    })
-  }
+      };
+    });
+  };
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -65,10 +65,10 @@ const BorrowTransactionForm = () => {
       returnDate: (value) =>
         tab === 'TAKEN' && !value ? 'Return Date is required' : null,
     },
-  })
+  });
 
   const handleSubmit = async (values: typeof form.values) => {
-    setLoading(true)
+    setLoading(true);
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const payload: any = {
@@ -79,30 +79,30 @@ const BorrowTransactionForm = () => {
         amount: values.amount,
         note: values.note,
         createdAt: values.dateAndTime,
-      }
+      };
 
       if (tab === 'TAKEN') {
-        payload.takenFrom = values.fromPerson
-        payload.returnAt = values.returnDate
+        payload.takenFrom = values.fromPerson;
+        payload.returnAt = values.returnDate;
       } else {
-        payload.returnedTo = values.toPerson
+        payload.returnedTo = values.toPerson;
       }
 
-      const res = await axiosInstance.post('/misc-transactions', payload)
+      const res = await axiosInstance.post('/misc-transactions', payload);
 
       if (res?.data?.statusCode === 201) {
-        form.reset()
-        showSuccessToast(res?.data?.message)
-        dispatch(fetchAllMiscTransactions('BORROW'))
+        form.reset();
+        showSuccessToast(res?.data?.message);
+        dispatch(fetchAllMiscTransactions('BORROW'));
       } else {
-        showErrorToast(res?.data?.message)
+        showErrorToast(res?.data?.message);
       }
     } catch (error) {
-      showErrorToast(JSON.stringify(error))
+      showErrorToast(JSON.stringify(error));
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -207,7 +207,7 @@ const BorrowTransactionForm = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default BorrowTransactionForm
+export default BorrowTransactionForm;

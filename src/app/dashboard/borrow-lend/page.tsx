@@ -1,39 +1,39 @@
-'use client'
+'use client';
 
-import { useDisclosure } from '@mantine/hooks'
+import { useDisclosure } from '@mantine/hooks';
 import {
   IconCreditCard,
   IconMoneybag,
   IconPigMoney,
   IconPlus,
-} from '@tabler/icons-react'
-import { ColumnDef } from '@tanstack/react-table'
-import React from 'react'
+} from '@tabler/icons-react';
+import { ColumnDef } from '@tanstack/react-table';
+import React from 'react';
 
-import Button from '@/components/commons/Button'
-import Drawer from '@/components/commons/Drawer'
-import SegmentedControl from '@/components/commons/SegmentedControl'
-import BorrowTransactionForm from '@/components/forms/BorrowTransactionForm'
-import LendTransactionForm from '@/components/forms/LendTransactionForm'
-import BasicTable from '@/components/tables/BaseTable'
-import StatsCard from '@/components/users/StatsCard'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import Button from '@/components/commons/Button';
+import Drawer from '@/components/commons/Drawer';
+import SegmentedControl from '@/components/commons/SegmentedControl';
+import BorrowTransactionForm from '@/components/forms/BorrowTransactionForm';
+import LendTransactionForm from '@/components/forms/LendTransactionForm';
+import BasicTable from '@/components/tables/BaseTable';
+import StatsCard from '@/components/users/StatsCard';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   fetchAllMiscTransactions,
   fetchMiscTransactionStats,
-} from '@/redux/slices/TransactionSlice'
-import { TransactionResponse } from '@/types'
-import { TransactionType, TransactionTypeValue } from '@/types/ui'
-import { getFormattedDate } from '@/utils/DateUtils'
-import { getAccountDetails } from '@/utils/Utils'
+} from '@/redux/slices/TransactionSlice';
+import { TransactionResponse } from '@/types';
+import { TransactionType, TransactionTypeValue } from '@/types/ui';
+import { getFormattedDate } from '@/utils/DateUtils';
+import { getAccountDetails } from '@/utils/Utils';
 
 const tabs: TransactionType[] = [
   { label: 'Borrow', value: 'BORROW' },
   { label: 'Lend', value: 'LEND' },
-]
+];
 
 function BorrowLendPage() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const {
     allTransactions: {
       miscTransactions,
@@ -46,15 +46,15 @@ function BorrowLendPage() {
     return {
       allTransactions: state.transaction,
       allAccounts: state.account.userAccounts,
-    }
-  })
-  const [tab, setTab] = React.useState<TransactionTypeValue>('BORROW')
+    };
+  });
+  const [tab, setTab] = React.useState<TransactionTypeValue>('BORROW');
   const [borrowOpened, { open: borrowOpen, close: borrowClose }] =
-    useDisclosure(false)
+    useDisclosure(false);
   const [lendOpened, { open: lendOpen, close: lendClose }] =
-    useDisclosure(false)
+    useDisclosure(false);
 
-  const transactionType = tab === 'BORROW' ? 'Borrowed' : 'Lended'
+  const transactionType = tab === 'BORROW' ? 'Borrowed' : 'Lended';
 
   const statsData = [
     {
@@ -84,7 +84,7 @@ function BorrowLendPage() {
       icon: <IconPigMoney className="h-6 w-6 text-orange-600" />,
       bgColor: 'bg-orange-50',
     },
-  ]
+  ];
 
   const columns = React.useMemo<ColumnDef<TransactionResponse>[]>(
     () => [
@@ -144,21 +144,21 @@ function BorrowLendPage() {
       },
     ],
     [allAccounts],
-  )
+  );
 
   React.useEffect(() => {
-    let isMounted = true
+    let isMounted = true;
     const fetchMiscTransactionsByType = async () => {
-      if (!isMounted) return
-      await dispatch(fetchMiscTransactionStats(tab))
-      if (!isMounted) return
-      await dispatch(fetchAllMiscTransactions(tab))
-    }
-    fetchMiscTransactionsByType()
+      if (!isMounted) return;
+      await dispatch(fetchMiscTransactionStats(tab));
+      if (!isMounted) return;
+      await dispatch(fetchAllMiscTransactions(tab));
+    };
+    fetchMiscTransactionsByType();
     return () => {
-      isMounted = false
-    }
-  }, [dispatch, tab])
+      isMounted = false;
+    };
+  }, [dispatch, tab]);
 
   return (
     <div>
@@ -223,7 +223,7 @@ function BorrowLendPage() {
         <LendTransactionForm />
       </Drawer>
     </div>
-  )
+  );
 }
 
-export default BorrowLendPage
+export default BorrowLendPage;

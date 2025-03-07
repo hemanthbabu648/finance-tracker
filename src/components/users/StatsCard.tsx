@@ -1,12 +1,12 @@
-import { IconArrowUpRight } from '@tabler/icons-react'
-import React from 'react'
+import { IconArrowUpRight } from '@tabler/icons-react';
+import React from 'react';
 
-import { StatsResponse } from '@/types/ui'
+import { StatsResponse } from '@/types/ui';
 
 type StatsCardProps = {
-  stats: StatsResponse[]
-  loading: boolean
-}
+  stats: StatsResponse[];
+  loading: boolean;
+};
 
 const StatsCard: React.FC<StatsCardProps> = ({ stats = [], loading }) => {
   return (
@@ -61,7 +61,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ stats = [], loading }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default StatsCard
+export default StatsCard;

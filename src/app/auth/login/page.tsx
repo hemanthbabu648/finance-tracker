@@ -1,8 +1,8 @@
-import { IconLogout } from '@tabler/icons-react'
-import Link from 'next/link'
-import React from 'react'
+import { IconLogout } from '@tabler/icons-react';
+import Link from 'next/link';
+import React from 'react';
 
-import LoginForm from '@/components/forms/LoginForm'
+import LoginForm from '@/components/forms/LoginForm';
 
 function LoginPage() {
   return (
@@ -28,7 +28,7 @@ function LoginPage() {
         <LoginForm />
       </div>
     </main>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;

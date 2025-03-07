@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   IconBuildingBank,
@@ -6,10 +6,10 @@ import {
   IconHome,
   IconReportAnalytics,
   IconTransactionRupee,
-} from '@tabler/icons-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import React from 'react'
+} from '@tabler/icons-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import React from 'react';
 
 const userTabs = [
   {
@@ -37,11 +37,11 @@ const userTabs = [
     label: 'Analytics',
     icon: <IconReportAnalytics size="1.5rem" />,
   },
-]
+];
 
 const MobileMenu: React.FC = () => {
-  const pathname = usePathname()
-  const isActive = (href: string): boolean => pathname === href
+  const pathname = usePathname();
+  const isActive = (href: string): boolean => pathname === href;
   return (
     <div className="flex w-full items-center justify-between gap-1 px-1">
       {userTabs.map((tab) => (
@@ -59,7 +59,7 @@ const MobileMenu: React.FC = () => {
         </Link>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default MobileMenu
+export default MobileMenu;

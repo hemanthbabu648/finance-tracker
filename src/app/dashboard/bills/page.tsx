@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 function BillsPage() {
-  return <div>BillsPage</div>
+  return <div>BillsPage</div>;
 }
 
-export default BillsPage
+export default BillsPage;

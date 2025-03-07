@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { Table } from '@mantine/core'
-import React from 'react'
+import { Table } from '@mantine/core';
+import React from 'react';
 
-import { TransactionResponse } from '@/types'
-import { getFormattedDate } from '@/utils/DateUtils'
+import { TransactionResponse } from '@/types';
+import { getFormattedDate } from '@/utils/DateUtils';
 
 type Props = {
-  loading: boolean
-  data: TransactionResponse[]
-}
+  loading: boolean;
+  data: TransactionResponse[];
+};
 
 const RecentTransactions: React.FC<Props> = ({ loading, data = [] }) => {
   if (loading) {
@@ -17,7 +17,7 @@ const RecentTransactions: React.FC<Props> = ({ loading, data = [] }) => {
       <div className="flex items-center justify-center">
         <p>Loading...</p>
       </div>
-    )
+    );
   }
 
   if (data.length === 0) {
@@ -25,7 +25,7 @@ const RecentTransactions: React.FC<Props> = ({ loading, data = [] }) => {
       <div className="flex items-center justify-center">
         <p>No data found</p>
       </div>
-    )
+    );
   }
 
   const getModifiedData = data.map((row) => {
@@ -35,8 +35,8 @@ const RecentTransactions: React.FC<Props> = ({ loading, data = [] }) => {
       amount: row.amount,
       account: row.accountId,
       note: row.note,
-    }
-  })
+    };
+  });
 
   const rows = getModifiedData.slice(0, 5).map((row, index) => {
     return (
@@ -47,8 +47,8 @@ const RecentTransactions: React.FC<Props> = ({ loading, data = [] }) => {
         <Table.Td>{row.account}</Table.Td>
         <Table.Td>{row.note}</Table.Td>
       </Table.Tr>
-    )
-  })
+    );
+  });
 
   return (
     <Table.ScrollContainer minWidth={800}>
@@ -65,7 +65,7 @@ const RecentTransactions: React.FC<Props> = ({ loading, data = [] }) => {
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
     </Table.ScrollContainer>
-  )
-}
+  );
+};
 
-export default RecentTransactions
+export default RecentTransactions;

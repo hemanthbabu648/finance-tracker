@@ -1,7 +1,7 @@
-import { IconDownload } from '@tabler/icons-react'
+import { IconDownload } from '@tabler/icons-react';
 
-import ButtonLink from '@/components/commons/ButtonLink'
-import RegisterForm from '@/components/forms/RegisterForm'
+import ButtonLink from '@/components/commons/ButtonLink';
+import RegisterForm from '@/components/forms/RegisterForm';
 
 function RegisterPage() {
   return (
@@ -34,7 +34,7 @@ function RegisterPage() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
-export default RegisterPage
+export default RegisterPage;

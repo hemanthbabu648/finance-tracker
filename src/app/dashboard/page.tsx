@@ -1,29 +1,30 @@
-'use client'
+'use client';
 
 import {
   IconCreditCard,
   IconMoneybag,
   IconPigMoney,
   IconWallet,
-} from '@tabler/icons-react'
-import Link from 'next/link'
-import React from 'react'
+} from '@tabler/icons-react';
+import Link from 'next/link';
+import React from 'react';
 
-import RecentTransactions from '@/components/tables/RecentTransactions'
-import AlertsCard from '@/components/users/AlertsCard'
-import BaseCard from '@/components/users/BaseCard'
-import ReportsBillsCard from '@/components/users/ReportsBillsCard'
-import StatsCard from '@/components/users/StatsCard'
-import UpcomingTasksCard from '@/components/users/UpcomingTasksCard'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { fetchAllTransactions } from '@/redux/slices/TransactionSlice'
+import RecentTransactions from '@/components/tables/RecentTransactions';
+import AlertsCard from '@/components/users/AlertsCard';
+import BaseCard from '@/components/users/BaseCard';
+import ReportsBillsCard from '@/components/users/ReportsBillsCard';
+import StatsCard from '@/components/users/StatsCard';
+import UpcomingTasksCard from '@/components/users/UpcomingTasksCard';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { fetchAllTransactions } from '@/redux/slices/TransactionSlice';
 
 export default function DashboardOverview() {
-  const dispatch = useAppDispatch()
-  const { accountStats, loading } = useAppSelector((state) => state.account)
+  const dispatch = useAppDispatch();
+  const { userDetails } = useAppSelector((state) => state.auth);
+  const { accountStats, loading } = useAppSelector((state) => state.account);
   const { allTransactions, loading: transactionsLoading } = useAppSelector(
     (state) => state.transaction,
-  )
+  );
 
   const statsData = [
     {
@@ -54,11 +55,13 @@ export default function DashboardOverview() {
       icon: <IconPigMoney className="h-6 w-6 text-orange-600" />,
       bgColor: 'bg-orange-50',
     },
-  ]
+  ];
 
   React.useEffect(() => {
-    dispatch(fetchAllTransactions())
-  }, [dispatch])
+    if (userDetails?.id) {
+      dispatch(fetchAllTransactions(userDetails.id));
+    }
+  }, [dispatch, userDetails?.id]);
 
   return (
     <div className="space-y-6">
@@ -98,5 +101,5 @@ export default function DashboardOverview() {
         </BaseCard>
       </div>
     </div>
-  )
+  );
 }

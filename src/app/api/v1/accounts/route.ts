@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
 
-import { ApiStatus, ApiStatusCode } from '@/types'
-import { ApiErrorResponse, ApiSuccessResponse } from '@/utils/responses'
-import { createClient } from '@/utils/supabase/server'
+import { ApiStatus, ApiStatusCode } from '@/types';
+import { ApiErrorResponse, ApiSuccessResponse } from '@/utils/responses';
+import { createClient } from '@/utils/supabase/server';
 
 export async function GET(req: NextRequest) {
   try {
-    const url = req.nextUrl
-    const authUserId = url.searchParams.get('id')
+    const url = req.nextUrl;
+    const authUserId = url.searchParams.get('id');
 
     if (!authUserId) {
       return NextResponse.json(
@@ -16,15 +16,15 @@ export async function GET(req: NextRequest) {
           ApiStatus.UNAUTHORIZED,
           'Authorization failed.',
         ),
-      )
+      );
     }
 
-    const supabase = await createClient()
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('accounts')
       .select(`*, user_profiles(*)`)
       .eq('userId', authUserId)
-      .limit(100)
+      .limit(100);
 
     if (error) {
       return NextResponse.json(
@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
           error.message,
           error,
         ),
-      )
+      );
     }
 
     return NextResponse.json(
@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
         'Fetched user accounts',
         data,
       ),
-    )
+    );
   } catch (error) {
     return NextResponse.json(
       new ApiErrorResponse(
@@ -53,14 +53,14 @@ export async function GET(req: NextRequest) {
         JSON.stringify(error),
         error,
       ),
-    )
+    );
   }
 }
 
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json()
-    const { accountName, accountType, initialAmount, userId } = body
+    const body = await req.json();
+    const { accountName, accountType, initialAmount, userId } = body;
 
     if (!userId) {
       return NextResponse.json(
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
           ApiStatus.UNAUTHORIZED,
           'Authorization failed.',
         ),
-      )
+      );
     }
 
     if (!accountName || !accountType || !initialAmount) {
@@ -79,10 +79,10 @@ export async function POST(req: NextRequest) {
           ApiStatus.BAD_REQUEST,
           'Missing fields accountName, accountType, amount',
         ),
-      )
+      );
     }
 
-    const supabase = await createClient()
+    const supabase = await createClient();
 
     const { data, error } = await supabase
       .from('accounts')
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
           createdAt: new Date(),
         },
       ])
-      .select()
+      .select();
 
     if (error) {
       return NextResponse.json(
@@ -105,7 +105,7 @@ export async function POST(req: NextRequest) {
           error.message,
           error,
         ),
-      )
+      );
     }
 
     return NextResponse.json(
@@ -115,7 +115,7 @@ export async function POST(req: NextRequest) {
         'Account created successfully',
         data,
       ),
-    )
+    );
   } catch (error) {
     return NextResponse.json(
       new ApiErrorResponse(
@@ -124,6 +124,6 @@ export async function POST(req: NextRequest) {
         JSON.stringify(error),
         error,
       ),
-    )
+    );
   }
 }

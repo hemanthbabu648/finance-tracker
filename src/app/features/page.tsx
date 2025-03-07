@@ -1,8 +1,8 @@
-import { SimpleGrid, ThemeIcon } from '@mantine/core'
+import { SimpleGrid, ThemeIcon } from '@mantine/core';
 
-import Footer from '@/components/home/Footer'
-import Header from '@/components/home/Header'
-import { features } from '@/constants/data'
+import Footer from '@/components/home/Footer';
+import Header from '@/components/home/Header';
+import { features } from '@/constants/data';
 
 const renderFeatures = features.map((feature) => (
   <div key={feature.title}>
@@ -12,7 +12,7 @@ const renderFeatures = features.map((feature) => (
     <p>{feature.title}</p>
     <p>{feature.description}</p>
   </div>
-))
+));
 
 export default function FeaturesPage() {
   return (
@@ -44,5 +44,5 @@ export default function FeaturesPage() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }

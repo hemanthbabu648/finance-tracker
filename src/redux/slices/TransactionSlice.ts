@@ -1,10 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
-import axiosInstance from '@/lib/axiosInstance'
-import { showErrorToast } from '@/lib/reactToasts'
-import { TransactionState, TransactionTypeValue } from '@/types'
+import axiosInstance from '@/lib/axiosInstance';
+import { showErrorToast } from '@/lib/reactToasts';
+import { TransactionState, TransactionTypeValue } from '@/types';
 
-import { AppThunk } from '../store'
+import { AppThunk } from '../store';
 
 const initialState: TransactionState = {
   loading: false,
@@ -37,36 +37,36 @@ const initialState: TransactionState = {
       remaining: 0,
     },
   },
-}
+};
 
 const TransactionSlice = createSlice({
   name: 'transaction',
   initialState,
   reducers: {
     changeLoading: (state, action) => {
-      state.loading = action.payload
+      state.loading = action.payload;
     },
     changeStatsLoading: (state, action) => {
-      state.statsLoading = action.payload
+      state.statsLoading = action.payload;
     },
     saveAllTransactions: (state, action) => {
-      state.allTransactions = action.payload
+      state.allTransactions = action.payload;
     },
     saveMiscTransactions: (state, action) => {
-      state.miscTransactions = action.payload
+      state.miscTransactions = action.payload;
     },
     saveTransactionStats: (state, action) => {
       state.transactionStats.currentMonthOverView =
-        action.payload.currentMonthOverview
+        action.payload.currentMonthOverview;
       state.transactionStats.lastMonthOverView =
-        action.payload.lastMonthOverview
+        action.payload.lastMonthOverview;
     },
     saveMiscTransactionStats: (state, action) => {
-      state.miscTransactionStats.currentMonth = action.payload.currentMonth
-      state.miscTransactionStats.lastMonth = action.payload.lastMonth
+      state.miscTransactionStats.currentMonth = action.payload.currentMonth;
+      state.miscTransactionStats.lastMonth = action.payload.lastMonth;
     },
   },
-})
+});
 
 export const {
   changeLoading,
@@ -75,65 +75,70 @@ export const {
   saveMiscTransactions,
   saveTransactionStats,
   saveMiscTransactionStats,
-} = TransactionSlice.actions
+} = TransactionSlice.actions;
 
 export const fetchAllTransactions =
-  (): AppThunk<Promise<void>> => async (dispatch) => {
-    dispatch(changeLoading(true))
+  (userId?: string): AppThunk<Promise<void>> =>
+  async (dispatch) => {
+    dispatch(changeLoading(true));
     try {
-      const { data } = await axiosInstance.get('/transactions')
-      dispatch(saveAllTransactions(data?.data))
+      const { data } = await axiosInstance.get('/transactions', {
+        params: {
+          id: userId,
+        },
+      });
+      dispatch(saveAllTransactions(data?.data));
     } catch (err) {
-      showErrorToast(JSON.stringify(err))
+      showErrorToast(JSON.stringify(err));
     } finally {
-      dispatch(changeLoading(false))
+      dispatch(changeLoading(false));
     }
-  }
+  };
 export const fetchTransactionStats =
   (): AppThunk<Promise<void>> => async (dispatch) => {
-    dispatch(changeStatsLoading(true))
+    dispatch(changeStatsLoading(true));
     try {
-      const { data } = await axiosInstance.get('/stats/transactions')
-      dispatch(saveTransactionStats(data?.data))
+      const { data } = await axiosInstance.get('/stats/transactions');
+      dispatch(saveTransactionStats(data?.data));
     } catch (err) {
-      showErrorToast(JSON.stringify(err))
+      showErrorToast(JSON.stringify(err));
     } finally {
-      dispatch(changeStatsLoading(false))
+      dispatch(changeStatsLoading(false));
     }
-  }
+  };
 export const fetchAllMiscTransactions =
   (transactionType: TransactionTypeValue): AppThunk<Promise<void>> =>
   async (dispatch) => {
-    dispatch(changeLoading(true))
+    dispatch(changeLoading(true));
     try {
       const { data } = await axiosInstance.get('/misc-transactions', {
         params: {
           transactionType,
         },
-      })
-      dispatch(saveMiscTransactions(data?.data))
+      });
+      dispatch(saveMiscTransactions(data?.data));
     } catch (err) {
-      showErrorToast(JSON.stringify(err))
+      showErrorToast(JSON.stringify(err));
     } finally {
-      dispatch(changeLoading(false))
+      dispatch(changeLoading(false));
     }
-  }
+  };
 export const fetchMiscTransactionStats =
   (transactionType: TransactionTypeValue): AppThunk<Promise<void>> =>
   async (dispatch) => {
-    dispatch(changeStatsLoading(true))
+    dispatch(changeStatsLoading(true));
     try {
       const { data } = await axiosInstance.get('/stats/misc-transactions', {
         params: {
           transactionType,
         },
-      })
-      dispatch(saveMiscTransactionStats(data?.data))
+      });
+      dispatch(saveMiscTransactionStats(data?.data));
     } catch (err) {
-      showErrorToast(JSON.stringify(err))
+      showErrorToast(JSON.stringify(err));
     } finally {
-      dispatch(changeStatsLoading(false))
+      dispatch(changeStatsLoading(false));
     }
-  }
+  };
 
-export default TransactionSlice.reducer
+export default TransactionSlice.reducer;

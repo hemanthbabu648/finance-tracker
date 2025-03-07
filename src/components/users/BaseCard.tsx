@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 type BaseCardProps = {
-  title: string
-  headerAction?: React.ReactElement
-  children: React.ReactNode
-  cardClassNames?: string
-}
+  title: string;
+  headerAction?: React.ReactElement;
+  children: React.ReactNode;
+  cardClassNames?: string;
+};
 
 const BaseCard: React.FC<BaseCardProps> = ({
   title,
@@ -21,7 +21,7 @@ const BaseCard: React.FC<BaseCardProps> = ({
       </div>
       {children}
     </div>
-  )
-}
+  );
+};
 
-export default BaseCard
+export default BaseCard;

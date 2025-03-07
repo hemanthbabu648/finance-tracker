@@ -1,7 +1,7 @@
-import { IconChevronRight } from '@tabler/icons-react'
-import Image from 'next/image'
+import { IconChevronRight } from '@tabler/icons-react';
+import Image from 'next/image';
 
-import ButtonLink from '../commons/ButtonLink'
+import ButtonLink from '../commons/ButtonLink';
 
 function Hero() {
   return (
@@ -38,7 +38,7 @@ function Hero() {
         />
       </div>
     </div>
-  )
+  );
 }
 
-export default Hero
+export default Hero;

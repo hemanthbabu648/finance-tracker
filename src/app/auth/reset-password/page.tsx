@@ -1,6 +1,6 @@
-import { Suspense } from 'react'
+import { Suspense } from 'react';
 
-import ResetPasswordForm from '@/components/forms/ResetPasswordForm'
+import ResetPasswordForm from '@/components/forms/ResetPasswordForm';
 
 function ResetPasswordPage() {
   return (
@@ -17,7 +17,7 @@ function ResetPasswordPage() {
         </Suspense>
       </div>
     </main>
-  )
+  );
 }
 
-export default ResetPasswordPage
+export default ResetPasswordPage;

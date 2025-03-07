@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 const axiosInstance = axios.create({
   baseURL:
@@ -7,7 +7,7 @@ const axiosInstance = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
-})
+});
 
 // Optional: Add interceptors for request/response handling
 axiosInstance.interceptors.request.use(
@@ -17,24 +17,24 @@ axiosInstance.interceptors.request.use(
     // if (token) {
     //   config.headers['Authorization'] = `Bearer ${token}`;
     // }
-    return config
+    return config;
   },
   (error) => {
-    return Promise.reject(error)
+    return Promise.reject(error);
   },
-)
+);
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    return response
+    return response;
   },
   (error) => {
     // Handle errors globally here (e.g., logging out on 401, 403 errors)
     // if (error.response && (error.response.status === 401 || error.response.status === 403)) {
     //     // Example: Redirect to login page or logout
     // }
-    return Promise.reject(error)
+    return Promise.reject(error);
   },
-)
+);
 
-export default axiosInstance
+export default axiosInstance;

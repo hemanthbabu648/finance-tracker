@@ -1,5 +1,5 @@
-import { AccountResponse } from '@/types'
-import { Category } from '@/types/ui'
+import { AccountResponse } from '@/types';
+import { Category } from '@/types/ui';
 
 export const getCategories = {
   EXPENSE: [
@@ -132,12 +132,12 @@ export const getCategories = {
       value: 'IN_EXCHANGE',
     },
   ] as Category[],
-}
+};
 
 export const getAccountDetails = (
   accountId: string,
   allAccounts: AccountResponse[],
 ) => {
-  if (!allAccounts) return null
-  return allAccounts.find((account) => account.id === accountId)
-}
+  if (!allAccounts) return null;
+  return allAccounts.find((account) => account.id === accountId);
+};

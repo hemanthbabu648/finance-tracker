@@ -1,19 +1,19 @@
-import { Select } from '@mantine/core'
-import { DateTimePicker } from '@mantine/dates'
-import { useForm } from '@mantine/form'
-import React, { useState } from 'react'
+import { Select } from '@mantine/core';
+import { DateTimePicker } from '@mantine/dates';
+import { useForm } from '@mantine/form';
+import React, { useState } from 'react';
 
-import axiosInstance from '@/lib/axiosInstance'
-import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
-import { fetchAllTransactions } from '@/redux/slices/TransactionSlice'
-import { TransactionType, TransactionTypeValue } from '@/types/ui'
-import { getCategories } from '@/utils/Utils'
+import axiosInstance from '@/lib/axiosInstance';
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { fetchAllTransactions } from '@/redux/slices/TransactionSlice';
+import { TransactionType, TransactionTypeValue } from '@/types/ui';
+import { getCategories } from '@/utils/Utils';
 
-import Button from '../commons/Button'
-import NumberInput from '../commons/NumberInput'
-import SegmentedControl from '../commons/SegmentedControl'
-import TextInput from '../commons/TextInput'
+import Button from '../commons/Button';
+import NumberInput from '../commons/NumberInput';
+import SegmentedControl from '../commons/SegmentedControl';
+import TextInput from '../commons/TextInput';
 
 const tabs: TransactionType[] = [
   {
@@ -28,31 +28,31 @@ const tabs: TransactionType[] = [
     label: 'Transfer',
     value: 'TRANSFER',
   },
-]
+];
 
 const AddTransactionForm = () => {
-  const dispatch = useAppDispatch()
-  const { userAccounts } = useAppSelector((state) => state.account)
+  const dispatch = useAppDispatch();
+  const { userAccounts } = useAppSelector((state) => state.account);
   const [transactionType, setTransactionType] =
-    useState<TransactionTypeValue>('EXPENSE')
-  const [loading, setLoading] = useState(false)
-  const [selectedAccount, setSelectedAccount] = useState('')
-  const category = getCategories[transactionType]
+    useState<TransactionTypeValue>('EXPENSE');
+  const [loading, setLoading] = useState(false);
+  const [selectedAccount, setSelectedAccount] = useState('');
+  const category = getCategories[transactionType];
 
   const getMappedAccounts = () => {
     return userAccounts?.map((account) => {
       return {
         label: account.accountName,
         value: account.id,
-      }
-    })
-  }
+      };
+    });
+  };
 
   const unSelectedAccounts = () => {
     return getMappedAccounts().filter(
       (account) => account.value !== selectedAccount,
-    )
-  }
+    );
+  };
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -75,14 +75,14 @@ const AddTransactionForm = () => {
           ? 'To Account is required'
           : null,
     },
-  })
+  });
 
   form.watch('account', (value) => {
-    setSelectedAccount(value.value)
-  })
+    setSelectedAccount(value.value);
+  });
 
   const handleSubmit = async (values: typeof form.values) => {
-    setLoading(true)
+    setLoading(true);
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const payload: any = {
@@ -92,27 +92,27 @@ const AddTransactionForm = () => {
         amount: values.amount,
         note: values.note,
         createdAt: values.dateAndTime,
-      }
+      };
 
       if (transactionType === 'TRANSFER') {
-        payload.toAccountId = values.otherAccount
+        payload.toAccountId = values.otherAccount;
       }
 
-      const res = await axiosInstance.post('/transactions', payload)
+      const res = await axiosInstance.post('/transactions', payload);
 
       if (res?.data?.statusCode === 201) {
-        form.reset()
-        showSuccessToast(res?.data?.message)
-        dispatch(fetchAllTransactions())
+        form.reset();
+        showSuccessToast(res?.data?.message);
+        dispatch(fetchAllTransactions());
       } else {
-        showErrorToast(res?.data?.message)
+        showErrorToast(res?.data?.message);
       }
     } catch (error) {
-      showErrorToast(JSON.stringify(error))
+      showErrorToast(JSON.stringify(error));
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <div>
@@ -186,7 +186,7 @@ const AddTransactionForm = () => {
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default AddTransactionForm
+export default AddTransactionForm;

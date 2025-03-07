@@ -1,26 +1,26 @@
-'use client'
+'use client';
 
 import {
   ColorSchemeScript,
   MantineProvider,
   mantineHtmlProps,
-} from '@mantine/core'
-import '@mantine/core/styles.css'
-import '@mantine/dates/styles.css'
-import { Inter } from 'next/font/google'
-import { Provider } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
+} from '@mantine/core';
+import '@mantine/core/styles.css';
+import '@mantine/dates/styles.css';
+import { Inter } from 'next/font/google';
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 
-import 'react-toastify/dist/ReactToastify.css'
-import './globals.css'
-import { store } from '@/redux/store'
+import 'react-toastify/dist/ReactToastify.css';
+import './globals.css';
+import { store } from '@/redux/store';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en" {...mantineHtmlProps}>
@@ -63,5 +63,5 @@ export default function RootLayout({
         </Provider>
       </body>
     </html>
-  )
+  );
 }

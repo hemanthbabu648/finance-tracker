@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import { Accordion } from '@mantine/core'
-import React, { useState } from 'react'
+import { Accordion } from '@mantine/core';
+import React, { useState } from 'react';
 
-import NumberInput from '@/components/commons/NumberInput'
-import SwitchInput from '@/components/commons/SwitchInput'
-import { getCategories } from '@/utils/Utils'
+import NumberInput from '@/components/commons/NumberInput';
+import SwitchInput from '@/components/commons/SwitchInput';
+import { getCategories } from '@/utils/Utils';
 
-const expenseCategories = getCategories.EXPENSE
+const expenseCategories = getCategories.EXPENSE;
 
 interface Budget {
-  label: string
-  value: number
-  checked: boolean
+  label: string;
+  value: number;
+  checked: boolean;
 }
 
 function BudgetsPage() {
@@ -20,9 +20,9 @@ function BudgetsPage() {
     label: category.label,
     value: 0,
     checked: false,
-  }))
+  }));
 
-  const [budgets, setBudgets] = useState(budgetsCategories)
+  const [budgets, setBudgets] = useState(budgetsCategories);
 
   const handleSwitchChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -32,14 +32,14 @@ function BudgetsPage() {
       prev.map((b) =>
         b.label === budget.label ? { ...b, checked: event.target.checked } : b,
       ),
-    )
-  }
+    );
+  };
 
   const handleBudgetChange = (value: number, budget: Budget) => {
     setBudgets((prev) =>
       prev.map((b) => (b.label === budget.label ? { ...b, value: value } : b)),
-    )
-  }
+    );
+  };
 
   return (
     <div>
@@ -87,7 +87,7 @@ function BudgetsPage() {
         ))}
       </Accordion>
     </div>
-  )
+  );
 }
 
-export default BudgetsPage
+export default BudgetsPage;

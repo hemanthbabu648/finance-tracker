@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Bar,
   BarChart,
@@ -9,17 +9,17 @@ import {
   Tooltip,
   XAxis,
   YAxis,
-} from 'recharts'
+} from 'recharts';
 
 type DataType = {
-  name: string
-  prevMonth: number
-  currentMonth: number
-}
+  name: string;
+  prevMonth: number;
+  currentMonth: number;
+};
 
 type SimpleBarCharttProps = {
-  data: DataType[]
-}
+  data: DataType[];
+};
 
 const SimpleBarChart: React.FC<SimpleBarCharttProps> = ({ data }) => {
   return (
@@ -54,7 +54,7 @@ const SimpleBarChart: React.FC<SimpleBarCharttProps> = ({ data }) => {
         </BarChart>
       </ResponsiveContainer>
     </div>
-  )
-}
+  );
+};
 
-export default SimpleBarChart
+export default SimpleBarChart;

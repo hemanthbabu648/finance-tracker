@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {
   Burger,
@@ -6,16 +6,16 @@ import {
   SimpleGrid,
   ThemeIcon,
   UnstyledButton,
-} from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import { IconChevronDown } from '@tabler/icons-react'
-import Image from 'next/image'
-import Link from 'next/link'
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IconChevronDown } from '@tabler/icons-react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { features } from '@/constants/data'
+import { features } from '@/constants/data';
 
-import ButtonLink from '../commons/ButtonLink'
-import HoverCard from '../commons/HoverCard'
+import ButtonLink from '../commons/ButtonLink';
+import HoverCard from '../commons/HoverCard';
 
 const links = features.map((item) => (
   <UnstyledButton key={item.title}>
@@ -29,7 +29,7 @@ const links = features.map((item) => (
       </div>
     </div>
   </UnstyledButton>
-))
+));
 
 const featuresCard = (colSpan: number = 2) => (
   <div>
@@ -44,10 +44,10 @@ const featuresCard = (colSpan: number = 2) => (
       {links}
     </SimpleGrid>
   </div>
-)
+);
 
 const Header = () => {
-  const [opened, { toggle }] = useDisclosure()
+  const [opened, { toggle }] = useDisclosure();
   return (
     <header className="h-16 py-2 shadow-sm">
       <nav className="mx-auto flex w-full items-center justify-between px-4 sm:max-w-7xl">
@@ -158,7 +158,7 @@ const Header = () => {
         </div>
       )}
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

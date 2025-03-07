@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
-} from '@tanstack/react-table'
-import React from 'react'
+} from '@tanstack/react-table';
+import React from 'react';
 
-import type { ColumnDef } from '@tanstack/react-table'
+import type { ColumnDef } from '@tanstack/react-table';
 
 interface BasicReactTableProps<T extends object> {
-  data: T[]
-  columns: ColumnDef<T>[]
-  isLoading?: boolean
+  data: T[];
+  columns: ColumnDef<T>[];
+  isLoading?: boolean;
 }
 
 const BasicTable = <T extends object>({
@@ -24,7 +24,7 @@ const BasicTable = <T extends object>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-  })
+  });
 
   // Skeleton Loader for the Table Header
   const renderSkeletonHeader = () => (
@@ -38,7 +38,7 @@ const BasicTable = <T extends object>({
         </th>
       ))}
     </tr>
-  )
+  );
 
   return (
     <div className="overflow-x-auto">
@@ -98,7 +98,7 @@ const BasicTable = <T extends object>({
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default BasicTable
+export default BasicTable;

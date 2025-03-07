@@ -1,32 +1,32 @@
-'use client'
+'use client';
 
-import { useDisclosure } from '@mantine/hooks'
+import { useDisclosure } from '@mantine/hooks';
 import {
   IconCreditCard,
   IconMoneybag,
   IconPigMoney,
   IconPlus,
   IconWallet,
-} from '@tabler/icons-react'
-import { ColumnDef } from '@tanstack/react-table'
-import React from 'react'
+} from '@tabler/icons-react';
+import { ColumnDef } from '@tanstack/react-table';
+import React from 'react';
 
-import Button from '@/components/commons/Button'
-import Drawer from '@/components/commons/Drawer'
-import AddTransactionForm from '@/components/forms/AddTransactionForm'
-import BasicTable from '@/components/tables/BaseTable'
-import StatsCard from '@/components/users/StatsCard'
-import { useAppDispatch, useAppSelector } from '@/redux/hooks'
+import Button from '@/components/commons/Button';
+import Drawer from '@/components/commons/Drawer';
+import AddTransactionForm from '@/components/forms/AddTransactionForm';
+import BasicTable from '@/components/tables/BaseTable';
+import StatsCard from '@/components/users/StatsCard';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import {
   fetchAllTransactions,
   fetchTransactionStats,
-} from '@/redux/slices/TransactionSlice'
-import { TransactionResponse } from '@/types'
-import { getFormattedDate } from '@/utils/DateUtils'
-import { getAccountDetails } from '@/utils/Utils'
+} from '@/redux/slices/TransactionSlice';
+import { TransactionResponse } from '@/types';
+import { getFormattedDate } from '@/utils/DateUtils';
+import { getAccountDetails } from '@/utils/Utils';
 
 function TransactionsPage() {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const {
     allTransactions,
     loading,
@@ -40,9 +40,9 @@ function TransactionsPage() {
       allAccounts: state.account.userAccounts,
       statsLoading: state.transaction.statsLoading,
       transactionStats: state.transaction.transactionStats,
-    }
-  })
-  const [opened, { open, close }] = useDisclosure(false)
+    };
+  });
+  const [opened, { open, close }] = useDisclosure(false);
 
   const statsData = [
     {
@@ -73,7 +73,7 @@ function TransactionsPage() {
       icon: <IconPigMoney className="h-6 w-6 text-orange-600" />,
       bgColor: 'bg-orange-50',
     },
-  ]
+  ];
 
   const columns = React.useMemo<ColumnDef<TransactionResponse>[]>(
     () => [
@@ -116,24 +116,24 @@ function TransactionsPage() {
       },
     ],
     [allAccounts],
-  )
+  );
 
   React.useEffect(() => {
-    let isMounted = true // Flag to prevent duplicate calls
+    let isMounted = true; // Flag to prevent duplicate calls
 
     const fetchTransactions = async () => {
-      if (!isMounted) return
-      await dispatch(fetchTransactionStats())
-      if (!isMounted) return
-      await dispatch(fetchAllTransactions())
-    }
+      if (!isMounted) return;
+      await dispatch(fetchTransactionStats());
+      if (!isMounted) return;
+      await dispatch(fetchAllTransactions());
+    };
 
-    fetchTransactions()
+    fetchTransactions();
 
     return () => {
-      isMounted = false // Cleanup function
-    }
-  }, [dispatch])
+      isMounted = false; // Cleanup function
+    };
+  }, [dispatch]);
 
   return (
     <div>
@@ -159,7 +159,7 @@ function TransactionsPage() {
         <AddTransactionForm />
       </Drawer>
     </div>
-  )
+  );
 }
 
-export default TransactionsPage
+export default TransactionsPage;

@@ -1,4 +1,4 @@
-import { Tooltip } from '@mantine/core'
+import { Tooltip } from '@mantine/core';
 import {
   IconBuildingBank,
   IconCashBanknoteOff,
@@ -7,10 +7,10 @@ import {
   IconReceiptDollar,
   IconReportAnalytics,
   IconTransactionRupee,
-} from '@tabler/icons-react'
-import React from 'react'
+} from '@tabler/icons-react';
+import React from 'react';
 
-import NavLink from '../commons/NavLink'
+import NavLink from '../commons/NavLink';
 
 const userRoutes = [
   {
@@ -48,11 +48,11 @@ const userRoutes = [
     label: 'Bills',
     icon: IconReceiptDollar,
   },
-]
+];
 
 type Props = {
-  isSidebarOpen: boolean
-}
+  isSidebarOpen: boolean;
+};
 
 const UserSidebar: React.FC<Props> = ({ isSidebarOpen }) => {
   if (!isSidebarOpen) {
@@ -73,7 +73,7 @@ const UserSidebar: React.FC<Props> = ({ isSidebarOpen }) => {
           </Tooltip>
         ))}
       </div>
-    )
+    );
   }
 
   return (
@@ -88,7 +88,7 @@ const UserSidebar: React.FC<Props> = ({ isSidebarOpen }) => {
         />
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default UserSidebar
+export default UserSidebar;

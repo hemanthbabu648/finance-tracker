@@ -1,30 +1,30 @@
-'use client'
+'use client';
 
-import { Button } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
+import { Button } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import {
   IconCreditCard,
   IconMoneybag,
   IconPigMoney,
   IconPlus,
   IconWallet,
-} from '@tabler/icons-react'
-import { ColumnDef } from '@tanstack/react-table'
-import React from 'react'
+} from '@tabler/icons-react';
+import { ColumnDef } from '@tanstack/react-table';
+import React from 'react';
 
-import Drawer from '@/components/commons/Drawer'
-import CreateAccountForm from '@/components/forms/CreateAccountForm'
-import BasicTable from '@/components/tables/BaseTable'
-import StatsCard from '@/components/users/StatsCard'
-import { useAppSelector } from '@/redux/hooks'
-import { AccountResponse } from '@/types'
-import { getFormattedDate } from '@/utils/DateUtils'
+import Drawer from '@/components/commons/Drawer';
+import CreateAccountForm from '@/components/forms/CreateAccountForm';
+import BasicTable from '@/components/tables/BaseTable';
+import StatsCard from '@/components/users/StatsCard';
+import { useAppSelector } from '@/redux/hooks';
+import { AccountResponse } from '@/types';
+import { getFormattedDate } from '@/utils/DateUtils';
 
 function AccountsPage() {
   const { userAccounts, accountStats, loading } = useAppSelector(
     (state) => state.account,
-  )
-  const [opened, { open, close }] = useDisclosure(false)
+  );
+  const [opened, { open, close }] = useDisclosure(false);
 
   const statsData = [
     {
@@ -55,7 +55,7 @@ function AccountsPage() {
       icon: <IconPigMoney className="h-6 w-6 text-orange-600" />,
       bgColor: 'bg-orange-50',
     },
-  ]
+  ];
 
   const columns = React.useMemo<ColumnDef<AccountResponse>[]>(
     () => [
@@ -83,7 +83,7 @@ function AccountsPage() {
       },
     ],
     [],
-  )
+  );
 
   return (
     <div>
@@ -104,7 +104,7 @@ function AccountsPage() {
         <CreateAccountForm />
       </Drawer>
     </div>
-  )
+  );
 }
 
-export default AccountsPage
+export default AccountsPage;

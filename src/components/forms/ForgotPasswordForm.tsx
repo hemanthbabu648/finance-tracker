@@ -1,14 +1,14 @@
-'use client'
+'use client';
 
-import { useForm } from '@mantine/form'
-import Link from 'next/link'
-import React from 'react'
+import { useForm } from '@mantine/form';
+import Link from 'next/link';
+import React from 'react';
 
-import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
-import { forgotPassword } from '@/serverActions/auth'
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts';
+import { forgotPassword } from '@/serverActions/auth';
 
-import Button from '../commons/Button'
-import TextInput from '../commons/TextInput'
+import Button from '../commons/Button';
+import TextInput from '../commons/TextInput';
 
 const ForgotPasswordForm: React.FC = () => {
   const form = useForm({
@@ -19,18 +19,18 @@ const ForgotPasswordForm: React.FC = () => {
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
     },
-  })
+  });
 
   const handleSubmit = async (values: typeof form.values) => {
-    const res = await forgotPassword(values.email)
+    const res = await forgotPassword(values.email);
 
     if (res.status === 'success') {
-      form.reset()
-      showSuccessToast('Password reset link sent to your email')
+      form.reset();
+      showSuccessToast('Password reset link sent to your email');
     } else {
-      showErrorToast(res.status)
+      showErrorToast(res.status);
     }
-  }
+  };
 
   return (
     <form
@@ -58,7 +58,7 @@ const ForgotPasswordForm: React.FC = () => {
         <Button type="submit">Confirm</Button>
       </div>
     </form>
-  )
-}
+  );
+};
 
-export default ForgotPasswordForm
+export default ForgotPasswordForm;

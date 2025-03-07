@@ -1,13 +1,13 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 
-import { ApiStatus, ApiStatusCode } from '@/types'
-import { ApiErrorResponse, ApiSuccessResponse } from '@/utils/responses'
-import { getAuthUserDetails } from '@/utils/supabase/db'
-import { createClient } from '@/utils/supabase/server'
+import { ApiStatus, ApiStatusCode } from '@/types';
+import { ApiErrorResponse, ApiSuccessResponse } from '@/utils/responses';
+import { getAuthUserDetails } from '@/utils/supabase/db';
+import { createClient } from '@/utils/supabase/server';
 
 export async function GET() {
   try {
-    const user = await getAuthUserDetails()
+    const user = await getAuthUserDetails();
 
     if (!user) {
       return NextResponse.json(
@@ -16,15 +16,15 @@ export async function GET() {
           ApiStatus.UNAUTHORIZED,
           'Authorization failed.',
         ),
-      )
+      );
     }
 
-    const supabase = await createClient()
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('accounts')
       .select('*')
       .eq('userId', user.id)
-      .limit(100)
+      .limit(100);
 
     if (error) {
       return NextResponse.json(
@@ -33,7 +33,7 @@ export async function GET() {
           ApiStatus.INTERNAL_SERVER_ERROR,
           'Failed to fetch accounts.',
         ),
-      )
+      );
     }
 
     const balance = {
@@ -41,18 +41,18 @@ export async function GET() {
       current: 0,
       creditCard: 0,
       total: 0,
-    }
+    };
 
     data?.forEach((account) => {
-      balance.total += account.amount || 0
+      balance.total += account.amount || 0;
       if (account.accountType === 'SAVINGS') {
-        balance.savings += account.amount || 0
+        balance.savings += account.amount || 0;
       } else if (account.accountType === 'CREDIT CARD') {
-        balance.creditCard += account.amount || 0
+        balance.creditCard += account.amount || 0;
       } else {
-        balance.current += account.amount || 0
+        balance.current += account.amount || 0;
       }
-    })
+    });
     return NextResponse.json(
       new ApiSuccessResponse(
         ApiStatusCode.OK,
@@ -60,7 +60,7 @@ export async function GET() {
         'Fetched Accounts Stats',
         balance,
       ),
-    )
+    );
   } catch (error) {
     return NextResponse.json(
       new ApiErrorResponse(
@@ -69,6 +69,6 @@ export async function GET() {
         'Failed to fetch accounts stats.',
         error,
       ),
-    )
+    );
   }
 }

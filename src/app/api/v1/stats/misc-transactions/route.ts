@@ -1,13 +1,13 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server';
 
-import { ApiStatus, ApiStatusCode } from '@/types'
-import { ApiErrorResponse, ApiSuccessResponse } from '@/utils/responses'
-import { getAuthUserDetails } from '@/utils/supabase/db'
-import { createClient } from '@/utils/supabase/server'
+import { ApiStatus, ApiStatusCode } from '@/types';
+import { ApiErrorResponse, ApiSuccessResponse } from '@/utils/responses';
+import { getAuthUserDetails } from '@/utils/supabase/db';
+import { createClient } from '@/utils/supabase/server';
 
 export async function GET(req: NextRequest) {
   try {
-    const user = await getAuthUserDetails()
+    const user = await getAuthUserDetails();
 
     if (!user) {
       return NextResponse.json(
@@ -16,10 +16,10 @@ export async function GET(req: NextRequest) {
           ApiStatus.UNAUTHORIZED,
           'Authorization failed.',
         ),
-      )
+      );
     }
 
-    const transactionType = req.nextUrl.searchParams.get('transactionType')
+    const transactionType = req.nextUrl.searchParams.get('transactionType');
     if (!transactionType)
       return NextResponse.json(
         new ApiErrorResponse(
@@ -27,12 +27,12 @@ export async function GET(req: NextRequest) {
           ApiStatus.BAD_REQUEST,
           'Missing transactionType',
         ),
-      )
+      );
 
-    const supabase = await createClient()
+    const supabase = await createClient();
 
-    const now = new Date()
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
     const endOfMonth = new Date(
       now.getFullYear(),
       now.getMonth() + 1,
@@ -41,8 +41,8 @@ export async function GET(req: NextRequest) {
       59,
       59,
       999,
-    )
-    const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1)
+    );
+    const startOfLastMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
     const endOfLastMonth = new Date(
       now.getFullYear(),
       now.getMonth(),
@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
       59,
       59,
       999,
-    )
+    );
 
     // Current Month
     const { data: currentMonthData, error: currentMonthError } = await supabase
@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
       .lte('createdAt', endOfMonth.toISOString())
       .order('amount', { ascending: true })
       .match({ transactionType })
-      .limit(100)
+      .limit(100);
 
     // Last Month
     const { data: lastMonthData, error: lastMonthError } = await supabase
@@ -73,7 +73,7 @@ export async function GET(req: NextRequest) {
       .lte('createdAt', endOfLastMonth.toISOString())
       .order('amount', { ascending: true })
       .match({ transactionType })
-      .limit(100)
+      .limit(100);
 
     if (currentMonthError || lastMonthError) {
       return NextResponse.json(
@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
           ApiStatus.INTERNAL_SERVER_ERROR,
           'Failed to fetch transactions.',
         ),
-      )
+      );
     }
 
     // Current Month Overview
@@ -90,26 +90,26 @@ export async function GET(req: NextRequest) {
       sent: 0,
       received: 0,
       remaining: 0,
-    }
+    };
 
     currentMonthData?.forEach((transaction) => {
       if (transaction.transactionSubType === 'TAKEN') {
-        currentMonthOverview.received += transaction.amount || 0
+        currentMonthOverview.received += transaction.amount || 0;
       } else if (transaction.transactionSubType === 'RETURNED') {
-        currentMonthOverview.sent += transaction.amount || 0
+        currentMonthOverview.sent += transaction.amount || 0;
       } else if (transaction.transactionSubType === 'GIVEN') {
-        currentMonthOverview.sent += transaction.amount || 0
+        currentMonthOverview.sent += transaction.amount || 0;
       } else if (transaction.transactionSubType === 'RECEIVED') {
-        currentMonthOverview.received += transaction.amount || 0
+        currentMonthOverview.received += transaction.amount || 0;
       }
-    })
+    });
 
     if (transactionType === 'BORROW') {
       currentMonthOverview.remaining =
-        currentMonthOverview.received - currentMonthOverview.sent
+        currentMonthOverview.received - currentMonthOverview.sent;
     } else {
       currentMonthOverview.remaining =
-        currentMonthOverview.sent - currentMonthOverview.received
+        currentMonthOverview.sent - currentMonthOverview.received;
     }
 
     // Last Month Overview
@@ -117,26 +117,26 @@ export async function GET(req: NextRequest) {
       sent: 0,
       received: 0,
       remaining: 0,
-    }
+    };
 
     lastMonthData?.forEach((transaction) => {
       if (transaction.transactionSubType === 'TAKEN') {
-        lastMonthOverview.received += transaction.amount || 0
+        lastMonthOverview.received += transaction.amount || 0;
       } else if (transaction.transactionSubType === 'RETURNED') {
-        lastMonthOverview.sent += transaction.amount || 0
+        lastMonthOverview.sent += transaction.amount || 0;
       } else if (transaction.transactionSubType === 'GIVEN') {
-        lastMonthOverview.sent += transaction.amount || 0
+        lastMonthOverview.sent += transaction.amount || 0;
       } else if (transaction.transactionSubType === 'RECEIVED') {
-        lastMonthOverview.received += transaction.amount || 0
+        lastMonthOverview.received += transaction.amount || 0;
       }
-    })
+    });
 
     if (transactionType === 'BORROW') {
       lastMonthOverview.remaining =
-        lastMonthOverview.received - lastMonthOverview.sent
+        lastMonthOverview.received - lastMonthOverview.sent;
     } else {
       lastMonthOverview.remaining =
-        lastMonthOverview.sent - lastMonthOverview.received
+        lastMonthOverview.sent - lastMonthOverview.received;
     }
 
     return NextResponse.json(
@@ -149,7 +149,7 @@ export async function GET(req: NextRequest) {
           lastMonth: lastMonthOverview,
         },
       ),
-    )
+    );
   } catch (error) {
     return NextResponse.json(
       new ApiErrorResponse(
@@ -158,6 +158,6 @@ export async function GET(req: NextRequest) {
         'Failed to fetch transaction stats.',
         error,
       ),
-    )
+    );
   }
 }

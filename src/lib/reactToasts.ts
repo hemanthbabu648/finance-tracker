@@ -1,4 +1,4 @@
-import { toast, ToastOptions } from 'react-toastify'
+import { toast, ToastOptions } from 'react-toastify';
 
 export const showSuccessToast = (message: string, options?: ToastOptions) => {
   toast.success(`${message}`, {
@@ -6,8 +6,8 @@ export const showSuccessToast = (message: string, options?: ToastOptions) => {
     autoClose: 3000,
     type: 'success',
     ...options,
-  })
-}
+  });
+};
 
 export const showErrorToast = (message: string, options?: ToastOptions) => {
   toast.error(`${message}`, {
@@ -15,5 +15,5 @@ export const showErrorToast = (message: string, options?: ToastOptions) => {
     autoClose: 3000,
     type: 'error',
     ...options,
-  })
-}
+  });
+};

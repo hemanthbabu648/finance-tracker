@@ -3,8 +3,8 @@ import {
   IconPencil,
   IconSchool,
   IconWallet,
-} from '@tabler/icons-react'
-import React from 'react'
+} from '@tabler/icons-react';
+import React from 'react';
 
 const UpcomingTasksCard = () => {
   const upcomingTasks = [
@@ -30,7 +30,7 @@ const UpcomingTasksCard = () => {
       priority: 'Medium',
       icon: <IconSchool className="h-4 w-4" />,
     },
-  ]
+  ];
   return (
     <div className="space-y-4">
       {upcomingTasks.map((task, index) => (
@@ -65,7 +65,7 @@ const UpcomingTasksCard = () => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default UpcomingTasksCard
+export default UpcomingTasksCard;

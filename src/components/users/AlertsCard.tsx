@@ -1,5 +1,5 @@
-import { IconAlertCircle } from '@tabler/icons-react'
-import React from 'react'
+import { IconAlertCircle } from '@tabler/icons-react';
+import React from 'react';
 
 const AlertsCard = () => {
   const alerts = [
@@ -18,7 +18,7 @@ const AlertsCard = () => {
       description: 'New features available',
       type: 'info',
     },
-  ]
+  ];
 
   return (
     <div className="space-y-4">
@@ -59,7 +59,7 @@ const AlertsCard = () => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default AlertsCard
+export default AlertsCard;

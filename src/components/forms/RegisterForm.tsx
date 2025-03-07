@@ -1,84 +1,84 @@
-'use client'
+'use client';
 
-import { Group, Progress } from '@mantine/core'
-import { useForm } from '@mantine/form'
-import { useDisclosure } from '@mantine/hooks'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import React from 'react'
+import { Group, Progress } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { useDisclosure } from '@mantine/hooks';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React from 'react';
 
-import { showErrorToast, showSuccessToast } from '@/lib/reactToasts'
-import { signup } from '@/serverActions/auth'
+import { showErrorToast, showSuccessToast } from '@/lib/reactToasts';
+import { signup } from '@/serverActions/auth';
 
-import Button from '../commons/Button'
-import Checkbox from '../commons/Checkbox'
-import Modal from '../commons/Modal'
-import PasswordInput from '../commons/PasswordInput'
-import TextInput from '../commons/TextInput'
+import Button from '../commons/Button';
+import Checkbox from '../commons/Checkbox';
+import Modal from '../commons/Modal';
+import PasswordInput from '../commons/PasswordInput';
+import TextInput from '../commons/TextInput';
 
 const requirements = [
   { re: /[0-9]/, label: 'Includes number' },
   { re: /[a-z]/, label: 'Includes lowercase letter' },
   { re: /[A-Z]/, label: 'Includes uppercase letter' },
   { re: /[$&+,:;=?@#|'<>.^*()%!-]/, label: 'Includes special symbol' },
-]
+];
 
 function getStrength(password: string) {
   if (password.length < 5) {
-    return 10
+    return 10;
   }
 
-  let multiplier = password.length > 5 ? 0 : 1
+  let multiplier = password.length > 5 ? 0 : 1;
 
   requirements.forEach((requirement) => {
     if (!requirement.re.test(password)) {
-      multiplier += 1
+      multiplier += 1;
     }
-  })
+  });
 
-  return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 10)
+  return Math.max(100 - (100 / (requirements.length + 1)) * multiplier, 10);
 }
 
 function getStrengthColor(strength: number) {
   switch (true) {
     case strength < 30:
-      return 'red'
+      return 'red';
     case strength < 50:
-      return 'orange'
+      return 'orange';
     case strength < 70:
-      return 'yellow'
+      return 'yellow';
     default:
-      return 'teal'
+      return 'teal';
   }
 }
 
 export const validatePassword = (value: string) => {
   if (!value || value.length < 1) {
-    return 'Password is required.'
+    return 'Password is required.';
   }
 
   if (value.length < 8) {
-    return 'Password must be at least 8 characters long.'
+    return 'Password must be at least 8 characters long.';
   }
 
   if (value.length > 16) {
-    return 'Password must not exceed 16 characters.'
+    return 'Password must not exceed 16 characters.';
   }
 
   const errors = requirements
     .filter((req) => !req.re.test(value))
-    .map((req) => req.label)
+    .map((req) => req.label);
 
-  return errors.length > 0 ? `Password must: ${errors.join(', ')}.` : null
-}
+  return errors.length > 0 ? `Password must: ${errors.join(', ')}.` : null;
+};
 
 const RegisterForm: React.FC = () => {
-  const router = useRouter()
-  const [loading, setLoading] = React.useState<boolean>(false)
-  const [opened, { open, close }] = useDisclosure(false)
-  const [watchPassword, setWatchPassword] = React.useState<string>('')
-  const strength = getStrength(watchPassword)
-  const color = getStrengthColor(strength)
+  const router = useRouter();
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [opened, { open, close }] = useDisclosure(false);
+  const [watchPassword, setWatchPassword] = React.useState<string>('');
+  const strength = getStrength(watchPassword);
+  const color = getStrengthColor(strength);
 
   const form = useForm({
     mode: 'uncontrolled',
@@ -108,14 +108,14 @@ const RegisterForm: React.FC = () => {
         value ? null : 'You must agree to the terms and privacy policy.',
       agreement: (value) => (value ? null : 'You must agree to the agreement.'),
     },
-  })
+  });
 
   form.watch('password', (value) => {
-    setWatchPassword(value.value)
-  })
+    setWatchPassword(value.value);
+  });
 
   const handleSubmit = async (values: typeof form.values) => {
-    setLoading(true)
+    setLoading(true);
     const res = await signup({
       firstName: values.firstName,
       lastName: values.lastName,
@@ -123,17 +123,17 @@ const RegisterForm: React.FC = () => {
       password: values.password,
       terms: values.terms,
       agreement: values.agreement,
-    })
+    });
 
     if (res.status === 'success') {
-      showSuccessToast('Account created successfully')
-      form.reset()
-      open()
+      showSuccessToast('Account created successfully');
+      form.reset();
+      open();
     } else {
-      showErrorToast("Can't signup. Something went wrong on signup")
+      showErrorToast("Can't signup. Something went wrong on signup");
     }
-    setLoading(false)
-  }
+    setLoading(false);
+  };
 
   return (
     <>
@@ -317,8 +317,8 @@ const RegisterForm: React.FC = () => {
             variant="gradient"
             gradient={{ from: 'cyan', to: 'blue', deg: 90 }}
             onClick={() => {
-              router.push('/auth/login')
-              close()
+              router.push('/auth/login');
+              close();
             }}
           >
             Go to Login
@@ -326,7 +326,7 @@ const RegisterForm: React.FC = () => {
         </div>
       </Modal>
     </>
-  )
-}
+  );
+};
 
-export default RegisterForm
+export default RegisterForm;

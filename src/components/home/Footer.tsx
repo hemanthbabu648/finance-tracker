@@ -1,11 +1,11 @@
-import { ActionIcon } from '@mantine/core'
+import { ActionIcon } from '@mantine/core';
 import {
   IconBrandInstagram,
   IconBrandTwitter,
   IconBrandYoutube,
-} from '@tabler/icons-react'
-import Image from 'next/image'
-import React from 'react'
+} from '@tabler/icons-react';
+import Image from 'next/image';
+import React from 'react';
 
 const Footer = () => {
   return (
@@ -54,7 +54,7 @@ const Footer = () => {
         </div>
       </div>
     </footer>
-  )
-}
+  );
+};
 
-export default Footer
+export default Footer;

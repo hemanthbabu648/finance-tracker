@@ -2,8 +2,8 @@ import {
   IconCoinRupee,
   IconReceipt,
   IconReportAnalytics,
-} from '@tabler/icons-react'
-import React from 'react'
+} from '@tabler/icons-react';
+import React from 'react';
 
 const ReportsBillsCard = () => {
   const activities = [
@@ -25,7 +25,7 @@ const ReportsBillsCard = () => {
       time: '6 hours ago',
       icon: <IconReportAnalytics className="h-4 w-4" />,
     },
-  ]
+  ];
   return (
     <div className="space-y-6">
       {activities.map((activity, index) => (
@@ -39,7 +39,7 @@ const ReportsBillsCard = () => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export default ReportsBillsCard
+export default ReportsBillsCard;
