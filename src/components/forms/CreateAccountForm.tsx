@@ -60,7 +60,9 @@ const CreateAccountForm = () => {
         value.length >= 1 ? null : 'Account name must be at least 1 character',
       accountType: (value) => (value ? null : 'Account type must be selected'),
       initialAmount: (value) =>
-        Number(value) >= 0 ? null : 'Initial amount must be entered',
+        Number(value) >= 0
+          ? null
+          : 'Initial Amount should be greater than or equal to zero',
     },
   });
 
