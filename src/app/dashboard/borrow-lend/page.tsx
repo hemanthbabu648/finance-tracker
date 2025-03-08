@@ -22,6 +22,7 @@ import {
   fetchAllMiscTransactions,
   fetchMiscTransactionStats,
 } from '@/redux/slices/TransactionSlice';
+import { useAuthUserId } from '@/redux/slices/UserSlice';
 import { TransactionResponse } from '@/types';
 import { TransactionType, TransactionTypeValue } from '@/types/ui';
 import { getFormattedDate } from '@/utils/DateUtils';
@@ -34,20 +35,11 @@ const tabs: TransactionType[] = [
 
 function BorrowLendPage() {
   const dispatch = useAppDispatch();
-  const {
-    allTransactions: {
-      miscTransactions,
-      loading,
-      statsLoading,
-      miscTransactionStats: { currentMonth },
-    },
-    allAccounts,
-  } = useAppSelector((state) => {
-    return {
-      allTransactions: state.transaction,
-      allAccounts: state.account.userAccounts,
-    };
-  });
+  const userId = useAppSelector(useAuthUserId);
+  const { miscTransactions, loading, statsLoading, miscTransactionStats } =
+    useAppSelector((state) => state.transaction);
+  const allAccounts = useAppSelector((state) => state.account.userAccounts);
+
   const [tab, setTab] = React.useState<TransactionTypeValue>('BORROW');
   const [borrowOpened, { open: borrowOpen, close: borrowClose }] =
     useDisclosure(false);
@@ -55,6 +47,7 @@ function BorrowLendPage() {
     useDisclosure(false);
 
   const transactionType = tab === 'BORROW' ? 'Borrowed' : 'Lended';
+  const currentMonth = miscTransactionStats.currentMonth;
 
   const statsData = [
     {
@@ -147,18 +140,11 @@ function BorrowLendPage() {
   );
 
   React.useEffect(() => {
-    let isMounted = true;
-    const fetchMiscTransactionsByType = async () => {
-      if (!isMounted) return;
-      await dispatch(fetchMiscTransactionStats(tab));
-      if (!isMounted) return;
-      await dispatch(fetchAllMiscTransactions(tab));
-    };
-    fetchMiscTransactionsByType();
-    return () => {
-      isMounted = false;
-    };
-  }, [dispatch, tab]);
+    if (userId) {
+      dispatch(fetchMiscTransactionStats(userId!, tab));
+      dispatch(fetchAllMiscTransactions(userId!, tab));
+    }
+  }, [dispatch, tab, userId]);
 
   return (
     <div>

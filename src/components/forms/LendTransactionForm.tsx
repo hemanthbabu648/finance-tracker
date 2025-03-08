@@ -6,7 +6,11 @@ import React, { useState } from 'react';
 import axiosInstance from '@/lib/axiosInstance';
 import { showErrorToast, showSuccessToast } from '@/lib/reactToasts';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { fetchAllMiscTransactions } from '@/redux/slices/TransactionSlice';
+import {
+  fetchAllMiscTransactions,
+  fetchMiscTransactionStats,
+} from '@/redux/slices/TransactionSlice';
+import { useAuthUserId } from '@/redux/slices/UserSlice';
 import { BorrowLendTabTypes, LendTabValues } from '@/types/ui';
 
 import Button from '../commons/Button';
@@ -27,6 +31,8 @@ const tabs: BorrowLendTabTypes[] = [
 
 const LendTransactionForm = () => {
   const dispatch = useAppDispatch();
+  const userId = useAppSelector(useAuthUserId);
+
   const { userAccounts } = useAppSelector((state) => state.account);
   const [tab, setTab] = useState<LendTabValues>('GIVEN');
   const [loading, setLoading] = useState(false);
@@ -72,6 +78,7 @@ const LendTransactionForm = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const payload: any = {
+        userId,
         transactionType: 'LEND',
         transactionSubType: tab,
         accountId: values.account,
@@ -93,7 +100,8 @@ const LendTransactionForm = () => {
       if (res?.data?.statusCode === 201) {
         form.reset();
         showSuccessToast(res?.data?.message);
-        dispatch(fetchAllMiscTransactions('LEND'));
+        dispatch(fetchAllMiscTransactions(userId!, 'LEND'));
+        dispatch(fetchMiscTransactionStats(userId!, 'LEND'));
       } else {
         showErrorToast(res?.data?.message);
       }

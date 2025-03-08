@@ -112,13 +112,17 @@ export const fetchTransactionStats =
     }
   };
 export const fetchAllMiscTransactions =
-  (transactionType: TransactionTypeValue): AppThunk<Promise<void>> =>
+  (
+    userId: string,
+    transactionType: TransactionTypeValue,
+  ): AppThunk<Promise<void>> =>
   async (dispatch) => {
     dispatch(changeLoading(true));
     try {
       const { data } = await axiosInstance.get('/misc-transactions', {
         params: {
-          transactionType,
+          id: userId,
+          transactionType: transactionType,
         },
       });
       dispatch(saveMiscTransactions(data?.data));
@@ -129,13 +133,17 @@ export const fetchAllMiscTransactions =
     }
   };
 export const fetchMiscTransactionStats =
-  (transactionType: TransactionTypeValue): AppThunk<Promise<void>> =>
+  (
+    userId: string,
+    transactionType: TransactionTypeValue,
+  ): AppThunk<Promise<void>> =>
   async (dispatch) => {
     dispatch(changeStatsLoading(true));
     try {
       const { data } = await axiosInstance.get('/stats/misc-transactions', {
         params: {
-          transactionType,
+          id: userId,
+          transactionType: transactionType,
         },
       });
       dispatch(saveMiscTransactionStats(data?.data));

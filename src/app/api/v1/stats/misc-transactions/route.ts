@@ -2,14 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { ApiStatus, ApiStatusCode } from '@/types';
 import { ApiErrorResponse, ApiSuccessResponse } from '@/utils/responses';
-import { getAuthUserDetails } from '@/utils/supabase/db';
 import { createClient } from '@/utils/supabase/server';
 
 export async function GET(req: NextRequest) {
   try {
-    const user = await getAuthUserDetails();
+    const url = req.nextUrl;
+    const userId = url.searchParams.get('id');
+    const transactionType = url.searchParams.get('transactionType');
 
-    if (!user) {
+    if (!userId) {
       return NextResponse.json(
         new ApiErrorResponse(
           ApiStatusCode.UNAUTHORIZED,
@@ -19,7 +20,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const transactionType = req.nextUrl.searchParams.get('transactionType');
     if (!transactionType)
       return NextResponse.json(
         new ApiErrorResponse(
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
     const { data: currentMonthData, error: currentMonthError } = await supabase
       .from('misc_transactions')
       .select('*')
-      .eq('userId', user.id)
+      .eq('userId', userId)
       .gte('createdAt', startOfMonth.toISOString())
       .lte('createdAt', endOfMonth.toISOString())
       .order('amount', { ascending: true })
@@ -68,7 +68,7 @@ export async function GET(req: NextRequest) {
     const { data: lastMonthData, error: lastMonthError } = await supabase
       .from('misc_transactions')
       .select('*')
-      .eq('userId', user.id)
+      .eq('userId', userId)
       .gte('createdAt', startOfLastMonth.toISOString())
       .lte('createdAt', endOfLastMonth.toISOString())
       .order('amount', { ascending: true })

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { ApiStatus, ApiStatusCode } from '@/types';
 import { ApiErrorResponse, ApiSuccessResponse } from '@/utils/responses';
-import { getAuthUserDetails } from '@/utils/supabase/db';
 import { createClient } from '@/utils/supabase/server';
 import { supabaseAdmin } from '@/utils/supabase/supabaseAdmin';
 
@@ -30,8 +29,11 @@ async function updateAccountAmount(accountId: string, amountChange: number) {
 
 export async function GET(req: NextRequest) {
   try {
-    const user = await getAuthUserDetails();
-    if (!user)
+    const url = req.nextUrl;
+    const userId = url.searchParams.get('id');
+    const transactionType = url.searchParams.get('transactionType');
+
+    if (!userId)
       return NextResponse.json(
         new ApiErrorResponse(
           ApiStatusCode.UNAUTHORIZED,
@@ -40,7 +42,6 @@ export async function GET(req: NextRequest) {
         ),
       );
 
-    const transactionType = req.nextUrl.searchParams.get('transactionType');
     if (!transactionType)
       return NextResponse.json(
         new ApiErrorResponse(
@@ -55,7 +56,7 @@ export async function GET(req: NextRequest) {
     const { data, error } = await supabase
       .from('misc_transactions')
       .select('*')
-      .eq('userId', user.id)
+      .eq('userId', userId)
       .match({ transactionType })
       .limit(100);
 
@@ -83,18 +84,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const user = await getAuthUserDetails();
-    if (!user)
-      return NextResponse.json(
-        new ApiErrorResponse(
-          ApiStatusCode.UNAUTHORIZED,
-          ApiStatus.UNAUTHORIZED,
-          'Authorization failed.',
-        ),
-      );
-
     const body = await req.json();
     const {
+      userId,
       transactionType,
       transactionSubType,
       accountId,
@@ -108,6 +100,15 @@ export async function POST(req: NextRequest) {
       givenTo,
       receivedFrom,
     } = body;
+
+    if (!userId)
+      return NextResponse.json(
+        new ApiErrorResponse(
+          ApiStatusCode.UNAUTHORIZED,
+          ApiStatus.UNAUTHORIZED,
+          'Authorization failed.',
+        ),
+      );
 
     if (!accountId || !category || !note || !amount || !createdAt) {
       return NextResponse.json(
@@ -177,7 +178,7 @@ export async function POST(req: NextRequest) {
       .from('misc_transactions')
       .insert([
         {
-          userId: user.id,
+          userId: userId,
           transactionType,
           transactionSubType,
           personName,
