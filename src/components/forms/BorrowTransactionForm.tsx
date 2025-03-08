@@ -12,6 +12,7 @@ import {
 } from '@/redux/slices/TransactionSlice';
 import { useAuthUserId } from '@/redux/slices/UserSlice';
 import { BorrowLendTabTypes, BorrowTabValues } from '@/types/ui';
+import { getCategories } from '@/utils/Utils';
 
 import Button from '../commons/Button';
 import NumberInput from '../commons/NumberInput';
@@ -35,6 +36,8 @@ const BorrowTransactionForm = () => {
   const { userAccounts } = useAppSelector((state) => state.account);
   const [tab, setTab] = useState<BorrowTabValues>('TAKEN');
   const [loading, setLoading] = useState(false);
+
+  const category = getCategories["BORROW"];
 
   const getMappedAccounts = () => {
     return userAccounts?.map((account) => {
@@ -152,20 +155,7 @@ const BorrowTransactionForm = () => {
           <Select
             label="Category"
             required
-            data={[
-              {
-                label: 'In Exchange',
-                value: 'IN_EXCHANGE',
-              },
-              {
-                label: 'Credit Card',
-                value: 'CREDIT_CARD',
-              },
-              {
-                label: 'Personal Loan',
-                value: 'PERSONAL_LOAN',
-              },
-            ]}
+            data={category}
             key={form.key('category')}
             {...form.getInputProps('category')}
             placeholder="Select Category"

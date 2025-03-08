@@ -4,12 +4,16 @@ import { AccountType, AccountTypeEnum, Category } from '@/types/ui';
 export const getCategories = {
   EXPENSE: [
     {
+      label: 'Rent',
+      value: 'RENT',
+    },
+    {
       label: 'Food',
       value: 'FOOD',
     },
     {
-      label: 'Rent',
-      value: 'RENT',
+      label: 'Snacks',
+      value: 'SNACKS',
     },
     {
       label: 'Transportation',
@@ -79,6 +83,14 @@ export const getCategories = {
       label: 'Utilities',
       value: 'UTILITIES',
     },
+    {
+      label: 'Online Shopping',
+      value: 'ONLINE_SHOPPING',
+    },
+    {
+      label: 'Other',
+      value: 'OTHER',
+    },
   ] as Category[], // Explicitly typing the array as Category[]
 
   INCOME: [
@@ -91,12 +103,25 @@ export const getCategories = {
       value: 'FREELANCE',
     },
     {
+      label: 'Cashbacks',
+      value: 'CASHBACKS',
+    },
+    {
+      label: 'Bonus',
+      value: 'BONUS',
+    },
+
+    {
       label: 'Investment Income',
       value: 'INVESTMENT',
     },
     {
       label: 'Dividends',
       value: 'DIVIDENDS',
+    },
+    {
+      label: 'Other',
+      value: 'OTHER',
     },
   ] as Category[],
 
@@ -108,6 +133,10 @@ export const getCategories = {
     {
       label: 'UPI Transfer',
       value: 'UPI_TRANSFER',
+    },
+    {
+      label: 'Other',
+      value: 'OTHER',
     },
   ] as Category[],
 
@@ -124,12 +153,28 @@ export const getCategories = {
       label: 'Personal Loan',
       value: 'PERSONAL_LOAN',
     },
+    {
+      label: "EMI",
+      value: "EMI",
+    },
+    {
+      label: 'Other',
+      value: 'OTHER',
+    },
   ] as Category[],
 
   LEND: [
     {
       label: 'In Exchange',
       value: 'IN_EXCHANGE',
+    },
+    {
+      label: "EMI",
+      value: "EMI",
+    },
+    {
+      label: 'Other',
+      value: 'OTHER',
     },
   ] as Category[],
 };
