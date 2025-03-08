@@ -21,27 +21,27 @@ import {
   fetchAllTransactions,
   fetchTransactionStats,
 } from '@/redux/slices/TransactionSlice';
+import { useAuthUserId } from '@/redux/slices/UserSlice';
 import { TransactionResponse } from '@/types';
 import { getFormattedDate } from '@/utils/DateUtils';
 import { getAccountDetails } from '@/utils/Utils';
 
 function TransactionsPage() {
   const dispatch = useAppDispatch();
-  const {
-    allTransactions,
-    loading,
-    allAccounts,
-    statsLoading,
-    transactionStats: { currentMonthOverView },
-  } = useAppSelector((state) => {
-    return {
-      allTransactions: state.transaction.allTransactions,
-      loading: state.transaction.loading,
-      allAccounts: state.account.userAccounts,
-      statsLoading: state.transaction.statsLoading,
-      transactionStats: state.transaction.transactionStats,
-    };
-  });
+  const userId = useAppSelector(useAuthUserId);
+  const allTransactions = useAppSelector(
+    (state) => state.transaction.allTransactions,
+  );
+  const loading = useAppSelector((state) => state.transaction.loading);
+  const allAccounts = useAppSelector((state) => state.account.userAccounts);
+  const statsLoading = useAppSelector(
+    (state) => state.transaction.statsLoading,
+  );
+  const transactionStats = useAppSelector(
+    (state) => state.transaction.transactionStats,
+  );
+  const currentMonthOverView = transactionStats?.currentMonthOverView;
+
   const [opened, { open, close }] = useDisclosure(false);
 
   const statsData = [
@@ -119,21 +119,11 @@ function TransactionsPage() {
   );
 
   React.useEffect(() => {
-    let isMounted = true; // Flag to prevent duplicate calls
-
-    const fetchTransactions = async () => {
-      if (!isMounted) return;
-      await dispatch(fetchTransactionStats());
-      if (!isMounted) return;
-      await dispatch(fetchAllTransactions());
-    };
-
-    fetchTransactions();
-
-    return () => {
-      isMounted = false; // Cleanup function
-    };
-  }, [dispatch]);
+    if (userId) {
+      dispatch(fetchTransactionStats(userId));
+      dispatch(fetchAllTransactions(userId));
+    }
+  }, [dispatch, userId]);
 
   return (
     <div>

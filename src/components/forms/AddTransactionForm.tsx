@@ -6,7 +6,11 @@ import React, { useState } from 'react';
 import axiosInstance from '@/lib/axiosInstance';
 import { showErrorToast, showSuccessToast } from '@/lib/reactToasts';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { fetchAllTransactions } from '@/redux/slices/TransactionSlice';
+import {
+  fetchAllTransactions,
+  fetchTransactionStats,
+} from '@/redux/slices/TransactionSlice';
+import { useAuthUserId } from '@/redux/slices/UserSlice';
 import { TransactionType, TransactionTypeValue } from '@/types/ui';
 import { getCategories } from '@/utils/Utils';
 
@@ -32,6 +36,7 @@ const tabs: TransactionType[] = [
 
 const AddTransactionForm = () => {
   const dispatch = useAppDispatch();
+  const userId = useAppSelector(useAuthUserId);
   const { userAccounts } = useAppSelector((state) => state.account);
   const [transactionType, setTransactionType] =
     useState<TransactionTypeValue>('EXPENSE');
@@ -86,6 +91,7 @@ const AddTransactionForm = () => {
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const payload: any = {
+        userId,
         accountId: values.account,
         transactionType,
         category: values.category,
@@ -103,7 +109,8 @@ const AddTransactionForm = () => {
       if (res?.data?.statusCode === 201) {
         form.reset();
         showSuccessToast(res?.data?.message);
-        dispatch(fetchAllTransactions());
+        dispatch(fetchAllTransactions(userId!));
+        dispatch(fetchTransactionStats(userId!));
       } else {
         showErrorToast(res?.data?.message);
       }

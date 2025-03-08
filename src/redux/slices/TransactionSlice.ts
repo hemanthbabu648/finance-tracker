@@ -78,7 +78,7 @@ export const {
 } = TransactionSlice.actions;
 
 export const fetchAllTransactions =
-  (userId?: string): AppThunk<Promise<void>> =>
+  (userId: string): AppThunk<Promise<void>> =>
   async (dispatch) => {
     dispatch(changeLoading(true));
     try {
@@ -95,10 +95,15 @@ export const fetchAllTransactions =
     }
   };
 export const fetchTransactionStats =
-  (): AppThunk<Promise<void>> => async (dispatch) => {
+  (userId: string): AppThunk<Promise<void>> =>
+  async (dispatch) => {
     dispatch(changeStatsLoading(true));
     try {
-      const { data } = await axiosInstance.get('/stats/transactions');
+      const { data } = await axiosInstance.get('/stats/transactions', {
+        params: {
+          id: userId,
+        },
+      });
       dispatch(saveTransactionStats(data?.data));
     } catch (err) {
       showErrorToast(JSON.stringify(err));

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { ApiStatus, ApiStatusCode } from '@/types';
 import { ApiErrorResponse, ApiSuccessResponse } from '@/utils/responses';
-import { getAuthUserDetails } from '@/utils/supabase/db';
 import { createClient } from '@/utils/supabase/server';
 import { supabaseAdmin } from '@/utils/supabase/supabaseAdmin';
 
@@ -60,9 +59,9 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   try {
-    const user = await getAuthUserDetails();
     const body = await req.json();
     const {
+      userId,
       accountId,
       transactionType,
       category,
@@ -72,7 +71,7 @@ export async function POST(req: NextRequest) {
       toAccountId,
     } = body;
 
-    if (!user) {
+    if (!userId) {
       return NextResponse.json(
         new ApiErrorResponse(
           ApiStatusCode.UNAUTHORIZED,
@@ -108,7 +107,7 @@ export async function POST(req: NextRequest) {
         .from('transactions')
         .insert([
           {
-            userId: user.id,
+            userId: userId,
             transactionType: transactionType,
             accountId: accountId,
             category: category,
@@ -203,7 +202,7 @@ export async function POST(req: NextRequest) {
     } else {
       const { data, error } = await supabase.from('transactions').insert([
         {
-          userId: user.id,
+          userId: userId,
           transactionType: transactionType,
           accountId: accountId,
           category: category,

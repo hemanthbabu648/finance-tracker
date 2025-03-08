@@ -5,7 +5,7 @@ import { showErrorToast } from '@/lib/reactToasts';
 import { AuthState, UserResponse } from '@/types';
 import { createClient } from '@/utils/supabase/client';
 
-import { AppThunk } from '../store';
+import { AppThunk, RootState } from '../store';
 
 const initialState: AuthState = {
   loading: false,
@@ -26,6 +26,8 @@ const UserSlice = createSlice({
 });
 
 export const { changeLoading, saveUserDetails } = UserSlice.actions;
+
+export const useAuthUserId = (state: RootState) => state.auth.userDetails?.id;
 
 export const getAuthUser = async () => {
   const supabase = createClient();
