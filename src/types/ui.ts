@@ -15,6 +15,8 @@ export enum AccountTypeEnum {
   CREDIT_CARD = 'CREDIT CARD',
   E_WALLET = 'E-WALLET',
   E_ACCOUNT = 'E-ACCOUNT',
+  CURRENT = 'CURRENT',
+  CURRENT_SAVINGS = 'CURRENT/SAVINGS',
 }
 
 export type AccountType = {

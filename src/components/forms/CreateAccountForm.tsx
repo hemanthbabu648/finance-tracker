@@ -9,39 +9,15 @@ import { showErrorToast, showSuccessToast } from '@/lib/reactToasts';
 import { useAppDispatch } from '@/redux/hooks';
 import { fetchUserAccounts } from '@/redux/slices/AccountSlice';
 import { RootState } from '@/redux/store';
-import { AccountType, AccountTypeEnum } from '@/types/ui';
+import { AccountTypeEnum } from '@/types/ui';
+import { accountTypes } from '@/utils/Utils';
 
 import Button from '../commons/Button';
 import NumberInput from '../commons/NumberInput';
 import Select from '../commons/Select';
 import TextInput from '../commons/TextInput';
 
-const accountTypes: AccountType[] = [
-  {
-    label: 'Savings',
-    value: AccountTypeEnum.SAVINGS,
-  },
-  {
-    label: 'Cash',
-    value: AccountTypeEnum.CASH,
-  },
-  {
-    label: 'Salary',
-    value: AccountTypeEnum.SALARY,
-  },
-  {
-    label: 'Credit Card',
-    value: AccountTypeEnum.CREDIT_CARD,
-  },
-  {
-    label: 'E-Wallet',
-    value: AccountTypeEnum.E_WALLET,
-  },
-  {
-    label: 'E-Account',
-    value: AccountTypeEnum.E_ACCOUNT,
-  },
-];
+
 
 const CreateAccountForm = () => {
   const dispatch = useAppDispatch();

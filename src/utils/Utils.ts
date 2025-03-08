@@ -1,5 +1,5 @@
 import { AccountResponse } from '@/types';
-import { Category } from '@/types/ui';
+import { AccountType, AccountTypeEnum, Category } from '@/types/ui';
 
 export const getCategories = {
   EXPENSE: [
@@ -133,6 +133,33 @@ export const getCategories = {
     },
   ] as Category[],
 };
+
+export const accountTypes: AccountType[] = [
+  {
+    label: 'Savings',
+    value: AccountTypeEnum.SAVINGS,
+  },
+  {
+    label: 'Cash',
+    value: AccountTypeEnum.CASH,
+  },
+  {
+    label: 'Salary',
+    value: AccountTypeEnum.SALARY,
+  },
+  {
+    label: 'Credit Card',
+    value: AccountTypeEnum.CREDIT_CARD,
+  },
+  {
+    label: 'E-Wallet',
+    value: AccountTypeEnum.E_WALLET,
+  },
+  {
+    label: 'E-Account',
+    value: AccountTypeEnum.E_ACCOUNT,
+  },
+];
 
 export const getAccountDetails = (
   accountId: string,
