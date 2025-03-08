@@ -136,6 +136,10 @@ export const getCategories = {
 
 export const accountTypes: AccountType[] = [
   {
+    label: 'Current',
+    value: AccountTypeEnum.CURRENT,
+  },
+  {
     label: 'Savings',
     value: AccountTypeEnum.SAVINGS,
   },
@@ -158,6 +162,10 @@ export const accountTypes: AccountType[] = [
   {
     label: 'E-Account',
     value: AccountTypeEnum.E_ACCOUNT,
+  },
+  {
+    label: 'Current/Savings',
+    value: AccountTypeEnum.CURRENT_SAVINGS,
   },
 ];
 
