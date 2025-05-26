@@ -1,16 +1,19 @@
-"use client";
+'use client';
 
-import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import {
+  ColorSchemeScript,
+  MantineProvider,
+  mantineHtmlProps,
+} from '@mantine/core';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
-import { Inter } from "next/font/google";
+import { Inter } from 'next/font/google';
 import { Provider } from 'react-redux';
-import { ToastContainer } from "react-toastify";
+import { ToastContainer } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
-import "./globals.css";
+import './globals.css';
 import { store } from '@/redux/store';
-
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -37,13 +40,21 @@ export default function RootLayout({
         <title>Finomic</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href="/favicon-32x32.png"
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/favicon-16x16.png"
+        />
         <ColorSchemeScript />
       </head>
-      <body
-        className={`${inter.className}  antialiased`}
-      >
+      <body className={`${inter.className} antialiased`}>
         <Provider store={store}>
           <MantineProvider>
             <ToastContainer position="top-right" autoClose={5000} />

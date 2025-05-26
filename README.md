@@ -14,19 +14,34 @@ pnpm dev
 bun dev
 ```
 
-run this to fix import order & lint
-
-```bash
-npm run lint:fix
-
-npx eslint src --fix
-```
-
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Checks to perform before raising a pull request
+
+- [x] Lint
+- [x] Format
+- [x] Typecheck
+
+Run these commands to check lint, format, import order and typecheck
+
+```bash
+npm run typescript
+npm run lint
+npm run prettier
+```
+
+Run these commands to fix lint, format, import order and typecheck
+
+```bash
+npm run lint:fix
+npm run prettier:fix
+# or
+npx eslint src --fix
+```
 
 ## Learn More
 

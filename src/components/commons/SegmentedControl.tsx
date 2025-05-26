@@ -1,8 +1,8 @@
 import {
   SegmentedControl as MSegmentedControl,
   SegmentedControlProps as MSegmentedControlProps,
-} from "@mantine/core";
-import React from "react";
+} from '@mantine/core';
+import React from 'react';
 
 type SegmentedControlProps = MSegmentedControlProps;
 

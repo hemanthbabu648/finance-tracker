@@ -1,5 +1,5 @@
-import { NativeSelect, NativeSelectProps } from "@mantine/core";
-import React from "react";
+import { NativeSelect, NativeSelectProps } from '@mantine/core';
+import React from 'react';
 
 type SelectProps = NativeSelectProps;
 

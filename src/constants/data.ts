@@ -1,4 +1,11 @@
-import { IconChartInfographic, IconClockDollar, IconContract, IconLayoutDashboard, IconPigMoney, IconReportMoney } from "@tabler/icons-react";
+import {
+  IconChartInfographic,
+  IconClockDollar,
+  IconContract,
+  IconLayoutDashboard,
+  IconPigMoney,
+  IconReportMoney,
+} from '@tabler/icons-react';
 
 export const features = [
   {
@@ -32,5 +39,3 @@ export const features = [
     description: 'Personalize your finance overview.',
   },
 ];
-
-

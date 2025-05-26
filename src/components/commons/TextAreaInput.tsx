@@ -1,5 +1,5 @@
-import { Textarea, TextareaProps } from "@mantine/core";
-import React from "react";
+import { Textarea, TextareaProps } from '@mantine/core';
+import React from 'react';
 
 type TextAreaInputProps = TextareaProps;
 

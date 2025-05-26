@@ -1,5 +1,5 @@
-import { Drawer as MDrawer, DrawerProps as MDrawerProps } from "@mantine/core";
-import React from "react";
+import { Drawer as MDrawer, DrawerProps as MDrawerProps } from '@mantine/core';
+import React from 'react';
 
 type DrawerProps = MDrawerProps;
 

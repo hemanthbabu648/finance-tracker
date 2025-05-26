@@ -1,5 +1,5 @@
-import { Loader as MLoader, LoaderProps as MLoaderProps } from "@mantine/core";
-import React from "react";
+import { Loader as MLoader, LoaderProps as MLoaderProps } from '@mantine/core';
+import React from 'react';
 
 type LoaderProps = MLoaderProps;
 
